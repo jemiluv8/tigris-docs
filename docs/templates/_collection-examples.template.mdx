@@ -1,0 +1,19 @@
+import { AsyncCodeBlock } from "./commons";
+
+The first step is to create the collection object.
+
+<AsyncCodeBlock
+  codeLang={props.codeLang}
+  defaultExample={props.createCollection}
+  asyncExample={props.asyncCreateCollection}
+/>
+
+Assuming an e-commerce website that has the above collection catalog and has 5 products(documents) in it.
+
+| id  | name           | price | brand        | labels   | popularity | reviews                             |
+| --- | -------------- | ----- | ------------ | -------- | ---------- | ----------------------------------- |
+| 1   | fiona handbag  | 99.9  | michael kors | purses   | 8          | {"author": "alice", "rating": 7}    |
+| 2   | tote bag       | 49    | coach        | handbags | 9          | {"author": "olivia", "rating": 8.3} |
+| 3   | sling bag      | 75    | coach        | purses   | 9          | {"author": "alice", "rating": 9.2}  |
+| 4   | sneakers shoes | 40    | adidas       | shoes    | 10         | {"author": "olivia", "rating": 9}   |
+| 5   | running shoes  | 89    | nike         | shoes    | 10         | {"author": "olivia", "rating": 8.5} |

@@ -1,0 +1,26 @@
+const byPopularityDescCursor = catalog.findMany({
+  sort: { field: "popularity", order: Order.DESC },
+});
+
+for await (const product of byPopularityDescCursor) {
+  console.log(product);
+}
+
+const byPriceAscCursor = catalog.findMany({
+  sort: { field: "price", order: Order.ASC },
+});
+
+for await (const product of byPriceAscCursor) {
+  console.log(product);
+}
+
+const multiSortCursor = catalog.findMany({
+  sort: [
+    { field: "price", order: Order.ASC },
+    { field: "popularity", order: Order.DESC },
+  ],
+});
+
+for await (const product of multiSortCursor) {
+  console.log(product);
+}

@@ -1,0 +1,21 @@
+// Page 1 with 100 results
+const firstPageCursor = catalog.findMany({
+  filter: { brand: "Adidas" },
+  // limit 100 and skip 0
+  options: new FindQueryOptions(100, 0),
+});
+
+for await (const product of firstPageCursor) {
+  console.log(product);
+}
+
+// Page 2 with 100 results
+const secondPageCursor = catalog.findMany({
+  filter: { brand: "Adidas" },
+  // limit 100 and skip the 100
+  options: new FindQueryOptions(100, 100),
+});
+
+for await (const product of secondPageCursor) {
+  console.log(product);
+}

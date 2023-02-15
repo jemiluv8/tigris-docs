@@ -16,6 +16,8 @@ import logicalFiltersSource from "!!raw-loader!../_snippets/query/_logicalFilter
 import nestedFieldsSources from "!!raw-loader!../_snippets/query/_nestedFields";
 import readAllSource from "!!raw-loader!../_snippets/query/_readAll";
 import readUsingCollationSource from "!!raw-loader!../_snippets/query/_readUsingCollation";
+import sortResultsSource from "!!raw-loader!../_snippets/query/_sortResults";
+import paginationSource from "!!raw-loader!../_snippets/query/_pagination";
 
 export const filterSyntax = {
   eq: "SelectorFilterOperator.EQ",
@@ -25,6 +27,16 @@ export const filterSyntax = {
   gte: "SelectorFilterOperator.GTE",
   or: "LogicalOperator.OR",
   and: "LogicalOperator.AND",
+};
+
+export const sortDirectionSyntax = {
+  ASC: "Order.ASC",
+  DESC: "Order.DESC",
+};
+
+export const paginationOptions = {
+  limit: "new FindQueryOptions(limit?: number)",
+  skip: "new FindQueryOptions(limit?: number, skip: number)",
 };
 
 <QueryTemplate
@@ -41,6 +53,10 @@ export const filterSyntax = {
   nestedFields={nestedFieldsSources}
   readAll={readAllSource}
   readUsingCollation={readUsingCollationSource}
+  sortDirection={sortDirectionSyntax}
+  sortResults={sortResultsSource}
+  paginationOptions={paginationOptions}
+  paginationExample={paginationSource}
 />
 
 export const toc = [...queryToc];

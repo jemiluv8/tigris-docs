@@ -1,13 +1,30 @@
+import Admonition from "@theme/Admonition";
 import QueryingOverview from "./_querying-overview.template.mdx";
 import CodeBlock from "@theme/CodeBlock";
 import { AsyncCodeBlock, CursorFundamentalsBox } from "./commons";
+import CollectionExamples from "./_collection-examples.template.mdx";
+import SortSyntax from "./_sort-syntax.template.mdx";
+import SortDetails from "./_sort-details.template.mdx";
+import PaginationSyntax from "./_pagination-syntax.template.mdx";
+
+export const langLookup = {
+  go: "Go",
+  java: "Java",
+  typescript: "TypeScript",
+};
 
 Tigris provides powerful query functionality for specifying which documents you want to retrieve. There is no need to
 index any field as Tigris allows querying on any field of a document.
 
-<div>{props.loadOverview && <QueryingOverview />}</div>
+<>{props.loadOverview && <QueryingOverview />}</>
 
-## Filter
+Specifically:
+
+- [Filter](#filter) to filter queries on collections
+- [Sort](#sort) to sort collection queries
+- [Pagination](#pagination) to paginate through query results
+
+## Filter {#filter}
 
 Filter provides the following comparison operators with the same semantics as in virtually all programming languages.
 
@@ -30,27 +47,15 @@ For multiple conditions, there are two logical operators supported.
 - <b>{props.filters["and"]}</b>: Combines multiple filter operators and returns
   documents when all the conditions are met.
 
-## Example Collection
+### Filter examples
 
-The first step is to create the collection object.
-
-<AsyncCodeBlock
+<CollectionExamples
   codeLang={props.codeLang}
-  defaultExample={props.createCollection}
-  asyncExample={props.asyncCreateCollection}
+  createCollection={props.createCollection}
+  asyncCreateCollection={props.asyncCreateCollection}
 />
 
-Assuming an e-commerce website that has the above collection catalog and has 5 products(documents) in it.
-
-| id  | name           | price | brand        | labels   | popularity | reviews                             |
-| --- | -------------- | ----- | ------------ | -------- | ---------- | ----------------------------------- |
-| 1   | fiona handbag  | 99.9  | michael kors | purses   | 8          | {"author": "alice", "rating": 7}    |
-| 2   | tote bag       | 49    | coach        | handbags | 9          | {"author": "olivia", "rating": 8.3} |
-| 3   | sling bag      | 75    | coach        | purses   | 9          | {"author": "alice", "rating": 9.2}  |
-| 4   | sneakers shoes | 40    | adidas       | shoes    | 10         | {"author": "olivia", "rating": 9}   |
-| 5   | running shoes  | 89    | nike         | shoes    | 10         | {"author": "olivia", "rating": 8.5} |
-
-## Simple read query
+### Simple read query
 
 A straightforward query is to read document by applying a filter on a field. As an example, using filter
 in above collection to get a product where `brand = "adidas"`
@@ -84,7 +89,7 @@ see the [case-insensitive queries section](#case-insensitive-queries).
 
 <CursorFundamentalsBox codeLang={props.codeLang} />
 
-## Filtering on multiple fields
+### Filtering on multiple fields
 
 Single field filtering is useful but what if you need to also filter by `price`. Following is an example where we are
 reading all the products where `brand = "adidas"` and `price < 50`
@@ -95,7 +100,7 @@ reading all the products where `brand = "adidas"` and `price < 50`
   asyncExample={props.asyncMultipleFields}
 />
 
-## Reading specific fields
+### Reading specific fields
 
 Instead of reading all the fields of a document, fields projection allows reading specific fields. As an above example,
 let's say you only need to read `name`, `price` and `brand` fields from a document.
@@ -106,7 +111,7 @@ let's say you only need to read `name`, `price` and `brand` fields from a docume
 Users can either specify `include` fields or `exclude` fields, but not both.
 :::
 
-## Applying range conditions
+### Applying range conditions
 
 Many times the need for filtering is based on range on a numeric field. A range can be applied to any numeric field and
 in fact multiple numeric fields can be part of a single filter. Let’s take an example of reading all the products that
@@ -125,7 +130,7 @@ These generated fields are queryable by user. For example, to fetch documents in
 
 <CodeBlock language={props.codeLang}>{props.metadataFilter}</CodeBlock>
 
-## Applying multiple logical filters
+### Applying multiple logical filters
 
 Even after applying multiple AND conditions, what if you need something even more complex? What about reading documents
 where we need a logical `OR` on `brand` but also need to apply logical `AND` on some other fields. Let's read products where the
@@ -133,7 +138,7 @@ where we need a logical `OR` on `brand` but also need to apply logical `AND` on 
 
 <CodeBlock language={props.codeLang}>{props.logicalFilters}</CodeBlock>
 
-## Querying nested fields
+### Querying nested fields
 
 As we can see all the above examples are for top level fields but what if you have an object, and you want to filter
 documents based on one of the nested field. Taking the above data, if you want to get all the products which have `labels`
@@ -141,7 +146,7 @@ set as "shoes" but should have `rating` greater than 7.
 
 <CodeBlock language={props.codeLang}>{props.nestedFields}</CodeBlock>
 
-## Case-insensitive queries
+### Case-insensitive queries
 
 By default, all String comparisons are **case-sensitive**. However, if you need to ignore the case
 then set the case to `ci` in the collation object. The following example demonstrates a **case-insensitive**
@@ -150,3 +155,83 @@ query for `brand` "Adidas"
 <CodeBlock language={props.codeLang}>{props.readUsingCollation}</CodeBlock>
 
 Above query will match terms `["adidas", "aDiDas", "Adidas", "adiDas"]` etc.
+
+## Sort {#sort}
+
+<!-- Keeping headings in for unsupported languages for two reasons:
+1. It's clear to all these are missing features (we could point to GitHub issues)
+2. Docusaurus only adds headings to the ToC if the heading is inline (not in an import). See https://github.com/facebook/docusaurus/issues/3915 -->
+
+<div>
+  {props.sortDirection ? (
+    <SortSyntax sortDirection={props.sortDirection} />
+  ) : (
+    <Admonition
+      type="caution"
+      title={`Sort not presently supported in the ${
+        langLookup[props.codeLang]
+      } SDK`}
+    />
+  )}
+</div>
+
+### Sort examples
+
+<div>
+  {props.sortDirection && (
+    <CollectionExamples
+      codeLang={props.codeLang}
+      createCollection={props.createCollection}
+      asyncCreateCollection={props.asyncCreateCollection}
+    />
+  )}
+</div>
+
+<!-- each type of sort would ideally be split out. However, since we can't add a heading to the ToC for each having them in one examples is fine for the moment -->
+
+<div>
+  {props.sortResults ? (
+    <SortDetails sortResults={props.sortResults} codeLang={props.codeLang} />
+  ) : (
+    <Admonition
+      type="caution"
+      title={`Sort not presently supported in the ${
+        langLookup[props.codeLang]
+      } SDK`}
+    />
+  )}
+</div>
+
+## Pagination {#pagination}
+
+<!-- Keeping headings in for unsupported languages for two reasons:
+1. It's clear to all these are missing features (we could point to GitHub issues)
+2. Docusaurus only adds headings to the ToC if the heading is inline (not in an import). See https://github.com/facebook/docusaurus/issues/3915 -->
+
+<div>
+  {props.paginationOptions ? (
+    <PaginationSyntax options={props.paginationOptions} />
+  ) : (
+    <Admonition
+      type="caution"
+      title={`Pagination not presently supported in the ${
+        langLookup[props.codeLang]
+      } SDK`}
+    />
+  )}
+</div>
+
+### Pagination example
+
+<div>
+  {props.paginationExample ? (
+    <CodeBlock language={props.codeLang}>{props.paginationExample}</CodeBlock>
+  ) : (
+    <Admonition
+      type="caution"
+      title={`Pagination not presently supported in the ${
+        langLookup[props.codeLang]
+      } SDK`}
+    />
+  )}
+</div>
