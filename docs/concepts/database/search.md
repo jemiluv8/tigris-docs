@@ -24,6 +24,6 @@ search operations.
 
 See the language-specific sections for more examples of Search operations:
 
-- [Search in TypeScript](@site/docs/sdkstools/typescript/database/search.mdx)
-- [Search in Go](@site/docs/sdkstools/golang/database/search.mdx)
-- [Search in Java](@site/docs/sdkstools/java/database/search.mdx)
+- [Search in TypeScript](../../sdkstools/typescript/database/search.mdx)
+- [Search in Go](../../sdkstools/golang/database/search.mdx)
+- [Search in Java](../../sdkstools/java/database/search.mdx)
