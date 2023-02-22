@@ -585,7 +585,7 @@
             },
             {
               "name": "schema",
-              "description": "The schema specifications are same as\nJSON schema specification defined \u003ca href=\"https://json-schema.org/specification.html\" title=\"here\"\u003ehere\u003c/a\u003e.\nThe schema of the `documents` collection differs from the schema of `topic` collection as `topic` collection does not\nhave any concept of `primary_key`. The server recognizes type of the collection by the `collection_type` set in\nthe schema.\n\u003cp\u003e\u003c/p\u003e\nSchema example of `documents`:\n`{\n \"title\": \"user\",\n \"description\": \"Collection of documents with details of users\",\n \"properties\": {\n   \"id\": {\n     \"description\": \"A unique identifier for the user\",\n     \"type\": \"integer\"\n   },\n   \"name\": {\n     \"description\": \"Name of the user\",\n     \"type\": \"string\",\n     \"maxLength\": 100\n   },\n   \"balance\": {\n     \"description\": \"User account balance\",\n     \"type\": \"number\"\n   }\n },\n \"primary_key\": [\"id\"]\n}`\n\u003cp\u003e\u003c/p\u003e*Note: The `collection_type` is not set as default is documents.*\n\u003cp\u003e\u003c/p\u003eSchema example of `topic`:\n`{\n \"title\": \"user_events\",\n \"description\": \"Topic for user events\",\n \"properties\": {\n   \"event_id\": {\n     \"description\": \"A id for the event\",\n     \"type\": \"integer\"\n   },\n   \"event_type\": {\n     \"description\": \"Type of the Event\",\n     \"type\": \"string\",\n     \"maxLength\": 100\n   }\n   \"event_details\": {\n     \"description\": \"Details about the Event\",\n     \"type\": \"string\"\n   }\n },\n \"collection_type\": \"topic\"\n}`\n\u003cp\u003e\u003c/p\u003e *Note: The `collection_type` is set as \"topic\".*",
+              "description": "The schema specifications are same as\nJSON schema specification defined \u003ca href=\"https://json-schema.org/specification.html\" title=\"here\"\u003ehere\u003c/a\u003e.\n\u003cp\u003e\u003c/p\u003e\nSchema example:\n`{\n \"title\": \"user\",\n \"description\": \"Collection of documents with details of users\",\n \"properties\": {\n   \"id\": {\n     \"description\": \"A unique identifier for the user\",\n     \"type\": \"integer\"\n   },\n   \"name\": {\n     \"description\": \"Name of the user\",\n     \"type\": \"string\",\n     \"maxLength\": 128\n   },\n   \"balance\": {\n     \"description\": \"User account balance\",\n     \"type\": \"number\"\n   }\n },\n \"primary_key\": [\"id\"]\n}`",
               "label": "",
               "type": "bytes",
               "longType": "bytes",
@@ -3372,7 +3372,7 @@
           "methods": [
             {
               "name": "BeginTransaction",
-              "description": "Starts a new transaction and returns a transactional object. All reads/writes performed\nwithin a transaction will run with serializable isolation.",
+              "description": "Starts a new transaction and returns a transactional object. All reads/writes performed\nwithin a transaction will run with serializable isolation. Tigris offers global transactions,\nwith ACID properties and strict serializability.",
               "requestType": "BeginTransactionRequest",
               "requestLongType": "BeginTransactionRequest",
               "requestFullType": "tigrisdata.v1.BeginTransactionRequest",
@@ -4524,7 +4524,7 @@
           "fields": [
             {
               "name": "code",
-              "description": "The status code is a short, machine parsable string,\nwhich uniquely identifies the error type.\nTigris to HTTP code mapping [here](/references/http-code)",
+              "description": "The status code is a short, machine parsable string,\nwhich uniquely identifies the error type.\nTigris to HTTP code mapping [here](/reference/http-code)",
               "label": "",
               "type": "Code",
               "longType": "Code",
