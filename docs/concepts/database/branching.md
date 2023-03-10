@@ -10,7 +10,13 @@ overhead of setting up and maintaining a development database.
 Just like a Git repo, your Tigris database always defaults to the `main` branch as the primary source of data and schema.
 The `main` branch is created by default in your Tigris Project's database, and you cannot delete it. All new
 branches are created from `main` branch. A new branch is essentially an isolated [copy-on-write](https://en.wikipedia.org/wiki/Copy-on-write)
-clone of the schema on the `main` branch at the creation time.
+clone of the schema on the `main` branch at the creation time i.e. all the collection schemas on
+`main` are copied over to the new branch upon creation.
+
+:::note
+When a database branch is created, only the collection schemas are copied from `main` to the new branch.
+The collections in the newly created branch will not have any documents by default.
+:::
 
 A database branch can evolve its schema and data independently.
 You can have any number of branches, and creating a branch does not increase the load on the `main` branch,
