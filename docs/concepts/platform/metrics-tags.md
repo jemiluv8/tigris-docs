@@ -61,7 +61,7 @@ Compared to successful requests, these metrics and traces can have the `error_so
 
 ## Latency
 
-Latencies are measured for error and non-errored requests separately. Some examples for response time metrics measuring successful requests.
+Latencies are measured for error and non-errored requests separately. Some examples for response time metrics measuring successful requests. All latencies are reported in seconds.
 
 ```
 requests_response_time{collection="test_collection",db="test_db",env="test",grpc_method="Read",grpc_service="tigrisdata.v1.Tigris",grpc_service_type="unary",read_type="unknown",search_type="unknown",service="tigris-server",sort="unknown",tigris_tenant="default_namespace",version="dev",write_type="unknown",quantile="0.5"} 0.000971136
@@ -72,6 +72,8 @@ requests_response_time{collection="test_collection",db="test_db",env="test",grpc
 requests_response_time_sum{collection="test_collection",db="test_db",env="test",grpc_method="Read",grpc_service="tigrisdata.v1.Tigris",grpc_service_type="unary",read_type="unknown",search_type="unknown",service="tigris-server",sort="unknown",tigris_tenant="default_namespace",version="dev",write_type="unknown"} 0.008247391
 requests_response_time_count{collection="test_collection",db="test_db",env="test",grpc_method="Read",grpc_service="tigrisdata.v1.Tigris",grpc_service_type="unary",read_type="unknown",search_type="unknown",service="tigris-server",sort="unknown",tigris_tenant="default_namespace",version="dev",write_type="unknown"} 3
 ```
+
+In the example above, the reported value is `0.000971136`, which means the median response time for the requests types described by the tags are just below 1 ms.
 
 The response time metrics have an additional `quantile` tag if the metrics describes a quantile of the response time. Apart from that, a `sum` and a `count` metrics are maintained by the response time.
 
