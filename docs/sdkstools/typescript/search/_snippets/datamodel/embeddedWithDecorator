@@ -1,0 +1,19 @@
+export class ProductItem {
+  @SearchField()
+  productId: string;
+
+  @SearchField()
+  quantity: number;
+}
+
+@TigrisSearchIndex("orders")
+export class Order {
+  @SearchField()
+  userId: bigint;
+
+  @SearchField()
+  orderTotal: number;
+
+  @SearchField({ elements: ProductItem })
+  productItems: Array<ProductItem>
+}

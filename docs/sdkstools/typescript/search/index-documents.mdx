@@ -1,0 +1,240 @@
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Index documents
+
+A document to be indexed in a search index must conform to its schema. An
+auto-generated `id` field will be [assigned to the document](../datamodel#id-field)
+if it doesn't have one.
+
+### Get Search Index instance
+
+<CodeBlock language="ts">{getSearchIndex}</CodeBlock>
+
+## Index a single document
+
+Use the `createOne` call to index a single document. It returns a document `id` uniquely identifying
+the document in the search index.
+
+```ts
+const result = await catalog.createOne({
+  name: "fiona handbag",
+  price: 99.9,
+  brand: "michael kors",
+  labels: "purses",
+  popularity: 8,
+});
+
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{
+  "id": "407124e3-f4a9-4d72-b777-580d8f8de654"
+}
+```
+
+</details>
+
+### With `id`
+
+```ts
+const result = await catalog.createOne({
+  id: "1",
+  name: "fiona handbag",
+  price: 99.9,
+  brand: "michael kors",
+  labels: "purses",
+  popularity: 8,
+});
+
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{
+  "id": "1"
+}
+```
+
+</details>
+
+However, if a document with the same `id` already exists in the search index,
+an error is thrown.
+
+```ts
+const result = await catalog.createOne({
+  id: "1",
+  name: "fiona handbag",
+  price: 99.9,
+  brand: "michael kors",
+  labels: "purses",
+  popularity: 8,
+});
+
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+    {
+      "id": "1",
+      "error": {
+        "errMsg": "TigrisError: A document with id '1' already exists."
+      }
+    },
+```
+
+</details>
+
+Alternatively, [create or replace](#create-or-replace) can be used to replace an existing document.
+
+## Index multiple documents
+
+`createMany()` allows indexing of multiple documents by accepting an array of documents and returning
+an array of document ids. The array of returned ids have the same order as of provided documents.
+
+```ts
+const products: Array<Catalog> = [
+  {
+    name: "tote bag",
+    price: 49,
+    brand: "coach",
+    labels: "handbags",
+    popularity: 9,
+  },
+  {
+    name: "sling bag",
+    price: 75,
+    brand: "coach",
+    labels: "purses",
+    popularity: 9,
+  },
+];
+
+const result = await catalog.createMany(products);
+
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+[
+  {
+    "id": "002eeee4-4249-469d-9425-100fc0e60a68"
+  },
+  {
+    "id": "5659ff93-83fc-4355-8564-ac8efb47f4ef"
+  }
+]
+```
+
+</details>
+
+### With `id`
+
+Documents can have `id` field, and if any of the ids already exist in the system, that document will
+fail to index with an error.
+
+```ts
+const products: Array<Catalog> = [
+  {
+    id: "1",
+    name: "tote bag",
+    price: 49,
+    brand: "coach",
+    labels: "handbags",
+    popularity: 9,
+  },
+  {
+    id: "2",
+    name: "sling bag",
+    price: 75,
+    brand: "coach",
+    labels: "purses",
+    popularity: 9,
+  },
+];
+
+const result = await catalog.createMany(products);
+
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+[
+  {
+    "id": "1"
+  },
+  {
+    "id": "2",
+    "error": {
+      "errMsg": "TigrisError: A document with id '2' already exists."
+    }
+  }
+]
+```
+
+</details>
+
+Alternatively, [index or replace](#create-or-replace) can be used to replace existing documents.
+
+## Create or Replace documents {#create-or-replace}
+
+The **create** method does not allow documents with duplicate id, you can use
+the **createOrReplace** methods to replace a document with matching id if it
+exists in the search index.
+
+### Replace a single document
+
+```ts
+const result = await catalog.createOrReplaceOne(products[0]);
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{
+  "id": "1"
+}
+```
+
+</details>
+
+### Replace multiple documents
+
+```ts
+const result = await catalog.createOrReplaceMany(products);
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+[
+  {
+    "id": "1"
+  },
+  {
+    "id": "2"
+  }
+]
+```
+
+</details>

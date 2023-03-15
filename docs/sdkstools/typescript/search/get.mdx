@@ -1,0 +1,102 @@
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Get documents
+
+Tigris also lets you retrieve documents from the search index by using their ids.
+
+### Get Search Index instance
+
+<CodeBlock language="ts">{getSearchIndex}</CodeBlock>
+
+## Get a single document
+
+The `getOne` method accepts a document `id` parameter. If a document matching `id` exists, server
+returns it along with metadata. If a document is not found, `undefined` is returned.
+
+```ts
+const doc = await catalog.getOne("407124e3-f4a9-4d72-b777-580d8f8de654");
+console.log(doc);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+    {
+      "document": {
+        "review": {
+          "author": "alice",
+          "rating": 7
+        },
+        "brand": "michael kors",
+        "id": "407124e3-f4a9-4d72-b777-580d8f8de654",
+        "labels": "purses",
+        "price": 99.9,
+        "name": "fiona handbag",
+        "popularity": 8
+      },
+      "meta": {
+        "createdAt": "2023-03-14T16:42:09.000Z"
+      }
+    }
+```
+
+</details>
+
+## Get multiple documents
+
+Similar to `getOne`, `getMany` accepts an array of document ids and fetches the relevant documents
+from Tigris. The returned array of documents maintains the same order as the given ids.
+
+```ts
+const docs = await catalog.getMany([
+  "002eeee4-4249-469d-9425-100fc0e60a68",
+  "5659ff93-83fc-4355-8564-ac8efb47f4ef",
+]);
+console.log(docs);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+    [
+      {
+        "document": {
+          "review": {
+            "rating": 9.2,
+            "author": "alice"
+          },
+          "labels": "purses",
+          "popularity": 9,
+          "price": 75,
+          "brand": "coach",
+          "id": "002eeee4-4249-469d-9425-100fc0e60a68",
+          "name": "sling bag"
+        },
+        "meta": {
+          "createdAt": "2023-03-14T16:44:44.000Z"
+        }
+      },
+      {
+        "document": {
+          "name": "sneakers shoes",
+          "review": {
+            "rating": 9,
+            "author": "olivia"
+          },
+          "id": "5659ff93-83fc-4355-8564-ac8efb47f4ef",
+          "labels": "shoes",
+          "popularity": 10,
+          "price": 40,
+          "brand": "adidas"
+        },
+        "meta": {
+          "createdAt": "2023-03-14T16:44:44.000Z"
+        }
+      }
+    ]
+```
+
+</details>

@@ -1,0 +1,162 @@
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+import CodeBlock from "@theme/CodeBlock";
+import { TSDataModels } from "@site/docs/templates/commons";
+import {
+  dataModelTabGroupId,
+  decoratorModelLabel,
+  interfaceModelLabel,
+} from "@site/docs/sdkstools/typescript/commons";
+import decoratorIndexSchema from "!!raw-loader!./_snippets/datamodel/indexWithDecorator";
+import interfaceIndexSchema from "!!raw-loader!./_snippets/datamodel/indexWithInterface";
+import createWithDecorator from "!!raw-loader!./_snippets/datamodel/createWithDecorator";
+import createWithInterface from "!!raw-loader!./_snippets/datamodel/createWithInterface";
+import embeddedWithDecorator from "!!raw-loader!./_snippets/datamodel/embeddedWithDecorator";
+import embeddedWithInterface from "!!raw-loader!./_snippets/datamodel/embeddedWithInterface";
+
+# Search Modeling
+
+The first step is to define search modes as part of your application code. The
+data conforming to these models is stored as JSON documents and indexed in Tigris
+to facilitate searches.
+
+:::note
+You do not need to have all the fields present in your document, defined in the
+search model, only the fields that you need to be searchable. When you store
+documents in the search index, we store the entire document including the fields
+that are not defined in the search model
+:::
+
+## Declaring Models
+
+With the Tigris TypeScript client you can define your search models using
+[Decorated classes](#declare-using-decorators) or [Interfaces](#declare-using-interface).
+
+Below we describe how the search models can be defined.
+
+<Tabs groupId={dataModelTabGroupId}>
+<TabItem value={decoratorModelLabel} label={decoratorModelLabel}>
+
+Tigris client uses `@TigrisSearchIndex("search-index-name")` decorator on a class
+to identify a schema (search model) for the index. Requires a `string`
+input as the name of this search index.
+
+<CodeBlock language="ts">{decoratorIndexSchema}</CodeBlock>
+
+For the properties in the class to be made searchable, they need to be annotated
+with the `@SearchField()` annotation. The data type is determined using
+"reflection" if the optional `type` parameter is not specified. A `@SearchField()`
+decorator accepts optional parameters to further refine how the document field is indexed.
+
+| Option      | Type    | Default | Usage                                                                             |
+| ----------- | ------- | ------- | --------------------------------------------------------------------------------- |
+| searchIndex | boolean | True    | To enable/disable indexing on a field. Any non-indexed field won't be searchable. |
+| sort        | boolean | False   | To enable/disable sorting on a field.                                             |
+| facet       | boolean | False   | To enable/disable faceting on a field.                                            |
+
+```ts
+@TigrisSearchIndex("catalog")
+export class Catalog {
+  @SearchField({ sort: true })
+  name: string;
+
+  @SearchField({ sort: true })
+  price: number;
+
+  @SearchField({ facet: true })
+  brand: string;
+}
+```
+
+:::info
+Documents that you store in a search index can have fields that are not annotated
+with `@SearchField()`. These fields are not searchable. A common use-case is
+where you have a document with ten fields and you only want five of the fields
+to be searchable but would like to store the entire document.
+:::
+
+The [Tigris TypeScript client repository](https://github.com/tigrisdata/tigris-client-ts/tree/main/src/__tests__/fixtures/schema/search)
+has more examples for defining complex schemas.
+
+</TabItem>
+<TabItem value={interfaceModelLabel} label={interfaceModelLabel}>
+
+If you prefer to not use class decorators you can define the search model as follows:
+
+<CodeBlock language="ts">{interfaceIndexSchema}</CodeBlock>
+
+Along with defining the interface for the search model, you will also need to
+define the TigrisIndexSchema definition for the interface. There are additional
+properties that can be specified to control how the fields in the search model
+are indexed.
+
+| Option      | Type    | Default | Usage                                                                             |
+| ----------- | ------- | ------- | --------------------------------------------------------------------------------- |
+| searchIndex | boolean | True    | To enable/disable indexing on a field. Any non-indexed field won't be searchable. |
+| sort        | boolean | False   | To enable/disable sorting on a field.                                             |
+| facet       | boolean | False   | To enable/disable faceting on a field.                                            |
+
+```ts
+// data container
+interface Catalog extends TigrisIndexType {
+  name: string;
+  price: number;
+  brand: string;
+}
+
+// schema definition
+const catalogSchema: TigrisIndexSchema<Catalog> = {
+  name: {
+    type: TigrisDataTypes.STRING,
+  },
+  number: {
+    type: TigrisDataTypes.NUMBER,
+    sort: true,
+  },
+  brand: {
+    types: TigrisDataTypes.STRING,
+    facet: true,
+  },
+};
+```
+
+:::info
+Make sure you always keep the search model interface and the TigrisIndexSchema
+definition in sync.
+:::
+
+</TabItem>
+</Tabs>
+
+## Create a Search Index
+
+Tigris provides an easy to use way to create or modify search indexes.
+
+<TSDataModels
+  decoratorExample={createWithDecorator}
+  interfaceExample={createWithInterface}
+/>
+
+## Indexing Embedded Documents
+
+Tigris supports rich document structures. For example, you can embed related
+data in a single document. Embedded models allow application to fetch data with
+fewer queries, thus reducing query activity and increasing efficiency.
+
+Below is an example of embedded model. We first define the `ProductItem` type
+and then embed it inside the `Order` type.
+
+<TSDataModels
+  decoratorExample={embeddedWithDecorator}
+  interfaceExample={embeddedWithInterface}
+/>
+
+## `id` field in a document {#id-field}
+
+Every indexed document in Tigris has an `id` field of `string` type to uniquely
+identify it. The `id` can be used to get, replace or delete a document in search
+index. `id` is immutable.
+
+Tigris assigns an auto-generated `id` to each document. However, there might be
+cases where you want to supply your own ID, for example to avoid duplicate
+documents to be indexed. In such cases you can specify an `id` field in the schema.

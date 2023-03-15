@@ -212,6 +212,24 @@ const sidebars = {
                 "sdkstools/typescript/database/cursor",
               ],
             },
+            {
+              type: "category",
+              label: "Search",
+              link: {
+                type: "doc",
+                id: "sdkstools/typescript/search/index",
+              },
+              collapsed: false,
+              items: [
+                "sdkstools/typescript/search/datamodel",
+                "sdkstools/typescript/search/types",
+                "sdkstools/typescript/search/index-documents",
+                "sdkstools/typescript/search/search-documents",
+                "sdkstools/typescript/search/get",
+                "sdkstools/typescript/search/delete",
+                "sdkstools/typescript/search/pagination",
+              ],
+            },
           ],
         },
         {

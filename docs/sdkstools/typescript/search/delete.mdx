@@ -1,0 +1,99 @@
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Delete Documents
+
+Documents can be deleted from a search index either using `id` field or a
+filter that matches any number of documents.
+
+### Get Search Index instance
+
+<CodeBlock language="ts">{getSearchIndex}</CodeBlock>
+
+## Delete a single document using `id`
+
+Use `deleteOne` to delete an existing document using `id`. It returns a
+DocStatus object that has error in case deletion fails, error would be
+`undefined` if deletion succeeds.
+
+```ts
+const result = await catalog.deleteOne("407124e3-f4a9-4d72-b777-580d8f8de654");
+
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{
+  "id": "407124e3-f4a9-4d72-b777-580d8f8de654"
+}
+```
+
+</details>
+
+## Delete multiple documents using `id`
+
+Similar to deleteOne, `deleteMany()` can be used to delete multiple documents using id.
+
+```ts
+const result = await catalog.deleteMany([
+  "002eeee4-4249-469d-9425-100fc0e60a68",
+  "5659ff93-83fc-4355-8564-ac8efb47f4ef",
+  "unknown-id",
+]);
+
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+[
+  {
+    "id": "002eeee4-4249-469d-9425-100fc0e60a68"
+  },
+  {
+    "id": "5659ff93-83fc-4355-8564-ac8efb47f4ef"
+  }
+  {
+    "id": "unknown-id",
+    "error": {
+      "errMsg": "TigrisError: Could not find a document with id: unknown-id"
+    }
+  }
+]
+```
+
+</details>
+
+## Delete multiple documents matching a filter
+
+Alternatively, you can use the [filters as used in search()](../search/#filters) to select a subset
+of documents for deletion. This `deleteByQuery()` method returns a number of deleted documents.
+
+#### Example: delete documents by filtering for documents matching a `brand`
+
+```ts
+const deleteCount = await catalog.deleteByQuery({ brand: "coach" });
+```
+
+#### Example: delete documents matching a more complex filtering condition
+
+```ts
+const deleteCount = await catalog.deleteByQuery({
+  op: LogicalOperator.AND,
+  selectorFilters: [
+    {
+      op: SelectorFilterOperator.GTE,
+      fields: { price: 35 },
+    },
+    {
+      op: SelectorFilterOperator.LT,
+      fields: { price: 90 },
+    },
+  ],
+});
+```

@@ -1,0 +1,3 @@
+const client = new Tigris();
+const search = client.getSearch();
+const catalog = await search.getIndex<Catalog>("catalog");

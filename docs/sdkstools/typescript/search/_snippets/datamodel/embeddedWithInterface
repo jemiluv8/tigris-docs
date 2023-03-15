@@ -1,0 +1,34 @@
+// data containers
+export interface ProductItem {
+  productId: string;
+  quantity: number;
+}
+export interface Order extends TigrisIndexType {
+  userId: bigint;
+  orderTotal: number;
+  productItems: ProductItem[];
+}
+
+// schema definitions
+const productItemSchema: TigrisIndexSchema<ProductItem> = {
+  productId: {
+    type: TigrisDataTypes.STRING,
+  },
+  quantity: {
+    type: TigrisDataTypes.NUMBER,
+  },
+};
+export const orderSchema: TigrisIndexSchema<Order> = {
+  userId: {
+    type: TigrisDataTypes.NUMBER_BIGINT,
+  },
+  orderTotal: {
+    type: TigrisDataTypes.NUMBER,
+  },
+  productItems: {
+    type: TigrisDataTypes.ARRAY,
+    items: {
+      type: productItemSchema,
+    },
+  },
+};

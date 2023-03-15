@@ -1,0 +1,6 @@
+const client = new Tigris();
+const search = client.getSearch();
+const catalog = await db.createOrUpdateIndex<Catalog>(
+  "catalog",
+  catalogSchema
+);

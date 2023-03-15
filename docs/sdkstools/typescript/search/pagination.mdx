@@ -1,0 +1,294 @@
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Pagination
+
+Pagination is commonly used by applications to consume large amount of data by
+dividing it into small pages. Modern applications leverage one of the
+following commonly used UX patterns:
+
+- **Traditional pagination using page numbers** - Users can visit next or previous page of results
+  or jump an arbitraty page by choosing page numbers. The main benefit to a user is a visibility into
+  number of pages and ability to jump to an arbitrary page number.
+
+![Pages](/img/pagination/page-number-2.jpg)
+![Page numbers](/img/pagination/page-numbers.jpg)
+
+- **Infinite scrolling** - When a website returns only a part of the results. But as the users
+  scroll down to the end of the page, additional results are loaded and rendered for the users.
+  This allows users to browse as many results they want without having to click anything, which is
+  friendlier to mobile device users.
+
+![Infinite scrolling](/img/pagination/infinite-scrolling.gif)
+
+## Paginating through search results
+
+In this section we'll see the constructs provided by our SDK that assist
+developers in building out pagination into their apps. Considering the
+[search example](../search#example) let's work through the search index:
+
+<CodeBlock language="ts">{getSearchIndex}</CodeBlock>
+
+### Using page numbers {#using-page-number}
+
+To retrieve a page of results, you can simply use `search(query, page)` method with page number and
+page size. Following query fetches the first page of results with page size set as **10**
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  hitsPerPage: 10, // Optional. Defaults to 20
+};
+const result: SearchResult<Catalog> = await catalog.search(query, 1);
+console.log(result);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+  {
+    "hits": [
+      {
+        "document": {
+          "brand": "adidas",
+          "price": 35,
+          "review": {
+            "author": "olivia",
+            "rating": 7.5
+          },
+          "popularity": 7,
+          "id": "6",
+          "labels": "clothing",
+          "name": "running shorts"
+        },
+        "meta": {
+          "createdAt": "2023-03-13T21:42:35.000Z",
+          "textMatch": {
+            "fields": [
+              "name"
+            ],
+            "score": "578730123365187697"
+          }
+        }
+      },
+      {
+        "document": {
+          "id": "5",
+          "brand": "nike",
+          "name": "running shoes",
+          "price": 89,
+          "labels": "shoes",
+          "popularity": 10,
+          "review": {
+            "rating": 8.5,
+            "author": "olivia"
+          }
+        },
+        "meta": {
+          "createdAt": "2023-03-13T21:42:35.000Z",
+          "textMatch": {
+            "fields": [
+              "name"
+            ],
+            "score": "578730123365187697"
+          }
+        }
+      }
+    ],
+    "facets": {},
+    "meta": {
+      "found": 23,
+      "totalPages": 3,
+      "page": {
+        "current": 1,
+        "size": 10
+      },
+      "matchedFields": [
+        "name"
+      ]
+    }
+  }
+```
+
+</details>
+
+The `hitsPerPage` parameter controls the number of documents to include in a result page. The returned
+array of documents is accessible under `hits` key along with some search metadata.
+
+```ts
+console.log(result.hits);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+  [
+    {
+      "document": {
+        "labels": "clothing",
+        "popularity": 7,
+        "id": "6",
+        "name": "running shorts",
+        "review": {
+          "rating": 7.5,
+          "author": "olivia"
+        },
+        "price": 35,
+        "brand": "adidas"
+      },
+      "meta": {
+        "createdAt": "2023-03-13T21:42:07.000Z",
+        "textMatch": {
+          "fields": [
+            "name"
+          ],
+          "score": "578730123365187697"
+        }
+      }
+    },
+    {
+      "document": {
+        "name": "running shoes",
+        "id": "5",
+        "price": 89,
+        "popularity": 10,
+        "review": {
+          "author": "olivia",
+          "rating": 8.5
+        },
+        "brand": "nike",
+        "labels": "shoes"
+      },
+      "meta": {
+        "createdAt": "2023-03-13T21:42:07.000Z",
+        "textMatch": {
+          "fields": [
+            "name"
+          ],
+          "score": "578730123365187697"
+        }
+      }
+    }
+  ]
+```
+
+</details>
+
+Additionally, search result contains `meta` object having current page and total pages along with
+other information.
+
+```ts
+console.log(result.meta);
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+  {
+    "found": 23,
+    "totalPages": 3,
+    "page": {
+      "current": 1,
+      "size": 10
+    },
+    "matchedFields": [
+      "name"
+    ]
+  }
+```
+
+</details>
+
+### Infinite scrolling
+
+Infinite scrolling also loads data in pages, it is just that the UX is more fluid.
+Instead of using page number, an Iterator object can be obtained from `search()`
+method call and processed iteratively.
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  hitsPerPage: 10, // Optional. Defaults to 20
+};
+
+const resultIterable: SearchIterator<Catalog> = await catalog.search(query);
+for await (const result of resultIterable) {
+  console.log(result);
+}
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+  {
+    "hits": [
+      {
+        "document": {
+          "brand": "adidas",
+          "price": 35,
+          "review": {
+            "author": "olivia",
+            "rating": 7.5
+          },
+          "popularity": 7,
+          "id": "6",
+          "labels": "clothing",
+          "name": "running shorts"
+        },
+        "meta": {
+          "createdAt": "2023-03-13T21:42:35.000Z",
+          "textMatch": {
+            "fields": [
+              "name"
+            ],
+            "score": "578730123365187697"
+          }
+        }
+      },
+      {
+        "document": {
+          "id": "5",
+          "brand": "nike",
+          "name": "running shoes",
+          "price": 89,
+          "labels": "shoes",
+          "popularity": 10,
+          "review": {
+            "rating": 8.5,
+            "author": "olivia"
+          }
+        },
+        "meta": {
+          "createdAt": "2023-03-13T21:42:35.000Z",
+          "textMatch": {
+            "fields": [
+              "name"
+            ],
+            "score": "578730123365187697"
+          }
+        }
+      }
+    ],
+    "facets": {},
+    "meta": {
+      "found": 23,
+      "totalPages": 3,
+      "page": {
+        "current": 1,
+        "size": 10
+      },
+      "matchedFields": [
+        "name"
+      ]
+    }
+  }
+```
+
+</details>
+
+As you can see, the iterator returns the same `SearchResult` object as in [previous section](#using-page-number)
+with pagination metadata.

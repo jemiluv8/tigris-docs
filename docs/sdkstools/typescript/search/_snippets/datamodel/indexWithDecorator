@@ -1,0 +1,25 @@
+export const CATALOG_INDEX_NAME = "catalog";
+
+@TigrisSearchIndex(CATALOG_INDEX_NAME)
+class Catalog {
+  @SearchField()
+  name: string;
+
+  @SearchField()
+  price: number;
+
+  @SearchField()
+  brand: string;
+
+  @SearchField()
+  labels: string;
+
+  @SearchField(TigrisDataTypes.INT32)
+  popularity: number;
+
+  @SearchField()
+  entryDate: Date;
+
+  @SearchField()
+  available: boolean;
+}

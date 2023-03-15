@@ -1,0 +1,537 @@
+---
+slug: search
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Search Documents
+
+Tigris offers easy to use constructs for building complex search queries. In
+this section we will take a look at the sample data in the example below and
+walk through a few scenarios to search for documents.
+
+### Example
+
+Let's say we have a Search Index `catalog` with following documents:
+
+| id  | name           | price | brand        | labels   | popularity | review                              |
+| --- | -------------- | ----- | ------------ | -------- | ---------- | ----------------------------------- |
+| 1   | fiona handbag  | 99.9  | michael kors | purses   | 8          | {"author": "alice", "rating": 7}    |
+| 2   | tote bag       | 49    | coach        | handbags | 9          | {"author": "olivia", "rating": 8.3} |
+| 3   | sling bag      | 75    | coach        | purses   | 9          | {"author": "alice", "rating": 9.2}  |
+| 4   | sneakers shoes | 40    | adidas       | shoes    | 10         | {"author": "olivia", "rating": 9}   |
+| 5   | running shoes  | 89    | nike         | shoes    | 10         | {"author": "olivia", "rating": 8.5} |
+| 6   | running shorts | 35    | adidas       | clothing | 7          | {"author": "olivia", "rating": 7.5} |
+
+### Get Search Index instance
+
+The first step is to get an instance of the search index.
+
+<CodeBlock language="ts">{getSearchIndex}</CodeBlock>
+
+## Searching for documents
+
+Search consists of executing a query against one or more text fields. Let's perform a simple search query to
+lookup any items matching "running".
+
+```ts
+const query: SearchQuery<Catalog> = { q: "running" };
+const results = await catalog.search(query);
+
+for await (const result of results) {
+  console.log(result);
+}
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+    {
+      "hits": [
+        {
+          "document": {
+            "popularity": 7,
+            "review": {
+              "author": "olivia",
+              "rating": 7.5
+            },
+            "id": "6",
+            "labels": "clothing",
+            "name": "running shorts",
+            "price": 35,
+            "brand": "adidas"
+          },
+          "meta": {
+            "createdAt": "2023-03-13T21:44:52.000Z",
+            "textMatch": {
+              "fields": [
+                "name"
+              ],
+              "score": "578730123365187697"
+            }
+          }
+        },
+        {
+          "document": {
+            "name": "running shoes",
+            "popularity": 10,
+            "review": {
+              "rating": 8.5,
+              "author": "olivia"
+            },
+            "brand": "nike",
+            "price": 89,
+            "id": "5",
+            "labels": "shoes"
+          },
+          "meta": {
+            "createdAt": "2023-03-13T21:44:52.000Z",
+            "textMatch": {
+              "fields": [
+                "name"
+              ],
+              "score": "578730123365187697"
+            }
+          }
+        }
+      ],
+      "facets": {},
+      "meta": {
+        "found": 2,
+        "totalPages": 1,
+        "page": {
+          "current": 1,
+          "size": 20
+        },
+        "matchedFields": [
+          "name"
+        ]
+      }
+    }
+```
+
+</details>
+
+:::info
+Search is **case-insensitive**, i.e., a search for term `"ruNninG"` would
+match all of `["Running", "running", "RUnnIng", "RUNNING"]` etc.
+:::
+
+### Phrase search
+
+By default, search is performed over individual terms in the text. For example,
+searching for a query string `adventure park` in a dataset would yield
+following results:
+
+1. "California's kids **adventure park** and Safari"
+2. "**Adventure** island and water **park**"
+3. "Long Island water **park** and **adventure** activities"
+4. "Six flags kids recreation and **adventure park**"
+5. "Hollywood **adventure park** and studios"
+6. "Seaworld **adventure** and theme **park**"
+
+The search phrase can be _escaped_ in query for exact match. In the above example, querying for exact
+phrase `\"adventure park\"` would return:
+
+1. "California's kids **adventure park** and Safari"
+2. "Six flags kids recreation and **adventure park**"
+3. "The Great America **adventure park** and Zoo"
+
+Phrases can still be combined with keywords for richer text search. Continuing above example,
+the query string `kids \"adventure park\"` would result in:
+
+1. "California's **kids adventure park** and Safari"
+2. "Six flags **kids** recreation and **adventure park**"
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: '"adventure park"',
+};
+
+const query: SearchQuery<Catalog> = {
+  q: 'kids "adventure park"',
+};
+```
+
+### Match all search query
+
+When a query string isn't specified or an empty string (`""`) is specified, a
+match all query is performed. It returns all searchable documents, filtered by
+any filters specified.
+
+```ts
+const query: SearchQuery<Catalog> = { q: "" };
+```
+
+:::tip
+Fetching all documents is typically useful only when used in conjunction with
+**filters**, or when performing a **faceted search** across the search index.
+:::
+
+## Searching on specific fields
+
+We can optionally perform the search on specific fields. This is done by
+projecting the search query against these fields. Continuing previous example of
+searching for "running", we may not want to search for it in the `review` field.
+This can be accomplished by restricting the `searchFields` in the query as
+shown below:
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  searchFields: ["name", "labels"],
+};
+```
+
+## Refine the search results using filters {#filters}
+
+### Applying a simple filter on search results
+
+Let's adjust the query to only return items where `brand` is **nike**:
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  searchFields: ["name", "labels"],
+  filter: { brand: "nike" },
+};
+```
+
+### Applying complex filter on search results
+
+Let's adjust the query to only return items in `price` range of **[40, 90)**:
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  searchFields: ["name", "labels"],
+  filter: {
+    op: LogicalOperator.AND,
+    selectorFilters: [
+      {
+        op: SelectorFilterOperator.GTE,
+        fields: {
+          price: 40,
+        },
+      },
+      {
+        op: SelectorFilterOperator.LT,
+        fields: {
+          price: 90,
+        },
+      },
+    ],
+  },
+};
+```
+
+## Faceted search {#facets}
+
+We can additionally retrieve the stats on one or more fields from the search results.
+For example, if we wanted to retrieve the stats for the search results around
+number of items by `brand` and unique `labels`, we can add faceting to the query
+as shown below:
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  searchFields: ["name", "labels"],
+  filter: {
+    op: LogicalOperator.AND,
+    selectorFilters: [
+      {
+        op: SelectorFilterOperator.GTE,
+        fields: {
+          price: 40,
+        },
+      },
+      {
+        op: SelectorFilterOperator.LT,
+        fields: {
+          price: 90,
+        },
+      },
+    ],
+  },
+  facets: ["brand", "labels"],
+};
+
+const results = await catalog.search(query);
+for await (const result of results) {
+  console.log(result.facets);
+}
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+    {
+      "brand": {
+        "counts": [
+          {
+            "value": "nike",
+            "count": 1
+          }
+        ],
+        "stats": {
+          "avg": 0,
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "sum": 0
+        }
+      },
+      "labels": {
+        "counts": [
+          {
+            "value": "shoes",
+            "count": 1
+          }
+        ],
+        "stats": {
+          "avg": 0,
+          "count": 1,
+          "max": 0,
+          "min": 0,
+          "sum": 0
+        }
+      }
+    }
+```
+
+</details>
+
+## Sorting the search results
+
+Tigris lets you specify an order to sort the search results. We can specify a ranking order in our
+search query to have results sorted with more popular items appearing first.
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  searchFields: ["name", "labels"],
+  sort: [
+    {
+      field: "popularity",
+      order: Order.DESC,
+    },
+  ],
+};
+```
+
+We can also sort by multiple fields. In the example below, the search results
+are sorted by the first field `popularity`, where there are documents that have
+the same `popularity` score, they are further sorted by the field `review.rating`:
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  searchFields: ["name", "labels"],
+  sort: [
+    {
+      field: "popularity",
+      order: Order.DESC,
+    },
+    {
+      field: "review.rating",
+      order: Order.DESC,
+    },
+  ],
+};
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+    {
+      "hits": [
+        {
+          "document": {
+            "id": "5",
+            "review": {
+              "author": "olivia",
+              "rating": 8.5
+            },
+            "name": "running shoes",
+            "popularity": 10,
+            "price": 89,
+            "brand": "nike",
+            "labels": "shoes"
+          },
+          "meta": {
+            "createdAt": "2023-03-13T21:48:04.000Z",
+            "textMatch": {
+              "fields": [
+                "name"
+              ],
+              "score": "578730123365187705"
+            }
+          }
+        },
+        {
+          "document": {
+            "brand": "adidas",
+            "labels": "clothing",
+            "name": "running shorts",
+            "popularity": 7,
+            "price": 35,
+            "review": {
+              "author": "olivia",
+              "rating": 7.5
+            },
+            "id": "6"
+          },
+          "meta": {
+            "createdAt": "2023-03-13T21:48:04.000Z",
+            "textMatch": {
+              "fields": [
+                "name"
+              ],
+              "score": "578730123365187705"
+            }
+          }
+        }
+      ],
+      "facets": {},
+      "meta": {
+        "found": 2,
+        "totalPages": 1,
+        "page": {
+          "current": 1,
+          "size": 20
+        },
+        "matchedFields": [
+          "name"
+        ]
+      }
+    }
+```
+
+</details>
+
+The results will be first sorted by value of `popularity` field, `review.rating` will be used to
+decide ordering if two matching documents have same `popularity`.
+
+:::note
+Documents can be sorted by `integer`, `number`, `string` and `date-time` fields.
+Sorting by nested fields is also allowed.
+:::
+
+## Specifying document fields to retrieve
+
+Search query can be programmed to return only specific fields in a document in
+search results. For example, if we only need to retrieve product `name`, `brand`
+and `price` we can specify the `includeFields` option as follows:
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  includeFields: ["name", "price", "brand"],
+};
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+    {
+      "hits": [
+        {
+          "document": {
+            "name": "running shorts",
+            "price": 35,
+            "brand": "adidas"
+          },
+          "meta": {
+            "createdAt": "2023-03-13T21:48:35.000Z",
+            "textMatch": {
+              "fields": [
+                "name"
+              ],
+              "score": "578730123365187697"
+            }
+          }
+        },
+        {
+          "document": {
+            "name": "running shoes",
+            "price": 89,
+            "brand": "nike"
+          },
+          "meta": {
+            "createdAt": "2023-03-13T21:48:35.000Z",
+            "textMatch": {
+              "fields": [
+                "name"
+              ],
+              "score": "578730123365187697"
+            }
+          }
+        }
+      ],
+      "facets": {},
+      "meta": {
+        "found": 2,
+        "totalPages": 1,
+        "page": {
+          "current": 1,
+          "size": 20
+        },
+        "matchedFields": [
+          "name"
+        ]
+      }
+    }
+```
+
+</details>
+
+Optionally, we can exclude fields from search results. This might be useful
+to exclude/hide potentially sensitive fields. For example, to include all fields
+except `id` and `review` in search results:
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  excludeFields: ["id", "review"],
+};
+```
+
+:::note
+Field selection does not impact searching, filtering and faceting capabilities for that field. For
+example, if `review` field is not included in documents in search results, it could still be used
+for text querying, filtering and/or faceting; just that matched documents in
+the search results won't include `review` field.
+:::
+
+## Case Insensitive Search Result Filtering
+
+Search is **case-insensitive** but the [filters](#filters) used for filtering
+the search results are **case-sensitive** by default.
+
+Tigris provides `Collation` support which allows you to specify string
+comparison rules for filtering on text fields. Set the case to `ci` in the
+collation object to make it **case-insensitive**.
+
+The following example demonstrates using case-insensitive filters when
+performing a search query:
+
+```ts
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  filter: {
+    brand: "Adidas",
+  },
+  options: { collation: Case.CaseInsensitive },
+};
+
+const results = catalog.search(query);
+
+for await (const result of results) {
+  console.log(result);
+}
+```
