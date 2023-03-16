@@ -4,11 +4,11 @@ const request: SearchRequest<Catalog> = {
   sort: [
     {
       field: "metadata.quantity",
-      order: SortOrder.DESC
+      order: "$desc"
     },
     {
       field: "metadata.color",
-      order: SortOrder.DESC
+      order: "$desc"
     }
   ]
 };

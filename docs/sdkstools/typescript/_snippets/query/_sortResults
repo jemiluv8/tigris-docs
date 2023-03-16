@@ -1,5 +1,5 @@
 const byPopularityDescCursor = catalog.findMany({
-  sort: { field: "popularity", order: Order.DESC },
+  sort: { field: "popularity", order: "$desc" },
 });
 
 for await (const product of byPopularityDescCursor) {
@@ -7,7 +7,7 @@ for await (const product of byPopularityDescCursor) {
 }
 
 const byPriceAscCursor = catalog.findMany({
-  sort: { field: "price", order: Order.ASC },
+  sort: { field: "price", order: "$asc" },
 });
 
 for await (const product of byPriceAscCursor) {
@@ -16,8 +16,8 @@ for await (const product of byPriceAscCursor) {
 
 const multiSortCursor = catalog.findMany({
   sort: [
-    { field: "price", order: Order.ASC },
-    { field: "popularity", order: Order.DESC },
+    { field: "price", order: "$asc" },
+    { field: "popularity", order: "$desc" },
   ],
 });
 

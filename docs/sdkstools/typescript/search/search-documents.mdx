@@ -317,7 +317,7 @@ const query: SearchQuery<Catalog> = {
   sort: [
     {
       field: "popularity",
-      order: Order.DESC,
+      order: "$desc",
     },
   ],
 };
@@ -334,11 +334,11 @@ const query: SearchQuery<Catalog> = {
   sort: [
     {
       field: "popularity",
-      order: Order.DESC,
+      order: "$desc",
     },
     {
       field: "review.rating",
-      order: Order.DESC,
+      order: "$desc",
     },
   ],
 };

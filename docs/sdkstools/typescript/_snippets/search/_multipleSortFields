@@ -4,11 +4,11 @@ const query: SearchQuery<Catalog> = {
   sort: [
     {
       field: "popularity",
-      order: Order.DESC
+      order: "$desc"
     },
     {
       field: "reviews.rating",
-      order: Order.DESC
+      order: "$desc"
     }
   ]
 };
