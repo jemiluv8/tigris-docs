@@ -1,0 +1,19 @@
+export class Cell {
+  @SearchField()
+  x: number;
+
+  @SearchField()
+  y: number;
+
+  @SearchField()
+  value: string;
+}
+
+@TigrisSearchIndex("matrices")
+export class Matrix {
+  @SearchField({ facet: false })
+  id: string;
+
+  @SearchField({ elements: Cell, depth: 3 })
+  cells: Array<Array<Array<Cell>>>;
+}

@@ -1,0 +1,41 @@
+export interface Cell {
+  x: number;
+  y: number;
+  value: string;
+}
+
+export interface Matrix extends TigrisCollectionType {
+  id: string;
+  cells: Array<Array<Array<Cell>>>;
+}
+
+export const MatrixSchema: TigrisSchema<Matrix> = {
+  id: {
+    type: TigrisDataTypes.STRING,
+    primary_key: {
+      order: 1
+    }
+  },
+  cells: {
+    type: TigrisDataTypes.ARRAY,
+    items: {
+      type: TigrisDataTypes.ARRAY,
+      items: {
+        type: TigrisDataTypes.ARRAY,
+        items: {
+          type: {
+            x: {
+              type: TigrisDataTypes.NUMBER,
+            },
+            y: {
+              type: TigrisDataTypes.NUMBER,
+            },
+            value: {
+              type: TigrisDataTypes.STRING,
+            },
+          },
+        },
+      },
+    },
+  },
+};

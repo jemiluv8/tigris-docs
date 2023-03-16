@@ -1,0 +1,8 @@
+@TigrisSearchIndex("cities")
+export class City {
+  @SearchField()
+  name: string;
+
+  @SearchField({ elements: TigrisDataTypes.STRING })
+  neighborhoods: Array<string>;
+}

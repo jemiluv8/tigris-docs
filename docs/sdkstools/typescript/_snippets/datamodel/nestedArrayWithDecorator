@@ -1,0 +1,19 @@
+export class Cell {
+  @Field()
+  x: number;
+
+  @Field()
+  y: number;
+
+  @Field()
+  value: string;
+}
+
+@TigrisCollection("matrices")
+export class Matrix {
+  @PrimaryKey({ order: 1 })
+  id: string;
+
+  @Field({ elements: Cell, depth: 3 })
+  cells: Array<Array<Array<Cell>>>;
+}

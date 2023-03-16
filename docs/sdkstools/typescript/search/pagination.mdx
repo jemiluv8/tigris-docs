@@ -40,6 +40,7 @@ const query: SearchQuery<Catalog> = {
   hitsPerPage: 10, // Optional. Defaults to 20
 };
 const result: SearchResult<Catalog> = await catalog.search(query, 1);
+
 console.log(result);
 ```
 
@@ -215,6 +216,7 @@ const query: SearchQuery<Catalog> = {
 };
 
 const resultIterable: SearchIterator<Catalog> = await catalog.search(query);
+
 for await (const result of resultIterable) {
   console.log(result);
 }

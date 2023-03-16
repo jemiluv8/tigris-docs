@@ -1,0 +1,8 @@
+@TigrisCollection("cities")
+export class City {
+  @PrimaryKey({ order: 1 })
+  name: string;
+
+  @Field({ elements: TigrisDataTypes.STRING })
+  neighborhoods: Array<string>;
+}

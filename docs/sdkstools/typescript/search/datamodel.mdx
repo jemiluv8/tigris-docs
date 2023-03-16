@@ -13,6 +13,10 @@ import createWithDecorator from "!!raw-loader!./_snippets/datamodel/createWithDe
 import createWithInterface from "!!raw-loader!./_snippets/datamodel/createWithInterface";
 import embeddedWithDecorator from "!!raw-loader!./_snippets/datamodel/embeddedWithDecorator";
 import embeddedWithInterface from "!!raw-loader!./_snippets/datamodel/embeddedWithInterface";
+import arrayWithDecorator from "!!raw-loader!./_snippets/datamodel/arrayWithDecorator";
+import arrayWithInterface from "!!raw-loader!./_snippets/datamodel/arrayWithInterface";
+import nestedArrayWithDecorator from "!!raw-loader!./_snippets/datamodel/nestedArrayWithDecorator";
+import nestedArrayWithInterface from "!!raw-loader!./_snippets/datamodel/nestedArrayWithInterface";
 
 # Search Modeling
 
@@ -30,11 +34,11 @@ that are not defined in the search model
 ## Declaring Models
 
 With the Tigris TypeScript client you can define your search models using
-[Decorated classes](#declare-using-decorators) or [Interfaces](#declare-using-interface).
+**Decorated classes** or **Interfaces**.
 
 Below we describe how the search models can be defined.
 
-<Tabs groupId={dataModelTabGroupId}>
+<Tabs groupId={dataModelTabGroupId} queryString>
 <TabItem value={decoratorModelLabel} label={decoratorModelLabel}>
 
 Tigris client uses `@TigrisSearchIndex("search-index-name")` decorator on a class
@@ -77,6 +81,32 @@ to be searchable but would like to store the entire document.
 
 The [Tigris TypeScript client repository](https://github.com/tigrisdata/tigris-client-ts/tree/main/src/__tests__/fixtures/schema/search)
 has more examples for defining complex schemas.
+
+## Indexing Embedded Documents
+
+Tigris supports rich document structures. For example, you can embed related
+data in a single document. Embedded models allow application to fetch data with
+fewer queries, thus reducing query activity and increasing efficiency.
+
+Below is an example of embedded model. We first define the `ProductItem` type
+and then embed it inside the `Order` type.
+
+<CodeBlock language="ts">{embeddedWithDecorator}</CodeBlock>
+
+## Arrays in documents
+
+Including arrays in your schema requires `elements` option to identify type of elements when using
+`@SearchField()` decorator.
+
+<CodeBlock language="ts">{arrayWithDecorator}</CodeBlock>
+
+### Array of array(s)
+
+To model your search index with nested arrays, additional `depth` option is required
+in `@SearchField()` annotation. `depth` identifies the depth of your nested array. E.g - field of
+type `Array<Array<Array<Array<string>>>>` would have **depth = 4**.
+
+<CodeBlock language="ts">{nestedArrayWithDecorator}</CodeBlock>
 
 </TabItem>
 <TabItem value={interfaceModelLabel} label={interfaceModelLabel}>
@@ -125,6 +155,29 @@ Make sure you always keep the search model interface and the TigrisIndexSchema
 definition in sync.
 :::
 
+## Indexing Embedded Documents
+
+Tigris supports rich document structures. For example, you can embed related
+data in a single document. Embedded models allow application to fetch data with
+fewer queries, thus reducing query activity and increasing efficiency.
+
+Below is an example of embedded model. We first define the `ProductItem` type
+and then embed it inside the `Order` type.
+
+<CodeBlock language="ts">{embeddedWithInterface}</CodeBlock>
+
+## Arrays in documents
+
+Including arrays in your schema requires `items` attribute to identify its contents.
+
+<CodeBlock language="ts">{arrayWithInterface}</CodeBlock>
+
+### Array of array(s)
+
+Following example demonstrates a search model with nested arrays:
+
+<CodeBlock language="ts">{nestedArrayWithInterface}</CodeBlock>
+
 </TabItem>
 </Tabs>
 
@@ -135,20 +188,6 @@ Tigris provides an easy to use way to create or modify search indexes.
 <TSDataModels
   decoratorExample={createWithDecorator}
   interfaceExample={createWithInterface}
-/>
-
-## Indexing Embedded Documents
-
-Tigris supports rich document structures. For example, you can embed related
-data in a single document. Embedded models allow application to fetch data with
-fewer queries, thus reducing query activity and increasing efficiency.
-
-Below is an example of embedded model. We first define the `ProductItem` type
-and then embed it inside the `Order` type.
-
-<TSDataModels
-  decoratorExample={embeddedWithDecorator}
-  interfaceExample={embeddedWithInterface}
 />
 
 ## `id` field in a document {#id-field}

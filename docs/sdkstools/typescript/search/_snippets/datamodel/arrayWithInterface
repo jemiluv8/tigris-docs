@@ -1,0 +1,16 @@
+export interface City extends TigrisIndexType {
+  name: string;
+  neighborhoods: Array<string>;
+}
+
+export const CitySchema: TigrisIndexSchema<City> = {
+  name: {
+    type: TigrisDataTypes.STRING,
+  },
+  neighborhoods: {
+    type: TigrisDataTypes.ARRAY,
+    items: {
+      type: TigrisDataTypes.STRING
+    },
+  },
+};

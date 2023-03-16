@@ -55,7 +55,7 @@ export function CursorFundamentalsBox({ codeLang }) {
 // helper to create tabbed group of decorator and interface based schemas in TS
 export function DataModels({ codeLang, decoratorExample, interfaceExample }) {
   return (
-    <Tabs groupId={dataModelTabGroupId}>
+    <Tabs groupId={dataModelTabGroupId} queryString>
       <TabItem value={decoratorModelLabel} label={decoratorModelLabel}>
         <CodeBlock language={codeLang}>{decoratorExample}</CodeBlock>
       </TabItem>

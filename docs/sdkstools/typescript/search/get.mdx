@@ -16,6 +16,7 @@ returns it along with metadata. If a document is not found, `undefined` is retur
 
 ```ts
 const doc = await catalog.getOne("407124e3-f4a9-4d72-b777-580d8f8de654");
+
 console.log(doc);
 ```
 
@@ -54,6 +55,7 @@ const docs = await catalog.getMany([
   "002eeee4-4249-469d-9425-100fc0e60a68",
   "5659ff93-83fc-4355-8564-ac8efb47f4ef",
 ]);
+
 console.log(docs);
 ```
 

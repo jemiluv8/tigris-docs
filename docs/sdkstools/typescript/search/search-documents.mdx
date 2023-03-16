@@ -259,6 +259,7 @@ const query: SearchQuery<Catalog> = {
 };
 
 const results = await catalog.search(query);
+
 for await (const result of results) {
   console.log(result.facets);
 }

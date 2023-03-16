@@ -1,4 +1,12 @@
+import TabItem from "@theme/TabItem";
+import Tabs from "@theme/Tabs";
+import CodeBlock from "@theme/CodeBlock";
 import { TSDataModels } from "@site/docs/templates/commons";
+import {
+  dataModelTabGroupId,
+  decoratorModelLabel,
+  interfaceModelLabel,
+} from "@site/docs/sdkstools/typescript/commons";
 import decoratorCollectionSource from "!!raw-loader!../_snippets/datamodel/collectionWithDecorator";
 import interfaceCollectionSource from "!!raw-loader!../_snippets/datamodel/collectionWithInterface";
 import decoratorCreateSource from "!!raw-loader!../_snippets/datamodel/createWithDecorator";
@@ -7,6 +15,10 @@ import decoratorEmbeddedSource from "!!raw-loader!../_snippets/datamodel/embedde
 import interfaceEmbeddedSource from "!!raw-loader!../_snippets/datamodel/embeddedWithInterface";
 import decoratorCompositeSource from "!!raw-loader!../_snippets/datamodel/compositeWithDecorator";
 import interfaceCompositeSource from "!!raw-loader!../_snippets/datamodel/compositeWithInterface";
+import decoratorArraySource from "!!raw-loader!../_snippets/datamodel/arrayWithDecorator";
+import interfaceArraySource from "!!raw-loader!../_snippets/datamodel/arrayWithInterface";
+import decoratorNestedArraySource from "!!raw-loader!../_snippets/datamodel/nestedArrayWithDecorator";
+import interfaceNestedArraySource from "!!raw-loader!../_snippets/datamodel/nestedArrayWithInterface";
 
 # Data Modeling
 
@@ -16,18 +28,18 @@ objects, such as collections, on the backend.
 
 ## Declaring Models
 
-With the Tigris TypeScript client you can define your data models using [Decorated class](#declare-using-decorators)
-or [Interface](#declare-using-interface). Tigris collection definitions would look like this:
+With the Tigris TypeScript client you can define your data models using **Decorated class**
+or **declare-using-interface**.
 
-<TSDataModels
-  decoratorExample={decoratorCollectionSource}
-  interfaceExample={interfaceCollectionSource}
-/>
-
-### Classes and Decorators {#declare-using-decorators}
+<Tabs groupId={dataModelTabGroupId} queryString>
+<TabItem value={decoratorModelLabel} label={decoratorModelLabel}>
 
 Tigris client uses `@TigrisCollection("collection_name")` decorator on a class to identify a
-`Collection` schema. Following decorators are available to annotate Class and its properties:
+`Collection` schema.
+
+<CodeBlock language="ts">{decoratorCollectionSource}</CodeBlock>
+
+Following decorators are available to annotate Class and its properties:
 
 1. `@TigrisCollection()` - Annotates a class as Tigris Collection. Requires a `string` input as
    the name of Collection.
@@ -81,7 +93,41 @@ required that a class property be decorated to store it in Collection.
 The [Tigris TypeScript client repository](https://github.com/tigrisdata/tigris-client-ts/tree/main/src/__tests__/fixtures/schema)
 has more examples for defining complex schemas.
 
-### Interface and `TigrisSchema` {#declare-using-interface}
+## Embedded Data Model
+
+Tigris offers rich documents that enable embedding related data in a single
+document. Embedded models allow applications to complete database operations
+with fewer queries or updates, thus reducing query activity and increasing
+efficiency.
+
+Below is an example of embedded data model. We first define the `ProductItem`
+type and then embed it inside the `Order` type.
+
+<CodeBlock language="ts">{decoratorEmbeddedSource}</CodeBlock>
+
+## Arrays in documents
+
+Including arrays in your schema requires `elements` option to identify type of elements when using
+`@Field()` decorator.
+
+<CodeBlock language="ts">{decoratorArraySource}</CodeBlock>
+
+### Array of array(s)
+
+When using classes to model your collection with nested arrays, additional `depth` option is required
+in `@Field()` annotation. `depth` identifies the depth of your nested array. E.g - field of
+type `Array<Array<Array<Array<string>>>>` would have **depth = 4**.
+
+<CodeBlock language="ts">{decoratorNestedArraySource}</CodeBlock>
+
+</TabItem>
+<TabItem value={interfaceModelLabel} label={interfaceModelLabel}>
+
+If you prefer to not use class decorators you can define the collection schema as follows:
+
+<CodeBlock language="ts">{interfaceCollectionSource}</CodeBlock>
+
+Essentially, schema is modeled as two parts:
 
 1. Data containers - interface that holds the data model
 2. Schema of Data containers - TigrisSchema definition of these data containers.
@@ -114,15 +160,6 @@ You must keep the data container and schema definition in sync.
 
 :::
 
-## Create the Collection
-
-Creates the collection with the model and any new operation will see the changes.
-
-<TSDataModels
-  decoratorExample={decoratorCreateSource}
-  interfaceExample={interfaceCreateSource}
-/>
-
 ## Embedded Data Model
 
 Tigris offers rich documents that enable embedding related data in a single
@@ -133,9 +170,30 @@ efficiency.
 Below is an example of embedded data model. We first define the `ProductItem`
 type and then embed it inside the `Order` type.
 
+<CodeBlock language="ts">{interfaceEmbeddedSource}</CodeBlock>
+
+## Arrays in documents
+
+Including arrays in your schema requires `items` attribute to identify its contents.
+
+<CodeBlock language="ts">{interfaceArraySource}</CodeBlock>
+
+### Array of array(s)
+
+Following example demonstrates a collection schema with nested arrays:
+
+<CodeBlock language="ts">{interfaceNestedArraySource}</CodeBlock>
+
+</TabItem>
+</Tabs>
+
+## Create the Collection
+
+Creates the collection with the model and any new operation will see the changes.
+
 <TSDataModels
-  decoratorExample={decoratorEmbeddedSource}
-  interfaceExample={interfaceEmbeddedSource}
+  decoratorExample={decoratorCreateSource}
+  interfaceExample={interfaceCreateSource}
 />
 
 ## Primary Key {#primary-key}
