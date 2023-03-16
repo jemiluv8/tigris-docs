@@ -68,21 +68,15 @@ export default function Homepage() {
 
           <Section title="Core Features" id="core-features" HeadingTag="h3">
             <Card
-              title="Scalable Document Database"
-              description="Supports a wide variety of applications with JSON-like structure that makes it easy to map to the objects in your code. Core data storage built on FoundationDB, a distributed data store that enables nearly limitless scalability."
+              title="Serverless Document Database"
+              description="Build responsive applications with a serverless document database designed to perform consistently at any scale. Offers native support for ACID transactions, global secondary indexes, high availability, automatic database sharding, data security, and database branching."
               to="/concepts/database/"
               icon={<YellowStar />}
             />
             <Card
-              title="Full-text Search Engine"
-              description="By integrating the database, search engine, and sync mechanism into a unified, and fully managed platform, Tigris Search is the fastest and easiest way to build search capabilities into your applications."
+              title="Integrated Full-text Search"
+              description="Deliver delightful search experiences through a unified, fully managed platform that combines database, full-text search, and sync mechanism, providing the fastest and easiest way to build search capabilities into applications."
               to="/concepts/searching/"
-              icon={<YellowStar />}
-            />
-            <Card
-              title="Transactions"
-              description="Transactions that work across collections and documents without any restrictions. Unlike MongoDB, there are no confusing read/write concerns to configure, no cross-shard restrictions, and no data inconsistencies."
-              to="/concepts/database/transaction"
               icon={<GreenStar />}
             />
           </Section>
