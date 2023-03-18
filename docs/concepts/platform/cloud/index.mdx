@@ -1,0 +1,61 @@
+import tigrisConfig from "@site/tigris.config.js";
+
+# Cloud
+
+## Deployment options
+
+Tigris provides two deployment options in the cloud:
+
+- Managed Cloud
+- Bring Your Own Cloud (BYOC)
+
+## Features
+
+Both of the deployment options offer the following features:
+
+#### Single-region or multi-region availability
+
+- A single-region deployment is deployed across three availability zones, which
+  provides resilience in the event of a failure in of the zones. If that region
+  fails the deployment becomes unavailable.
+- A multi-region cluster consists of a primary region and a secondary region.
+  The secondary region is used in DR scenarios if the primary region fails.
+
+#### Deployable anywhere in the cloud
+
+Kubernetes-native design enables the platform to be deployed in any of the
+geographical regions to any of the cloud providers.
+
+#### Virtually unlimited scalability
+
+Scale to millions of records read and written and petabytes of data storage.
+
+#### Private networking
+
+Private networking using VPC peering.
+
+#### Metrics and monitoring
+
+Ability to export metrics to a 3rd-party monitoring system.
+
+## Deployment architecture
+
+The following architecture diagram illustrates a deployment in AWS.
+
+![Tigris Deployment](/img/tigris-deployment.jpeg)
+
+## Managed Cloud
+
+With the Managed Cloud deployment, your data is hosted in Tigris' Virtual
+Private Cloud (VPC). Tigris handles provisioning, scaling, operations,
+monitoring, and maintenance. Tigris also performs automatic continuous backups
+to S3 (for AWS) or GCS (for GCP).
+
+Visit the <a href={tigrisConfig.signupUrl}>Cloud console</a> and sign in to
+start creating projects.
+
+## Bring Your Own Cloud (BYOC)
+
+With the BYOC option, Tigris is deployed in your own VPC, so that all the data
+is contained in your own environment. Tigris handles provisioning, scaling,
+operations, monitoring, and maintenance.
