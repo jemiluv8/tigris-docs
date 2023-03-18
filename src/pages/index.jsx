@@ -55,14 +55,9 @@ export default function Homepage() {
               to="/guides/"
             />
             <Card
-              title="Tigris + Next.js"
-              description="Guides to help you easily build a dynamic data-rich Next.js app with Tigris."
-              to="/guides/nextjs/"
-            />
-            <Card
-              title="Tigris + Nuxt.js"
-              description="Guides to help you easily build a dynamic data-rich Nuxt.js app with Tigris."
-              to="/guides/nuxtjs/"
+              title="Platform"
+              description="Understand the self-hosted, or cloud platform deployment option"
+              to="/concepts/platform/"
             />
           </Section>
 
