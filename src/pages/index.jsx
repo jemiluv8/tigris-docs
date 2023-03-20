@@ -21,7 +21,7 @@ export default function Homepage() {
       <div className="pad">
         <div className="center homepage-content">
           <div id="hero">
-            <h2>Tigris Docs</h2>
+            <h2>Tigris Documentation</h2>
             <p>
               Tigris is an open source cloud-native alternative to MongoDB
               Atlas.

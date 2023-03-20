@@ -14,7 +14,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Tigris",
+  title: "Tigris Documentation",
   tagline:
     "For developers who want to build scalable web and mobile apps fast!",
   url: "https://www.tigrisdata.com",
@@ -106,7 +106,8 @@ const config = {
       },
       announcementBar: {
         id: "announcementBar-1", // increment on change
-        content: `🦄 We've just launched Tigris MongoDB compatibility in beta. <a href="https://www.tigrisdata.com/blog/mongodb-compatibility-beta/">Read the announcement</a> 📣 or  <a href="https://www.tigrisdata.com/docs/concepts/mongodb-compatibility/">Check out the docs</a> 📖`,
+        // content: `🦄 We've just launched Tigris MongoDB compatibility in beta. <a href="https://www.tigrisdata.com/blog/mongodb-compatibility-beta/">Read the announcement</a> 📣 or  <a href="https://www.tigrisdata.com/docs/concepts/mongodb-compatibility/">Check out the docs</a> 📖`,
+        content: `🚀 <a target="_blank" href="${tigrisConfig.signupUrl}" >Signup</a> for the Tigris beta and ⭐️ give us a star on <a target="_blank" rel="noopener noreferrer" href="https://github.com/tigrisdata/tigris">GitHub</a>`,
         backgroundColor: "#5ecbad",
         textColor: "#262b31",
       },
