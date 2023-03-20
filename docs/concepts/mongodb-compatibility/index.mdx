@@ -1,0 +1,82 @@
+# MongoDB Compatibility (beta)
+
+import tigrisConfig from "@site/tigris.config.js";
+
+Tigris MongoDB compatibility enables you to plan the migration of your
+data-driven applications over to Tigris. You can begin by updating your
+connection string to connect to Tigris instead of MongoDB Atlas. Then, update
+your application functionality to take advantage of additional Tigris
+functionality according to your roadmap.
+
+**The first beta release of Tigris MongoDB compatibility offers MongoDB 6.0+
+basic CRUD functionality**. You can communicate with the Tigris using any open source
+[MongoDB client drivers](https://docs.mongodb.org/ecosystem/drivers).
+Tigris enables the use of existing client drivers by adhering to the
+[MongoDB wire protocol version 6.0](https://www.mongodb.com/docs/manual/reference/mongodb-wire-protocol/).
+
+We will add additional functionality based on the
+feedback we receive from the <a href={tigrisConfig.discordUrl}>Tigris
+community</a>.
+
+:::info Connection string
+To connect to Tigris using MongoDB compatibility, the connection string should
+be in the following format:
+
+```
+mongodb://{TIGRIS_CLIENT_ID}:{TIGRIS_CLIENT_SECRET}@m1k.preview.tigrisdata.cloud:27018?authMechanism=PLAIN&tls=true
+```
+
+Create a Project in <a href={tigrisConfig.signupUrl}>Tigris Cloud</a> and get a Client ID and Client Secret from the Project's Application Keys.
+Replace `TIGRIS_CLIENT_ID` with a Tigris Client ID and `TIGRIS_CLIENT_SECRET`
+with a Client Secret in the above connection string.
+:::
+
+## Tigris vs. MongoDB Atlas benefits
+
+Tigris has several crucial benefits when compared to MongoDB Atlas:
+
+- **Cloud-native architecture**: Tigris follows a modern composable architecture
+  with loosely coupled components. Furthermore, compute is separated from
+  storage, allowing for independent scaling and a more resilient system.
+- **Automatic database sharding**: Tigris provides automatic database sharding, and
+  shard keys are unnecessary as the data distribution is automatically handled.
+  This includes both sharding and optimizing the number of shards. MongoDB Atlas
+  requires you to specify and manage sharding to horizontally scale. With Tigris
+  you get more time to focus on developing applications for your users.
+- **Cost-efficient and unlimited scalability**: Unlike MongoDB Atlas, Tigris can
+  scale to millions of records read and written per second and petabytes of data
+  storage at a fraction of the cost.
+- **Bring your own cloud**: Tigris' open source Kubernetes-native design allows it
+  to be deployed anywhere in the cloud in your own VPC, so that all the data is
+  contained in your own environment.
+- **Strong data consistency**: The storage layer is built on FoundationDB, and
+  Tigris inherits the strong consistency guarantees. Tigris provides global,
+  interactive, ACID transactions with strict serializability using optimistic
+  concurrency control. Tigris also provides strongly consistent global secondary
+  indexes that enable powerful querying capabilities by any field.
+
+## How MongoDB compatibility works
+
+Tigris provides compatibility with the wire protocol for MongoDB, which
+enables transparent compatibility with native MongoDB client SDKs,
+drivers, and tools. Tigris doesn't host the MongoDB database engine. Any
+MongoDB client driver compatible with version 6.0+ should be able to connect
+with no special configuration. We are actively working on testing the
+compatibility with all MongoDB drivers.
+The [Driver Status section](/docs/concepts/mongodb-compatibility/driver-status)
+lists the most up-to-date information.
+
+:::info
+This article describes a feature of Tigris that provides wire protocol
+compatibility with MongoDB databases. Tigris does not run MongoDB databases to
+provide this service. Tigris is not affiliated with MongoDB, Inc.
+:::
+
+## Next steps
+
+- Follow the [Get Started](/docs/concepts/mongodb-compatibility/get-started)
+  section to start using Tigris with a MongoDB application.
+- Follow the [Tigris MongoDB compatibility quickstarts](/docs/quickstarts/mongodb-compatibility/)
+  to try out the MongoDB drivers with Tigris.
+- Follow the [Using mongosh with Tigris](/docs/sdkstools/mongodb-compatibility/mongosh)
+  guide.

@@ -1,0 +1,105 @@
+# Using mongosh with Tigris
+
+[`mongosh`](https://github.com/mongodb-js/mongosh) is the MongoDB Shell. It is
+a fully functional JavaScript and Node.js 16.x REPL environment for interacting
+with MongoDB >= 4.0 compatible deployments.
+
+### Connect to Tigris
+
+Create a Project in Tigris and take a note of _Project Name_, application key
+_Client ID_, and _Client Secret_.
+
+We will use the _Client ID_ and _Client Secret_ from the output of the command
+above as the `username` and `password` in our MongoDB URI. We will use
+`m1k.preview.tigrisdata.cloud` as the deployment to connect to.
+
+```shell
+mongosh mongodb://{TIGRIS_CLIENT_ID}:{TIGRIS_CLIENT_SECRET}@m1k.preview.tigrisdata.cloud:27018/?authMechanism=PLAIN --quiet --tls
+```
+
+You will see output similar to the following:
+
+```text
+test>
+```
+
+:::info
+
+Note how you did not have to create a MongoDB Atlas cluster.
+`m1k.preview.tigrisdata.cloud` is a serverless deployment with builtin
+automatic database sharding, meaning that, unlike MongoDB Atlas, you never have to
+worry about sharding or shard keys, and the data distribution is
+automatically handled.
+
+:::
+
+### Connect to the database
+
+Assuming the name of the Tigris project you chose in the
+[connect to Tigris](#connect-to-tigris) step above is `mongosh_quickstart`, a
+database with that name would have been automatically created. Let's switch to
+this database.
+
+```shell
+use mongosh_quickstart
+```
+
+You will see output similar to following:
+
+```text
+test> use mongosh_quickstart
+switched to db mongosh_quickstart
+```
+
+### Create a collection and insert a document
+
+Let's create the collection `podcasts` and insert a document
+
+```shell
+db.podcasts.insertOne({
+  title: 'The Polyglot Developer Podcast',
+  author: 'Nic Raboy',
+  tags: [ 'development', 'programming', 'coding' ]
+})
+```
+
+This results in the following output:
+
+```text
+mongosh_quickstart> db.podcasts.insertOne({ title: 'The Polyglot Developer Podcast', author: 'Nic Raboy', tags: [ 'development', 'programming', 'coding' ] })
+{
+  acknowledged: true,
+  insertedId: ObjectId("63f8340c6fdb0db31a94bcbf")
+}
+```
+
+We can see that the collection is created:
+
+```shell
+mongosh_quickstart> show collections
+podcasts
+```
+
+### Read all documents in the collection
+
+Let's now read the data in the collection:
+
+```shell
+db.podcasts.find()
+```
+
+This returns all the documents in the collection `podcasts`:
+
+```text
+mongosh_quickstart> db.podcasts.find()
+[
+  {
+    _id: ObjectId("63f8340c6fdb0db31a94bcbf"),
+    title: 'The Polyglot Developer Podcast',
+    author: 'Nic Raboy',
+    tags: [ 'development', 'programming', 'coding' ]
+  }
+]
+```
+
+And that's all. Feel free to explore Deletes and Updates similarly.

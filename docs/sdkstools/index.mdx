@@ -1,11 +1,19 @@
 ---
 id: index
 title: SDKs & Tools
+
+pagination_next: null
+pagination_prev: null
 ---
 
-import DocCardList from "@theme/DocCardList";
-import { useCurrentSidebarCategory } from "@docusaurus/theme-common";
+import SDKCards from "@site/src/components/SDKCards";
+import CliToolsCards from "@site/src/components/CliToolsCards";
+import SDKsToolsMongoDBCompatibilityCards from "@site/src/components/SDKsToolsMongoDBCompatibilityCards";
 
 In this section you can find the following:
 
-<DocCardList items={useCurrentSidebarCategory().items} />
+<SDKCards />
+
+<CliToolsCards />
+
+<SDKsToolsMongoDBCompatibilityCards title="MongoDB Compatibility" />

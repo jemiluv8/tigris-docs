@@ -32,9 +32,9 @@ Query operations support the following features:
 Tigris TypeScript SDK provides the following two APIs to query events in a
 topic:
 
-- [findOne()](docs/typescript/_events/query#simple-read-query): query for a single
+- [findOne()](docs/typescript/_events/query#find-one): query for a single
   event
-- [findMany()](docs/typescript/_events/query#filtering-on-multiple-fields): query for
+- [findMany()](docs/typescript/_events/query#find-many): query for
   multiple events based on some filtering condition
 
 See the language-specific sections for more examples of Read operations:

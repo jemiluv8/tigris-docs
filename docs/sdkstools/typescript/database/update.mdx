@@ -35,17 +35,16 @@ Now let's assume an e-commerce website that has the above collection catalog and
 | 4   | sneakers shoes | 40    | adidas       | shoes    | 10         | {"author": "olivia", "rating": 9}   |
 | 5   | running shoes  | 89    | nike         | shoes    | 10         | {"author": "olivia", "rating": 8.5} |
 
-### Simple Update
+### Update one
 
 A simple update is by updating a document that matches the id which is the primary key of this collection.
 In the above collection, let's say there is a need to modify the `price` of a product that has an id assigned as **1**.
 
 <CodeBlock language={codeLanguage}>{simpleUpdateSource}</CodeBlock>
 
-### Updates using logical OR
+### Update many
 
-A single update is shown in the above example but there could be a need to update multiple products by
-their primary key. A logical `OR` filter is one of the ways of updating multiple documents. The example below is
+The update many operation is used to update multiple documents. A common approach to achieving this is by using the logical `OR` filter. The example below is
 updating the `popularity` score for two documents that have id **1** or **4**.
 
 <CodeBlock language={codeLanguage}>{orUpdateSource}</CodeBlock>

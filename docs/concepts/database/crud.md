@@ -87,7 +87,9 @@ any field.
 Tigris TypeScript SDK provides the following API to update documents in a
 collection:
 
-- [update()](../../sdkstools/typescript/database/update.mdx#simple-update): update one or more
+- [updateOne()](../../sdkstools/typescript/database/update.mdx#update-one): update one
+  document that match the filtering condition
+- [updateMany()](../../sdkstools/typescript/database/update.mdx#update-many): update one or more
   documents that match the filtering condition
 
 See the [Filters](filters.md) section to learn more about the filters supported in
@@ -109,7 +111,8 @@ you the flexibility to delete documents matching conditions on any field.
 Tigris TypeScript SDK provides the following API to delete documents from a
 collection:
 
-- [delete()](../../sdkstools/typescript/database/delete.mdx#simple-delete)
+- [deleteOne()](../../sdkstools/typescript/database/delete.mdx#delete-one)
+- [deleteMany()](../../sdkstools/typescript/database/delete.mdx#delete-many)
 
 See the [Filters](filters.md) section to learn more about the filters supported in
 delete operations.

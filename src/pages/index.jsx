@@ -6,41 +6,65 @@ import {
   HomepageCard as Card,
   HomepageSection as Section,
 } from "../components/HomepageComponents";
-import {
-  APIReferenceIcon,
-  YellowStar,
-  GreenStar,
-  GoIcon,
-  JavaIcon,
-  TSIcon,
-  TerminalIcon,
-} from "../icons";
+import { APIReferenceIcon, YellowStar, GreenStar } from "../icons";
 import GuidesSection from "../components/GuidesSection";
+import SDKCards from "../components/SDKCards";
+import CliToolsCards from "../components/CliToolsCards";
 
 export default function Homepage() {
   return (
     <Layout
-      description="Data platform built for developers 🚀"
+      description="Open source developer data platform alternative to
+      MongoDB Atlas 🚀"
       wrapperClassName="homepage"
     >
       <div className="pad">
         <div className="center homepage-content">
           <div id="hero">
             <h2>Tigris Docs</h2>
-            <p>Tigris is the easiest way to build data-rich apps!</p>
             <p>
-              Use it as a scalable, ACID transactional, real-time backend for
-              your serverless applications. Build data-rich features without
-              worrying about slow queries or missing indexes. Seamlessly
-              implement search within your applications with its embedded search
-              engine. Connect serverless functions with its event streams to
-              build highly responsive applications that scale automatically.
+              Tigris is an open source cloud-native alternative to MongoDB
+              Atlas.
             </p>
             <p>
-              <Link className="homepage-button" href="/concepts">
-                Learn more
-              </Link>
+              Tigris allows developers to rapidly build applications with a
+              developer data platform that combines database, full-text search,
+              and sync mechanism. Tigris simplifies operations by automatically
+              scaling throughput and storage as application traffic grows, at
+              fraction of the cost of MongoDB Atlas and DynamoDB, while
+              providing high availability and data security.
             </p>
+            <p>
+              <Link href="/concepts/mongodb-compatibility">
+                Tigris MongoDB compatibility <i>beta</i>
+              </Link>{" "}
+              enables you to use Tigris as an alternative for MongoDB.
+            </p>
+            <center>
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/A8WDwXD4nvE"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              ></iframe>
+            </center>
+            <p></p>
+            <p>Try out Tigris MongoDB compatibility:</p>
+            <ul>
+              <li>
+                <a href="/docs/quickstarts/mongodb-compatibility/">
+                  MongoDB compatibility quickstarts
+                </a>
+              </li>
+              <li>
+                <a href="/docs/sdkstools/mongodb-compatibility/mongosh/">
+                  Using <code>mongosh</code> with Tigris
+                </a>
+              </li>
+            </ul>
           </div>
 
           <Section title="Get to know Tigris">
@@ -50,14 +74,29 @@ export default function Homepage() {
               to="/quickstarts"
             />
             <Card
-              title="Guides"
-              description="Take a look at the guides we have prepared to get you started"
-              to="/guides/"
+              title="Concepts"
+              description="Learn about the core Tigris concepts"
+              to="/concepts/"
             />
             <Card
               title="Platform"
               description="Understand the self-hosted, or cloud platform deployment option"
               to="/concepts/platform/"
+            />
+            <Card
+              title="SDKs & Tools"
+              description="Explore the details of the Tigris SDKs and tooling such as CLIs"
+              to="/sdkstools/"
+            />
+            <Card
+              title="Guides"
+              description="Take a look at the walkthough guides we have prepared to get you started"
+              to="/guides/"
+            />
+            <Card
+              title="References"
+              description="Deep dive into the reference documentation"
+              to="/references/"
             />
           </Section>
 
@@ -72,45 +111,19 @@ export default function Homepage() {
               title="Integrated Full-text Search"
               description="Deliver delightful search experiences through a unified, fully managed platform that combines database, full-text search, and sync mechanism, providing the fastest and easiest way to build search capabilities into applications."
               to="/concepts/searching/"
+              icon={<YellowStar />}
+            />
+            <Card
+              title="MongoDB compatibility"
+              description="Tigris MongoDB compatibility enables you to use Tigris as an alternative to MongoDB and MongoDB Atlas."
+              to="/concepts/mongodb-compatibility"
               icon={<GreenStar />}
             />
           </Section>
 
-          <Section title="SDKs" id="core-sdks">
-            <Card
-              title="TypeScript"
-              description="Integrate Tigris in your TypeScript App"
-              to="/sdkstools/typescript/"
-              icon={<TSIcon />}
-            />
-            <Card
-              title="Golang"
-              description="Integrate Tigris in your Golang App"
-              to="/sdkstools/golang/"
-              icon={<GoIcon />}
-            />
-            <Card
-              title="Java"
-              description="Integrate Tigris in your Java App"
-              to="/sdkstools/java/database"
-              icon={<JavaIcon />}
-            />
-          </Section>
+          <SDKCards />
 
-          <Section title="Tools">
-            <Card
-              title="Tigris CLI"
-              description="A command line tool to get things done quick"
-              to="/sdkstools/cli/"
-              icon={<TerminalIcon />}
-            />
-            <Card
-              title="Create Tigris App"
-              description="The easiest way to get started in TypeScript"
-              to="/sdkstools/create-tigris-app/"
-              icon={<TerminalIcon />}
-            />
-          </Section>
+          <CliToolsCards />
 
           <Section title="API Reference">
             <Card

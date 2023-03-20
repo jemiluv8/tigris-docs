@@ -55,7 +55,7 @@ For multiple conditions, there are two logical operators supported.
   asyncCreateCollection={props.asyncCreateCollection}
 />
 
-### Simple read query
+### Find one
 
 A straightforward query is to read document by applying a filter on a field. As an example, using filter
 in above collection to get a product where `brand = "adidas"`
@@ -73,6 +73,8 @@ Above query would return a single document matching the filter. To read multiple
   defaultExample={props.readMany}
   asyncExample={props.asyncReadMany}
 />
+
+### Find many
 
 Or to read all documents from the collection:
 

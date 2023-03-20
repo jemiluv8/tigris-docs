@@ -1,0 +1,100 @@
+---
+pagination_next: null
+pagination_prev: null
+---
+
+import tigrisConfig from "@site/tigris.config.js";
+
+# Python MongoDB compatibility quickstart
+
+This quickstart will get you up and running with an application that
+demonstrates Tigris MongoDB compatibility.
+
+You can view the
+[source for the Python MongoDB compatibility quickstart app](https://github.com/tigrisdata-community/tigris-mongodb-python-example)
+on GitHub.
+
+## Prerequisites
+
+- [Python 3](https://www.python.org/downloads/)
+- A [Tigris Cloud account](https://console.preview.tigrisdata.cloud/signup)
+
+## Get the code
+
+Clone the repo, navigate into the directories, and install the application
+dependencies:
+
+```sh
+git clone https://github.com/tigrisdata-community/tigris-mongodb-python-example.git
+cd tigris-mongodb-python-example
+```
+
+## Preparing Tigris
+
+1. Create a project in Tigris.
+1. Create an application key, and copy the Project Name, Client ID, and Client
+   Secret values.
+
+## Setting up the environment
+
+Activate your Python virtualenv and install dependencies.
+
+```sh
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+Add an environment variabled named `MONGODB_URL` with the connection string to
+Tigris. Be sure to replace `{TIGRIS_CLIENT_ID}`, `{TIGRIS_CLIENT_SECRET}`, and
+`{TIGRIS_PROJECT_NAME}` with your values.
+
+```sh
+export MONGODB_URL="mongodb://{TIGRIS_CLIENT_ID}:{TIGRIS_CLIENT_SECRET}@m1k.preview.tigrisdata.cloud:27018/?authMechanism=PLAIN&tls=true"
+export TIGRIS_PROJECT_NAME="{TIGRIS_PROJECT_NAME}"
+```
+
+## Run the app
+
+Start the app as follows:
+
+```shell
+uvicorn app:app --reload
+```
+
+## API endpoints
+
+Create a new Game:
+
+```shell
+curl --location --request POST 'http://localhost:8000/games' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "name": "Fable Anniversary",
+   "price": 4.99,
+   "category": "Video Game"
+}'
+```
+
+List Games:
+
+```shell
+curl --location --request GET 'http://localhost:8000/games'
+```
+
+Get a single Game:
+
+```shell
+curl --location --request GET 'http://localhost:8000/games/{_id}'
+```
+
+Delete a Game:
+
+```shell
+curl --location --request DELETE 'http://localhost:8000/games/{_id}'
+```
+
+## Explore the data
+
+You can explore the data created by the quickstart application in
+the <a href={tigrisConfig.consoleUrl}>Tigris Cloud Console</a>.

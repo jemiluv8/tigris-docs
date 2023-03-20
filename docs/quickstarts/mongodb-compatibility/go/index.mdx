@@ -1,0 +1,82 @@
+---
+pagination_next: null
+pagination_prev: null
+---
+
+import tigrisConfig from "@site/tigris.config.js";
+
+# Go MongoDB compatibility quickstart
+
+This quickstart will get you up and running with an application that
+demonstrates Tigris MongoDB compatibility.
+
+You can view the
+[source for the Go MongoDB compatibility quickstart app](https://github.com/tigrisdata-community/tigris-mongodb-go-example)
+on GitHub.
+
+## Prerequisites
+
+- [Go](https://golang.org/)
+- A [Tigris Cloud account](https://console.preview.tigrisdata.cloud/signup)
+
+## Get the code
+
+Clone the repo, navigate into the directories, and install the application
+dependencies:
+
+```sh
+git clone https://github.com/tigrisdata-community/tigris-mongodb-go-example.git
+cd tigris-mongodb-go-example
+```
+
+## Preparing Tigris
+
+1. Create a project in Tigris.
+1. Create an application key, and copy the Project Name, Client ID, and Client
+   Secret values.
+
+## Setting up the environment
+
+This application uses environment variables to store the URI, application key
+and project name. Using the `id`, `secret` and `project` values from the output
+above, create a file named `.env` with the following content:
+
+```shell
+TIGRIS_URI=m1k.preview.tigrisdata.cloud:27018
+TIGRIS_PROJECT=go_mongo_quickstart
+TIGRIS_CLIENT_ID=your_client_id
+TIGRIS_CLIENT_SECRET=your_client_secret
+```
+
+## Running the quickstart
+
+Run this quickstart application using the following command:
+
+```shell
+go run main.go
+```
+
+You should see output similar to the following:
+
+```text
+Connected.
+Inserted document into podcast collection: ObjectID("63f7e90863877e55d8e9ddf4")
+Inserted 2 documents into episode collection!
+Found 1 documents matching filter!
+[
+    {
+        "ID": "63f7e90b63877e55d8e9ddf6",
+        "Podcast": "63f7e90863877e55d8e9ddf4",
+        "Title": "Progressive Web Application Development",
+        "Description": "Learn about PWA development with Tara Manicsic.",
+        "Duration": 32
+    }
+]
+Updated 1 Documents!
+DeleteOne removed 1 document(s)
+```
+
+## Explore the data
+
+You can explore the data created by the quickstart application in
+the <a href={tigrisConfig.consoleUrl}>Tigris Cloud Console</a>.

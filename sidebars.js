@@ -25,14 +25,15 @@ const sidebars = {
       label: "Quickstarts",
       link: {
         type: "doc",
-        id: "quickstarts/quickstart",
+        id: "quickstarts/index",
       },
-      collapsed: true,
+      collapsed: false,
+      collapsible: false,
       items: [
         {
           type: "doc",
           label: "TypeScript",
-          id: "quickstarts/quickstart",
+          id: "quickstarts/quickstart-typescript",
         },
         {
           type: "doc",
@@ -54,6 +55,37 @@ const sidebars = {
           label: "HTTP API",
           id: "quickstarts/quickstart-http",
         },
+        {
+          type: "category",
+          label: "MongoDB compatibility",
+          link: {
+            type: "doc",
+            id: "quickstarts/mongodb-compatibility/index",
+          },
+          collapsed: false,
+          items: [
+            {
+              type: "doc",
+              label: "TypeScript",
+              id: "quickstarts/mongodb-compatibility/typescript/index",
+            },
+            {
+              type: "doc",
+              label: "Go",
+              id: "quickstarts/mongodb-compatibility/go/index",
+            },
+            // {
+            //   type: "doc",
+            //   label: ".NET",
+            //   id: "quickstarts/mongodb-compatibility/dotnet/index",
+            // },
+            {
+              type: "doc",
+              label: "Python",
+              id: "quickstarts/mongodb-compatibility/python/index",
+            },
+          ],
+        },
       ],
     },
   ],
@@ -72,7 +104,6 @@ const sidebars = {
         type: "doc",
         id: "concepts/database/database",
       },
-      collapsed: true,
       items: [
         "concepts/database/documents",
         "concepts/database/datamodel",
@@ -90,6 +121,20 @@ const sidebars = {
       type: "doc",
       label: "Search",
       id: "concepts/searching/search",
+    },
+    {
+      type: "category",
+      label: "MongoDB Compatibility",
+      link: {
+        type: "doc",
+        id: "concepts/mongodb-compatibility/index",
+      },
+      items: [
+        "concepts/mongodb-compatibility/get-started",
+        "concepts/mongodb-compatibility/supported-features",
+        "concepts/mongodb-compatibility/driver-status",
+        "concepts/mongodb-compatibility/known-differences",
+      ],
     },
     {
       type: "category",
@@ -384,6 +429,19 @@ const sidebars = {
           type: "doc",
           label: "Create Tigris App",
           id: "sdkstools/create-tigris-app/create-tigris-app",
+        },
+        {
+          type: "category",
+          label: "MongoDB compatibility",
+          link: {
+            type: "doc",
+            id: "sdkstools/mongodb-compatibility/index",
+          },
+          collapsed: false,
+          items: [
+            "sdkstools/mongodb-compatibility/mongodb-drivers/index",
+            "sdkstools/mongodb-compatibility/mongosh/index",
+          ],
         },
       ],
     },

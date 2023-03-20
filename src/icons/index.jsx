@@ -8,3 +8,7 @@ export { default as GreenCheck } from "./GreenCheck";
 
 export { default as TerminalIcon } from "./TerminalIcon";
 export { default as APIReferenceIcon } from "./APIReferenceIcon";
+
+export { default as NextJsIcon } from "./NextJsIcon";
+export { default as DotNetIcon } from "./DotNetIcon";
+export { default as PythonIcon } from "./PythonIcon";

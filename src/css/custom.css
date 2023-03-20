@@ -448,6 +448,10 @@ table th {
   color: var(--docs-color-text-100);
 }
 
+table td {
+  vertical-align: top;
+}
+
 .tabs {
   border-bottom: 1px solid var(--docs-color-border);
 }

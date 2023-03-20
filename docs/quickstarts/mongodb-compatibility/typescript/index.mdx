@@ -1,0 +1,129 @@
+---
+pagination_next: null
+pagination_prev: null
+---
+
+import tigrisConfig from "@site/tigris.config.js";
+
+# TypeScript MongoDB compatibility quickstart
+
+This quickstart will get you up and running with an application that
+demonstrates Tigris MongoDB compatibility.
+
+You can view the
+[source for the TypeScript MongoDB compatibility quickstart app](https://github.com/tigrisdata-community/tigris-mongodb-typescript-example)
+on GitHub.
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/en/download/) LTS or higher
+- A [Tigris Cloud account](https://console.preview.tigrisdata.cloud/signup)
+
+## Get the code
+
+### Using `create-tigris-app`
+
+The quickest way to get up and running with the TypeScript MongoDB compatibility
+quickstart is by using the
+[`create-tigris-app` CLI](/docs/sdkstools/create-tigris-app/):
+
+1. Head to the <a href={tigrisConfig.consoleUrl}>Tigris Web console</a>
+2. Create a new project
+3. Run the **MongoDB Driver** `create-tigris-app` command shown in the
+   **TypeScript** tab of the **Getting started** section for the project
+
+This will download the Git repo, install the application dependencies, and
+create a `.env` with the required envionment variables.
+
+### Manually
+
+Clone the repo, navigate into the directories, and install the application
+dependencies:
+
+```sh
+git clone https://github.com/tigrisdata-community/tigris-mongodb-typescript-example.git
+cd tigris-mongodb-typescript-example
+npm i
+```
+
+Create a project in Tigris, create an application key, and copy the Client ID
+and Client Secret values for use in a `.env` file. Then:
+
+1. Create a `.env` file in the root of the app with the same properties as
+   `env.example`
+2. Update the values with your connection string, database name, and collection
+   name
+
+Install the app dependencies:
+
+```shell
+npm i
+```
+
+## Run the app
+
+Start the app as follows:
+
+```shell
+npm start
+```
+
+Create a new Game:
+
+```shell
+curl --location --request POST 'http://localhost:8080/games' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "name": "Fable Anniversary",
+   "price": 4.99,
+   "category": "Video Game"
+}'
+```
+
+List Games:
+
+```shell
+curl --location --request GET 'http://localhost:8080/games'
+```
+
+Get a single Game:
+
+```shell
+curl --location --request GET 'http://localhost:8080/games/{_id}'
+```
+
+Delete a Game:
+
+```shell
+curl --location --request DELETE 'http://localhost:8080/games/{_id}'
+```
+
+## Getting to know the code
+
+The below diagram shows the overall architecture of the diagram and the
+following sections will explain the code:
+
+![Architecture diagram of the application](./diagram.png)
+
+### Games Router
+
+The `src/routes/games.router.ts` class uses Express's Router functionality. It
+defines the endpoints available to clients for the Create, Read, Update and
+Delete (CRUD) operations and then communicates with the database via the
+[MongoDB NodeJS Driver](https://github.com/mongodb/node-mongodb-native).
+
+### Database Service
+
+The `src/services/database.service.ts` class implements the connection the
+database. This is also where schema validation is applied to the collection at
+database level.
+
+### Models
+
+`games.ts` defines the model (properties and data types expected) in a Game
+document and is used throughout the codebase.
+
+## Explore the data
+
+You can explore the data created by the quickstart application in
+the <a href={tigrisConfig.consoleUrl}>Tigris Cloud Console</a>.

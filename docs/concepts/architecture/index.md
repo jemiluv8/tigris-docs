@@ -57,6 +57,8 @@ There are two ways to interact with Tigris:
 - using the native client drivers directly in your application
 - using the MongoDB official drivers with Tigris' MongoDB compatibility
 
+![Query Engine](/img/query-engine.jpeg)
+
 The user queries interact with the Tigris query engine that performs the
 necessary validations (permissions, schema, quotas), generates a query plan and
 then executes the query.

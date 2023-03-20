@@ -1,0 +1,116 @@
+---
+pagination_next: null
+pagination_prev: null
+---
+
+import tigrisConfig from "@site/tigris.config.js";
+
+# .NET MongoDB compatibility quickstart
+
+This quickstart will get you up and running with an application that
+demonstrates Tigris MongoDB compatibility.
+
+You can view the
+[source for the .NET MongoDB compatibility quickstart app](https://github.com/tigrisdata-community/tigris-mongodb-dotnet-example)
+on GitHub.
+
+## Prerequisites
+
+- [.NET 7.0](https://dotnet.microsoft.com/en-us/)
+- A [Tigris Cloud account](https://console.preview.tigrisdata.cloud/signup)
+
+## Get the code
+
+Clone the repo, navigate into the directories, and install the application
+dependencies:
+
+```sh
+git clone https://github.com/tigrisdata-community/tigris-mongodb-dotnet-example.git
+cd tigris-mongodb-dotnet-example
+```
+
+1. Create a project in Tigris.
+1. Create an application key, and copy the Project name, Client ID, and Client
+   Secret values.
+1. Edit appsettings.json and appsettings.Development.json to add your
+   `{TIGRIS_CLIENT_ID}`, `{TIGRIS_CLIENT_SECRET}`, `{TIGRIS_PROJECT_NAME}`, and
+   `{TIGRIS_COLLECTION_NAME}`.
+1. Run the project to allow you access to the endpoints for all CRUD operations.
+
+## Run the app
+
+Start the app as follows:
+
+```shell
+dotnet run
+```
+
+Create a new Game:
+
+```shell
+curl --location --request POST 'http://localhost:5000/api/games' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "name": "Fable Anniversary",
+   "price": 4.99,
+   "category": "Video Game"
+}'
+```
+
+List Games:
+
+```shell
+curl --location --request GET 'http://localhost:5000/api/games'
+```
+
+Get a single Game:
+
+```shell
+curl --location --request GET 'http://localhost:5000/api/games/{_id}'
+```
+
+Delete a Game:
+
+```shell
+curl --location --request DELETE 'http://localhost:5000/api/games/{_id}'
+```
+
+## Getting to know the code
+
+The below diagram shows the overall architecture of the diagram and the
+following sections will explain the code:
+
+![Architecture diagram of the application](./diagram.png)
+
+### Controllers
+
+The GamesController.cs class is where the routes/endpoints for the api are
+defined.
+
+Each endpoint calls to a method in the GamesService.cs class.
+
+### Services
+
+The GamesService.cs class contains the code that uses the MongoDB.Driver NuGet
+package to carry out CRUD operations against your Tigris project.
+
+### Models
+
+The Game.cs class acts as a model you can use throughout the project and the
+properties in it, map to the fields in the document.
+
+GamesDatabaseSettings.cs contains an interface and implementation that maps to
+the GamesDatabaseSettings section in appsettings.json and
+appsettings.Development.json. In this application, the connection string is
+stored here, but normally in production, you would combine this with
+[user secrets](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-5.0&tabs=windows).
+
+### Project Root
+
+At the root of the project is the usual files that come out of the box with an
+ASP.NET Core Web API project.
+
+The only file with changes made here is the Startup.cs class. Inside the
+ConfigureServices method, the appsettings code is pulled in and the Database
+settings and Games Service are added to dependency injection for use in other
+classes.

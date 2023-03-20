@@ -8,8 +8,8 @@ export function HomepageSection({
   id,
   title,
   children,
-  description,
-  className,
+  description = "",
+  className = "",
   hasSubSections = false,
   HeadingTag = "h3",
 }) {

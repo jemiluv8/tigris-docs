@@ -1,0 +1,55 @@
+---
+pagination_next: null
+---
+
+import {
+  HomepageCard as Card,
+  HomepageSection as Section,
+} from "@site/src/components/HomepageComponents.jsx";
+
+import {
+  APIReferenceIcon,
+  GoIcon,
+  JavaIcon,
+  TSIcon,
+  NextJsIcon,
+} from "@site/src/icons";
+
+import MongoDBQuickStartsCards from "@site/src/components/MongoDBCompatibilityQuickStartCards";
+
+# Quickstarts
+
+<Section title="Using the Tigris SDKs">
+  <Card
+    title="TypeScript"
+    description="Quickstart for Tigris using the Tigris TypeScript SDK"
+    to="./quickstart-typescript"
+    icon={<TSIcon />}
+  />
+  <Card
+    title="Next.js & Vercel"
+    description="Deploy a Tigris and Next.js application to Vercel"
+    to="./quickstart-nextjs-vercel"
+    icon={<NextJsIcon />}
+  />
+  <Card
+    title="Go"
+    description="Quickstart for Tigris using the Tigris Go SDK"
+    to="./quickstart-go"
+    icon={<GoIcon />}
+  />
+  <Card
+    title="Java"
+    description="Quickstart for Tigris using the Tigris Java SDK"
+    to="./quickstart-java"
+    icon={<JavaIcon />}
+  />
+  <Card
+    title="HTTP API"
+    description="Quickstart for Tigris using the Tigris HTTP API directly"
+    to="./quickstart-http"
+    icon={<APIReferenceIcon />}
+  />
+</Section>
+
+<MongoDBQuickStartsCards />
