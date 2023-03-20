@@ -2,6 +2,8 @@ import React from "react";
 import Link from "@docusaurus/Link";
 
 import styles from "./styles.module.css";
+import tigrisConfig from "../../../tigris.config";
+import DiscordIcon from "../../icons/DiscordIcon";
 
 export default function MongoDBAnnouncement() {
   return (
@@ -44,6 +46,22 @@ export default function MongoDBAnnouncement() {
               </a>
             </li>
           </ul>
+          <p>
+            Finally, join the{" "}
+            <a href={tigrisConfig.discordUrl}>
+              <i
+                style={{
+                  position: "relative",
+                  top: "2px",
+                  color: "var(--docs-color-text-100);",
+                }}
+              >
+                <DiscordIcon width="16px" height="16px" />
+              </i>{" "}
+              Tigris Discord
+            </a>{" "}
+            to share you feedback and feature requests.
+          </p>
         </div>
       </div>
     </div>
