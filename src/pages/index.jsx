@@ -1,6 +1,5 @@
 import React from "react";
 import Layout from "@theme/Layout";
-import Link from "@docusaurus/Link";
 
 import {
   HomepageCard as Card,
@@ -10,6 +9,7 @@ import { APIReferenceIcon, YellowStar, GreenStar } from "../icons";
 import GuidesSection from "../components/GuidesSection";
 import SDKCards from "../components/SDKCards";
 import CliToolsCards from "../components/CliToolsCards";
+import MongoDBAnnouncement from "../components/MongoDBAnnoucement";
 
 export default function Homepage() {
   return (
@@ -34,37 +34,7 @@ export default function Homepage() {
               fraction of the cost of MongoDB Atlas and DynamoDB, while
               providing high availability and data security.
             </p>
-            <p>
-              <Link href="/concepts/mongodb-compatibility">
-                Tigris MongoDB compatibility <i>beta</i>
-              </Link>{" "}
-              enables you to use Tigris as an alternative for MongoDB.
-            </p>
-            <center>
-              <iframe
-                width="560"
-                height="315"
-                src="https://www.youtube.com/embed/A8WDwXD4nvE?controls=0"
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
-            </center>
-            <p></p>
-            <p>Try out Tigris MongoDB compatibility:</p>
-            <ul>
-              <li>
-                <a href="/docs/quickstarts/mongodb-compatibility/">
-                  MongoDB compatibility quickstarts
-                </a>
-              </li>
-              <li>
-                <a href="/docs/sdkstools/mongodb-compatibility/mongosh/">
-                  Using <code>mongosh</code> with Tigris
-                </a>
-              </li>
-            </ul>
+            <MongoDBAnnouncement />
           </div>
 
           <Section title="Get to know Tigris">

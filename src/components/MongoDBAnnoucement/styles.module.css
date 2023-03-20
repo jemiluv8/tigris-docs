@@ -1,0 +1,35 @@
+.announcement {
+  border: 1px solid #5ecbad;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.header {
+  text-align: center;
+}
+
+.textWrapper {
+  padding-right: 30px;
+}
+
+@media (max-width: 1200px) {
+  .inner {
+    flex-direction: column;
+  }
+
+  .textWrapper {
+    padding-top: var(--ifm-paragraph-margin-bottom);
+  }
+}
+
+@media (max-width: 600px) {
+  .video {
+    width: 100%;
+    min-width: 300px;
+  }
+}
