@@ -11,8 +11,8 @@ functionality according to your roadmap.
 **The first beta release of Tigris MongoDB compatibility offers MongoDB 6.0+
 basic CRUD functionality**. You can communicate with the Tigris using any open source
 [MongoDB client drivers](https://docs.mongodb.org/ecosystem/drivers).
-Tigris enables the use of existing client drivers by adhering to the
-[MongoDB wire protocol version 6.0](https://www.mongodb.com/docs/manual/reference/mongodb-wire-protocol/).
+Tigris enables the use of existing client drivers by leveraging the FerretDB library
+to adhere to the [MongoDB wire protocol version 6.0](https://www.mongodb.com/docs/manual/reference/mongodb-wire-protocol/).
 
 We will add additional functionality based on the
 feedback we receive from the <a href={tigrisConfig.discordUrl}>Tigris
@@ -57,8 +57,8 @@ Tigris has several crucial benefits when compared to MongoDB Atlas:
 
 ## How MongoDB compatibility works
 
-Tigris provides compatibility with the wire protocol for MongoDB, which
-enables transparent compatibility with native MongoDB client SDKs,
+Tigris leverages FerretDB library to provide compatibility with the wire protocol
+for MongoDB, which enables transparent compatibility with native MongoDB client SDKs,
 drivers, and tools. Tigris doesn't host the MongoDB database engine. Any
 MongoDB client driver compatible with version 6.0+ should be able to connect
 with no special configuration. We are actively working on testing the

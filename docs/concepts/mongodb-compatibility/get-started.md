@@ -28,3 +28,8 @@ to try out the MongoDB drivers with Tigris:
 - [TypeScript](/docs/quickstarts/mongodb-compatibility/typescript/)
 - [Go](/docs/quickstarts/mongodb-compatibility/go/)
 - [Python](/docs/quickstarts/mongodb-compatibility/python/)
+
+## Using mongosh with Tigris
+
+Follow the [Using mongosh with Tigris](/docs/sdkstools/mongodb-compatibility/mongosh)
+guide to get started with trying out mongosh with Tigris.

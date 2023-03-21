@@ -1,0 +1,90 @@
+import tigrisConfig from "@site/tigris.config.js";
+
+The section below lists the MongoDB operations that are supported while using
+MongoDB client SDKs with Tigris. We have also listed the equivalent operation
+using the [Tigris SDKs](/docs/sdkstools/).
+
+We will add additional functionality based on the feedback we receive from
+the <a href={tigrisConfig.discordUrl}>Tigris community</a>.
+
+## CRUD operations
+
+### Create operations
+
+The following MongoDB methods are supported to to insert documents into a
+collection:
+
+| MongoDB drivers            | Tigris SDKs                                                                                      |
+| -------------------------- | ------------------------------------------------------------------------------------------------ |
+| db.collection.insertOne()  | [collection.insertOne()](/docs/sdkstools/typescript/database/insert/#insert-a-single-document)   |
+| db.collection.insertMany() | [collection.insertMany()](/docs/sdkstools/typescript/database/insert/#insert-multiple-documents) |
+
+### Read operations
+
+The following MongoDB methods are supported to read documents from a collection:
+
+| MongoDB drivers         | Tigris SDKs                                                                   |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| db.collection.findOne() | [collection.findOne()](/docs/sdkstools/typescript/database/query/#find-one)   |
+| db.collection.find()    | [collection.findMany()](/docs/sdkstools/typescript/database/query/#find-many) |
+
+### Update operations
+
+The following MongoDB methods are supported to update documents of a collection:
+
+| MongoDB drivers            | Tigris SDKs                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- |
+| db.collection.updateOne()  | [collection.updateOne()](/docs/sdkstools/typescript/database/update/#update-one)                        |
+| db.collection.updateMany() | [collection.updateMany()](/docs/sdkstools/typescript/database/update/#update-many)                      |
+| db.collection.replaceOne() | [collection.insertOrReplaceOne()](/docs/sdkstools/typescript/database/insert/#upsert-a-single-document) |
+
+### Delete operations
+
+The following MongoDB methods are supported to delete documents of a collection:
+
+| MongoDB drivers            | Tigris SDKs                                                                        |
+| -------------------------- | ---------------------------------------------------------------------------------- |
+| db.collection.deleteOne()  | [collection.deleteOne()](/docs/sdkstools/typescript/database/delete/#delete-one)   |
+| db.collection.deleteMany() | [collection.deleteMany()](/docs/sdkstools/typescript/database/delete/#delete-many) |
+
+## Aggregation operations
+
+The aggregation operations in MongoDB can either be performed through
+[aggregation pipelines](#aggregation-pipelines) or
+[single-purpose aggregation methods](#single-purpose-aggregation-methods).
+
+### Aggregation pipelines
+
+The aggregation pipelines comprise one or more stages that process the
+documents.
+
+The `db.collection.aggregate()` MongoDB method is supported along with the
+following stages:
+
+| MongoDB drivers |
+| --------------- |
+| $count          |
+| $group          |
+| $match          |
+| $sort           |
+
+### Single-purpose aggregation methods
+
+The supported single-purpose aggregation methods are shown below:
+
+| MongoDB drivers          |
+| ------------------------ |
+| db.collection.count()    |
+| db.collection.distinct() |
+
+## Administration operations
+
+The following MongoDB methods are supported:
+
+| MongoDB drivers | Tigris SDKs                                                                                         |
+| --------------- | --------------------------------------------------------------------------------------------------- |
+| create          | [db.createOrUpdateCollection()](/docs/sdkstools/typescript/database/datamodel/#create-a-collection) |
+| drop            | [db.dropCollection()](/docs/sdkstools/typescript/database/datamodel/#drop-a-collection)             |
+| dropDatabase    | [db.dropAllCollections()](/docs/sdkstools/typescript/database/datamodel/#drop-all-collections)      |
+| listCollections | [db.listCollections()](/docs/sdkstools/typescript/database/datamodel/#list-collections)             |
+| listDatabases   | -                                                                                                   |

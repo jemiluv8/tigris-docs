@@ -439,8 +439,9 @@ const sidebars = {
           },
           collapsed: false,
           items: [
-            "sdkstools/mongodb-compatibility/mongodb-drivers/index",
-            "sdkstools/mongodb-compatibility/mongosh/index",
+            "sdkstools/mongodb-compatibility/mongodb-drivers",
+            "sdkstools/mongodb-compatibility/mongodb-features",
+            "sdkstools/mongodb-compatibility/mongosh",
           ],
         },
       ],
