@@ -24,7 +24,7 @@ export default function SDKsToolsMongoDBCompatibilityCards({
         id="mongosh"
         title="Using mongosh with Tigris"
         description="How to use the mongosh REPL with Tigris"
-        to="/docs/sdkstools/mongodb-compatibility/mongodb-drivers/"
+        to="/docs/sdkstools/mongodb-compatibility/mongosh/"
         icon={null}
       />
     </Section>
