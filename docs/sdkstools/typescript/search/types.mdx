@@ -3,9 +3,21 @@
 Tigris supports the majority of the primitive TypeScript types while also
 providing support for custom types.
 
-- primitive types: `string`, `boolean`, `number`, `bigint`, `Date`, `object`.
-- Custom types: user-defined class to define custom types.
-- Array and object of all of above is supported.
+| Type    | Sort | Facet |
+| ------- | ---- | ----- |
+| string  | yes  | yes   |
+| boolean | yes  | yes   |
+| number  | yes  | yes   |
+| bigint  | yes  | yes   |
+| date    | yes  | no    |
+| object  | yes  | yes   |
+| array   | no   | yes   |
+
+:::note
+
+In case of an object type field, `sort` and `facet` properties apply to its nested fields. The above rules also apply to user-defined class.
+
+:::
 
 ## Working with 64-bit integers (BigInt) {#bigint}
 
