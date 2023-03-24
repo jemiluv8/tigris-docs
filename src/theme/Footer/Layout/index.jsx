@@ -26,7 +26,6 @@ export default function FooterLayout({ style, links, logo, copyright }) {
         <div className="footer__row">
           <div className="footer__data">
             <div className="footer__cta">
-              <p>Signup to get early access!</p>
               <Link href={tigrisConfig.signupUrl}>Sign Up</Link>
             </div>
           </div>
