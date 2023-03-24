@@ -96,6 +96,8 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      // Generated with https://pika.style/
+      image: "/img/tigris-docs.png",
       colorMode: {
         defaultMode: "dark",
       },
