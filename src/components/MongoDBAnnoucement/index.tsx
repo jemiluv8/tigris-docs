@@ -53,7 +53,7 @@ export default function MongoDBAnnouncement() {
                 style={{
                   position: "relative",
                   top: "2px",
-                  color: "var(--docs-color-text-100);",
+                  color: "var(--docs-color-text-100)",
                 }}
               >
                 <DiscordIcon width="16px" height="16px" />
