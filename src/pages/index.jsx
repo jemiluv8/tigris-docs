@@ -14,8 +14,7 @@ import MongoDBAnnouncement from "../components/MongoDBAnnoucement";
 export default function Homepage() {
   return (
     <Layout
-      description="Open source developer data platform alternative to
-      MongoDB Atlas 🚀"
+      description="Serverless NoSQL Database and Search Platform 🚀"
       wrapperClassName="homepage"
     >
       <div className="pad">
@@ -23,16 +22,16 @@ export default function Homepage() {
           <div id="hero">
             <h2>Tigris Documentation</h2>
             <p>
-              Tigris is an open source cloud-native alternative to MongoDB
-              Atlas.
+              Tigris is a Serverless NoSQL Database and Search Platform that
+              offers a modern open source alternative to MongoDB and DynamoDB.
             </p>
             <p>
               Tigris allows developers to rapidly build applications with a
-              developer data platform that combines database, full-text search,
-              and sync mechanism. Tigris simplifies operations by automatically
-              scaling throughput and storage as application traffic grows, at
-              fraction of the cost of MongoDB Atlas and DynamoDB, while
-              providing high availability and data security.
+              NoSQL platform that combines database, full-text search, and sync
+              mechanism. Tigris simplifies operations by automatically scaling
+              throughput and storage as application traffic grows, at fraction
+              of the cost of MongoDB and DynamoDB, while providing high
+              availability and data security.
             </p>
             <MongoDBAnnouncement />
           </div>
@@ -72,8 +71,8 @@ export default function Homepage() {
 
           <Section title="Core Features" id="core-features" HeadingTag="h3">
             <Card
-              title="Serverless Document Database"
-              description="Build responsive applications with a serverless document database designed to perform consistently at any scale. Offers native support for ACID transactions, global secondary indexes, high availability, automatic database sharding, data security, and database branching."
+              title="Serverless NoSQL Database"
+              description="Build responsive apps with a serverless NoSQL database designed to perform consistently at any scale. Offers native support for ACID transactions, global secondary indexes, high availability, automatic database sharding, data security, and database branching."
               to="/concepts/database/"
               icon={<YellowStar />}
             />

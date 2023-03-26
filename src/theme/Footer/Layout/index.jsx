@@ -15,13 +15,13 @@ export default function FooterLayout({ style, links, logo, copyright }) {
       <div className="container container-fluid">
         {logo && <div className="margin-bottom--sm">{logo}</div>}
         <p className="footer__description">
-          Tigris is an open source cloud-native alternative to MongoDB Atlas.
-          Tigris allows developers to rapidly build applications with a
-          developer data platform that combines database, full-text search, and
-          sync mechanism. Tigris simplifies operations by automatically scaling
-          throughput and storage as application traffic grows, at fraction of
-          the cost of MongoDB Atlas and DynamoDB, while providing high
-          availability and data security.
+          Tigris is a Serverless NoSQL Database and Search Platform that offers
+          a modern open source alternative to MongoDB and DynamoDB. Tigris
+          allows developers to rapidly build applications with a NoSQL platform
+          that combines database, full-text search, and sync mechanism. Tigris
+          simplifies operations by automatically scaling throughput and storage
+          as application traffic grows, at fraction of the cost of MongoDB and
+          DynamoDB, while providing high availability and data security.
         </p>
         <div className="footer__row">
           <div className="footer__data">
