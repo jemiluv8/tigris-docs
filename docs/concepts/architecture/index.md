@@ -43,6 +43,10 @@ consistent, low latency. Many other database systems lack any workload
 management features at all, which manifests as overloaded clusters requiring
 operators to shut down all the clients to get it back under control.
 
+Learn more about the
+[internals of transactions in Tigris](https://www.tigrisdata.com/blog/transaction-internals-tigris/)
+and how they compare to MongoDB transactions.
+
 Read more about why we chose FoundationDB
 [here](https://blog.tigrisdata.com/building-a-database-using-foundationdb).
 

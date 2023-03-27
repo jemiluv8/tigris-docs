@@ -1,10 +1,9 @@
 # Transactions
 
-Transactions allow multiple clients to concurrently read and write data in
-the database with ACID guarantees. By virtue of using
+Transactions allow multiple clients to concurrently read and write data in the
+database with ACID guarantees. By virtue of using
 [FoundationDB](https://apple.github.io/foundationdb/transaction-processing.html)
-under the hood Tigris employs ACID transactions implicitly for all
-operations.
+under the hood Tigris employs ACID transactions implicitly for all operations.
 
 Following are some of the properties of transactions in Tigris:
 
@@ -23,10 +22,10 @@ restrictions or performance penalty.
 
 ## How to use transactions
 
-Transactions in Tigris can be executed in an interactive manner. You can
-begin a transaction and perform multiple operations inside this
-transaction's context. Commit provides all or nothing semantics by ensuring
-that there are no partial updates in the database if a transaction fails.
+Transactions in Tigris can be executed in an interactive manner. You can begin a
+transaction and perform multiple operations inside this transaction's context.
+Commit provides all or nothing semantics by ensuring that there are no partial
+updates in the database if a transaction fails.
 
 ```ts
 await db.transact(async (tx) => {
@@ -83,3 +82,7 @@ See the language-specific sections for more examples of Transactions:
 - [Transactions in TypeScript](../../sdkstools/typescript/database/transactions.md)
 - [Transactions in Go](../../sdkstools/golang/database/transactions.md)
 - [Transactions in Java](../../sdkstools/java/database/transactions.mdx)
+
+Learn more about the
+[internals of transactions in Tigris](https://www.tigrisdata.com/blog/transaction-internals-tigris/)
+and how they compare to MongoDB transactions.
