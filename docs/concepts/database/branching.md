@@ -1,6 +1,15 @@
+---
+title: Database Branching
+description: >
+  Branch your database schema like you branch repositories in Git to enable isolated database development
+  without a separate development database and benefit from automatic branch creation with your CI/CD pipelines.
+image: /img/branching/create.png
+keywords: [database, branching, cicd]
+---
+
 # Database Branching
 
-With Tigris, you can branch your database schema similarly to how you branch repositories in Git.
+With Tigris, you can branch your database schema like you branch repositories in Git.
 As a result, you can have multiple isolated copies of your database schema to develop and test your features.
 Additionally, you can have your CI/CD pipelines use isolated database branches for execution without any
 overhead of setting up and maintaining a development database.
