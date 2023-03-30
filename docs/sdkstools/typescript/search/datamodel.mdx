@@ -52,11 +52,11 @@ with the `@SearchField()` annotation. The data type is determined using
 "reflection" if the optional `type` parameter is not specified. A `@SearchField()`
 decorator accepts optional parameters to further refine how the document field is indexed.
 
-| Option      | Type    | Default | Usage                                                                             |
-| ----------- | ------- | ------- | --------------------------------------------------------------------------------- |
-| searchIndex | boolean | True    | To enable/disable indexing on a field. Any non-indexed field won't be searchable. |
-| sort        | boolean | False   | To enable/disable sorting on a field.                                             |
-| facet       | boolean | False   | To enable/disable faceting on a field.                                            |
+| Option      | Type    | Default | Usage                                                                                                   |
+| ----------- | ------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| searchIndex | boolean | True    | To enable/disable indexing on a field. Any non-indexed field won't be searchable.                       |
+| sort        | boolean | False   | To enable/disable sorting on a field. Not supported for Arrays and Objects without a predefined schema. |
+| facet       | boolean | False   | To enable/disable faceting on a field. Not supported for Array of Objects.                              |
 
 ```ts
 @TigrisSearchIndex("catalog")
