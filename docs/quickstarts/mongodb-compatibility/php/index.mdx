@@ -69,11 +69,11 @@ the <a href={tigrisConfig.consoleUrl}>Tigris Cloud Console</a>.
 
 ## Code walkthrough
 
-The example beings by loading in the dependencies and connecting to Tigris using the MongoDB PHP library:
+Let's walk through each part of the code and explain what's happening in each step.
 
 ### Connect to Tigris using the MongoDB PHP library
 
-Establish a connection to Tigris:
+The example begins by loading in the dependencies and connecting to Tigris using the MongoDB PHP library:
 
 ```php
 <?php
@@ -99,15 +99,15 @@ Output:
 Connecting to Tigris: mongodb://m1k.preview.tigrisdata.cloud:27018
 ```
 
-Values used to connect and authenticate with Tigris are retrived from environmental variables:
+Values used to connect and authenticate with Tigris are retrieved from environmental variables:
 
 - `TIGRIS_URI` will have the value `mongodb://m1k.preview.tigrisdata.cloud:27018?authMechanism=PLAIN&tls=true`
-- `TIGRIS_CLIENT_ID` retrived from your Tigris Project application key
-- `TIGRIS_CLIENT_SECRET` retrived from your Tigris Project application key
+- `TIGRIS_CLIENT_ID` retrieved from your Tigris Project application key
+- `TIGRIS_CLIENT_SECRET` retrieved from your Tigris Project application key
 
 ### Access collections
 
-Once connected, get access to two collections that are used in the code and drop them so the application is starting with no schema defined or data.
+Once connected, get access to two collections used in the code and `drop` them so the application starts with no schema defined or data.
 
 ```php
 $databaseCollection = $client->selectCollection($_ENV["TIGRIS_PROJECT_NAME"], "dbs");
@@ -124,7 +124,7 @@ Output:
 Dropping collections 'mongodb-php.php' (command)
 ```
 
-The database name is the same as the name of the Tigris Project, and is identified by the environmental variable `TIGRIS_PROJECT_NAME`.
+The database name is the same as the name of the Tigris Project and is identified by the environmental variable `TIGRIS_PROJECT_NAME`.
 
 The `drop()` function is called on each collection to drop them from the database.
 
@@ -193,7 +193,7 @@ Each insertion returns a document ID for that database or search platform.
 
 ### Insert many documents
 
-Next, insert a number of customer documents into the `$customerCollection` collection:
+Next, insert 200 customer documents into the `$customerCollection` collection:
 
 ```php
 $dataPlatforms = [$mongoDBId, $tigrisId];
@@ -216,7 +216,7 @@ Output:
 Inserted 200 document(s)
 ```
 
-The IDs for Tigris and MongoDB are added to a `$dataPlatforms` Array. Then, 200 associative Arrays are created to represent customers with randomly assigned `database_id` references. The 200 documents are inserted into the `$customerCollection` using the `insertMany($documents)` function. Finally, the number of documents inserted is retrieved via `$insertManyResult->getInsertedCount()` and printed.
+The IDs for Tigris and MongoDB are added to a `$dataPlatforms` Array. Then, 200 associative Arrays are created to represent customers with randomly assigned `database_id` references. Next, the 200 documents are inserted into the `$customerCollection` using the `insertMany($documents)` function. Finally, the number of documents inserted is retrieved via `$insertManyResult->getInsertedCount()` and printed.
 
 ### Find by field value
 
@@ -239,7 +239,7 @@ ID: 6424b22e4ac4f02c6f01cce0, Name: Customer 11
 ...
 ```
 
-The `find()` function is invoked filtering on `database_id` equal to the value of `$tigrisId`. The `$result` cursor is then looped over and the ID and name of each result is printed.
+The `find()` function is invoked filtering on `database_id` equal to the value of `$tigrisId`. The `$result` cursor is then looped over, and the ID and name of each result is printed.
 
 ### Find by Regex
 
@@ -262,7 +262,7 @@ ID: 6424b22c4ac4f02c6f01ccd2, Name: MongoDB
 ID: 6424b22e4ac4f02c6f01ccd3, Name: Tigris
 ```
 
-A new `Regex` is created looking for the value `database`. A query is then performed on the collection, `$databaseCollection`, using `find(['type' => $regex])`. The code then iterates over the `$result` cursort and the ID and name of the database are printed.
+A new `Regex` is created looking for the value `database`. A query is then performed on the collection, `$databaseCollection`, using `find(['type' => $regex])`. The code then iterates over the `$result` cursor, and the ID and name of the database are printed.
 
 ### Aggregation with sort
 
@@ -294,7 +294,7 @@ Name: Tigris, price.db_reads: 0.1
 Finished.
 ```
 
-The code runs an aggregate pipeline on the `$databaseCollection`. In this case it only has one pipeline element which is a `$match`. The match is on `price.db_reads` of documents there the value is greater than `0` and less than `1`.
+The code runs an aggregate pipeline on the `$databaseCollection`. In this case, it only has one pipeline element, which is a `$match`. The match is on `price.db_reads` of documents where the value is greater than `0` and less than `1`.
 
 ## Where next?
 
