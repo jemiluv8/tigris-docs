@@ -10,6 +10,7 @@ import {
   // DotNetIcon,
   PythonIcon,
   PhpIcon,
+  JavaIcon,
 } from "../../icons";
 
 interface Props {
@@ -34,6 +35,13 @@ export default function MongoDBCompatibilityQuickStartCards({
         description="Get started with Tigris using the MongoDB Go driver"
         to="/quickstarts/mongodb-compatibility/go"
         icon={<GoIcon />}
+      />
+      <Card
+        id="java"
+        title="Java"
+        description="Get started with Tigris using the MongoDB Java driver"
+        to="/quickstarts/mongodb-compatibility/java"
+        icon={<JavaIcon />}
       />
       {/* <Card
     title="C# .NET"

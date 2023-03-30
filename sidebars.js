@@ -74,6 +74,11 @@ const sidebars = {
               label: "Go",
               id: "quickstarts/mongodb-compatibility/go/index",
             },
+            {
+              type: "doc",
+              label: "Java",
+              id: "quickstarts/mongodb-compatibility/java/index",
+            },
             // {
             //   type: "doc",
             //   label: ".NET",

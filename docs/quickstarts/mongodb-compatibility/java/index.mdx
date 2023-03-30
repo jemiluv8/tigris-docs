@@ -1,0 +1,199 @@
+---
+pagination_next: null
+pagination_prev: null
+---
+
+import tigrisConfig from "@site/tigris.config.js";
+
+# Java MongoDB compatibility quickstart
+
+This quickstart will get you up and running with an application that
+demonstrates [Tigris MongoDB compatibility](/docs/concepts/mongodb-compatibility/).
+
+You can view the
+[source for the Java MongoDB compatibility quickstart app](https://github.com/tigrisdata-community/tigris-mongodb-java-example)
+on GitHub.
+
+## Prerequisites
+
+- Java JDK 8 to 15.
+- Maven 3.6.3.
+- A [Tigris Cloud account](https://console.preview.tigrisdata.cloud/signup)
+
+## Get the code
+
+Clone the repo and navigate into the directory:
+
+```sh
+git clone https://github.com/tigrisdata-community/tigris-mongodb-java-example.git
+cd tigris-mongodb-java-example
+```
+
+## Preparing Tigris
+
+1. Create a project in Tigris.
+1. Create an application key, and copy the Project Name, Client ID, and Client Secret values.
+
+## Run the examples
+
+Before running the examples, `export` the Tigris connection string and a database name:
+
+```sh
+export TIGRIS_CONNECTION_STRING="mongodb://{TIGRIS_CLIENT_ID}:{TIGRIS_CLIENT_SECRET}@m1k.preview.tigrisdata.cloud:27018/?authMechanism=PLAIN&tls=true"
+export TIGRIS_PROJECT_NAME="{TIGRIS_PROJECT_NAME}"
+```
+
+Replacing `{TIGRIS_CLIENT_ID}` with your Tigris Client ID, `{TIGRIS_CLIENT_SECRET}` with your Tigris Client Secret,
+and `{TIGRIS_PROJECT_NAME}` with the name of your Tigris Project. Remember to quote the values.
+
+Next, compile:
+
+```sh
+mvn clean compile
+```
+
+Test the `HelloMongoDB` hello world example:
+
+```sh
+mvn compile exec:java -Dexec.mainClass="com.mongodb.quickstart.HelloMongoDB" -Dexec.cleanupDaemonThreads=false
+```
+
+Now you're ready to run the examples:
+
+### Connection
+
+Run the `Connection` class:
+
+```sh
+mvn compile exec:java -Dexec.mainClass="com.mongodb.quickstart.Connection" -Dmongodb.uri="$TIGRIS_CONNECTION_STRING" -Dexec.cleanupDaemonThreads=false
+```
+
+### CRUD using POJOs
+
+The `MappingPOJO` class, found in `src/main/java/com/mongodb/quickstart/MappingPOJO.java`, shows full CRUD functionality using a schema defined via a Java class:
+
+```sh
+mvn compile exec:java -Dexec.mainClass="com.mongodb.quickstart.MappingPOJO" -Dmongodb.uri="$TIGRIS_CONNECTION_STRING" -Ddb.name="$TIGRIS_PROJECT_NAME" -Dexec.cleanupDaemonThreads=false
+```
+
+## Explore the data
+
+You can explore the data created by the quickstart application in
+the <a href={tigrisConfig.consoleUrl}>Tigris Cloud Console</a>.
+
+## CRUD using POJOs code walkthrough
+
+Let's walk through each part of the POJOs code example and explain what's happening in each step.
+
+### Set up POJO mapping
+
+Set up the MongoDB driver to serialize and deserialize POJOs. This also effectively defines your database
+schema based on the classes you have defined and their relationships.
+
+You can find the code for the model classes, `Grade` and `Score,` in the `src/main/java/com/mongodb/quickstart/models` directory.
+
+```java
+public class MappingPOJO {
+
+    public static void main(String[] args) {
+        CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+        CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
+        ...
+```
+
+For more information, see the [MongoDB POJOs documentation](https://www.mongodb.com/docs/drivers/java/sync/v4.9/fundamentals/data-formats/document-data-format-pojo/).
+
+### Connect to Tigris
+
+Connect to Tigris using the MongoDB Java driver:
+
+```java
+        ConnectionString connectionString = new ConnectionString(System.getProperty("mongodb.uri"));
+        MongoClientSettings clientSettings = MongoClientSettings.builder()
+                                                                .applyConnectionString(connectionString)
+                                                                .codecRegistry(codecRegistry)
+                                                                .build();
+        try (MongoClient mongoClient = MongoClients.create(clientSettings)) {
+          ...
+```
+
+Retrieve the Tigris connection string from the `mongodb.uri` environment variable. Then, build the client settings using the connection string and the registry of POJOs created earlier. Finally, create a new `MongoDBClient` to establish a connection to Tigris.
+
+### Get a collection
+
+Get the database and collection to use within the example:
+
+```java
+        try (MongoClient mongoClient = MongoClients.create(clientSettings)) {
+            MongoDatabase db = mongoClient.getDatabase(System.getProperty("db.name"));
+            MongoCollection<Grade> grades = db.getCollection("grades", Grade.class);
+```
+
+Retrieve a reference to the database using `mongoClient.getDatabase(System.getProperty("db.name"))` and database name from the `db.name` environment variable. The database name is the same as the name of your Tigris Project.
+
+Access the `grades` collection using `db.getCollection("grades", Grade.class)` with the model within the collection identified as a `Grade` via `Grade.class`.
+
+### Insert one document
+
+Create a new `Grade` and insert it into the `grades` collection:
+
+```java
+            // create a new grade.
+            Grade newGrade = new Grade().setStudentId(10003d)
+                                        .setClassId(10d)
+                                        .setScores(singletonList(new Score().setType("homework").setScore(50d)));
+            grades.insertOne(newGrade);
+            System.out.println("Grade inserted.");
+```
+
+Create a `Grade` POJO and insert it via the `grades` collection `insertOne` method.
+
+### Find a document
+
+Find the `Grade` that was previously inserted:
+
+```java
+            // find this grade.
+            Grade grade = grades.find(eq("student_id", 10003d)).first();
+            System.out.println("Grade found:\t" + grade);
+```
+
+Call `find` on the `grades` collection to perform a query. Use the `eq` filter with the `student_id` property where the value should be `10003d`.
+The `grade` is found and printed.
+
+### Update a document
+
+Find the existing `grade`, add a new `Score` to it, and perform an update to persist the change in the database:
+
+```java
+            // update this grade: adding an exam grade
+            List<Score> newScores = new ArrayList<>(grade.getScores());
+            newScores.add(new Score().setType("exam").setScore(42d));
+            grade.setScores(newScores);
+            Document filterByGradeId = new Document("_id", grade.getId());
+            FindOneAndReplaceOptions returnDocAfterReplace = new FindOneAndReplaceOptions().returnDocument(ReturnDocument.AFTER);
+            Grade updatedGrade = grades.findOneAndReplace(filterByGradeId, grade, returnDocAfterReplace);
+            System.out.println("Grade replaced:\t" + updatedGrade);
+```
+
+Copy the scores from the existing grade into a new `ArrayList` with `new ArrayList<>(grade.getScores())`. Next, add a new `Score` to the list via `newScores.add(new Score().setType("exam").setScore(42d))` and update the existing `grade`'s scores with `grade.setScores(newScores)`.
+
+Create a new `Document` filter with an `_id` set based on the ID of the existing `grade` via `Document filterByGradeId = new Document("_id", grade.getId())`. Create a `FindOneAndReplaceOptions` to specify the behavior of the `findOneAndReplace` operation. Perform the find and replace one operation via `grades.findOneAndReplace(filterByGradeId, grade, returnDocAfterReplace)` and the updated `Grade` returned, as specified by the options. Print the updated grade, `updatedGrade`, to the console.
+
+### Delete a document
+
+Finally, delete the grade using the previously created `Document` filter:
+
+```java
+            // delete this grade
+            System.out.println("Grade deleted:\t" + grades.deleteOne(filterByGradeId));
+        }
+    }
+}
+```
+
+Call `deleteOne(filterByGradeId)` on the `grades` collection and print the result.
+
+## Where next?
+
+More details on [Tigris MongoDB compatibility](/docs/concepts/mongodb-compatibility/).
