@@ -1,0 +1,301 @@
+---
+pagination_next: null
+pagination_prev: null
+---
+
+import tigrisConfig from "@site/tigris.config.js";
+
+# PHP MongoDB compatibility quickstart
+
+This quickstart will get you up and running with an application that
+demonstrates [Tigris MongoDB compatibility](/docs/concepts/mongodb-compatibility/).
+
+You can view the
+[source for the PHP MongoDB compatibility quickstart app](https://github.com/tigrisdata-community/tigris-mongodb-php-example)
+on GitHub.
+
+## Prerequisites
+
+- [Docker](https://docs.docker.com/install/)
+- A [Tigris Cloud account](https://console.preview.tigrisdata.cloud/signup)
+
+## Get the code
+
+Clone the repo, navigate into the directories, and install the application
+dependencies:
+
+```sh
+git clone https://github.com/tigrisdata-community/tigris-mongodb-php-example.git
+cd tigris-mongodb-php-example
+```
+
+## Preparing Tigris
+
+1. Create a project in Tigris.
+1. Create an application key, and copy the Project Name, Client ID, and Client Secret values.
+
+Copy the `.env.example` to a `.env` file:
+
+```sh
+cp .env.example .env
+```
+
+And update the values with your Tigris Project Name, Client ID, and Client Secret.
+
+## Build and run using a new Docker image
+
+Build the image:
+
+```shell
+DOCKER_BUILDKIT=0 docker build . -t tigris-mongodb-php-local
+```
+
+Run the example:
+
+```shell
+./get-started-local.sh
+```
+
+## Build and run using the pre-existing Docker image
+
+```shell
+./get-started.sh
+```
+
+## Explore the data
+
+You can explore the data created by the quickstart application in
+the <a href={tigrisConfig.consoleUrl}>Tigris Cloud Console</a>.
+
+## Code walkthrough
+
+The example beings by loading in the dependencies and connecting to Tigris using the MongoDB PHP library:
+
+### Connect to Tigris using the MongoDB PHP library
+
+Establish a connection to Tigris:
+
+```php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+echo "Connecting to Tigris: {$_ENV["TIGRIS_URI"]}\n";
+
+$client = new MongoDB\Client(
+  $_ENV["TIGRIS_URI"],
+  [
+    'username' => $_ENV["TIGRIS_CLIENT_ID"],
+    'password' => $_ENV["TIGRIS_CLIENT_SECRET"],
+    'authMechanism' => 'PLAIN',
+    'ssl' => true
+  ],
+);
+```
+
+Output:
+
+```sh
+Connecting to Tigris: mongodb://m1k.preview.tigrisdata.cloud:27018
+```
+
+Values used to connect and authenticate with Tigris are retrived from environmental variables:
+
+- `TIGRIS_URI` will have the value `mongodb://m1k.preview.tigrisdata.cloud:27018?authMechanism=PLAIN&tls=true`
+- `TIGRIS_CLIENT_ID` retrived from your Tigris Project application key
+- `TIGRIS_CLIENT_SECRET` retrived from your Tigris Project application key
+
+### Access collections
+
+Once connected, get access to two collections that are used in the code and drop them so the application is starting with no schema defined or data.
+
+```php
+$databaseCollection = $client->selectCollection($_ENV["TIGRIS_PROJECT_NAME"], "dbs");
+$customerCollection = $client->selectCollection($_ENV["TIGRIS_PROJECT_NAME"], "customers");
+
+echo "Dropping collections '{$_ENV["TIGRIS_PROJECT_NAME"]}.php' (command)\n";
+$databaseCollection->drop();
+$customerCollection->drop();
+```
+
+Output:
+
+```sh
+Dropping collections 'mongodb-php.php' (command)
+```
+
+The database name is the same as the name of the Tigris Project, and is identified by the environmental variable `TIGRIS_PROJECT_NAME`.
+
+The `drop()` function is called on each collection to drop them from the database.
+
+### Insert a document
+
+Three documents are inserted into the `$databaseCollection`:
+
+```php
+echo "Inserting a single document\n";
+$result = $databaseCollection->insertOne([
+  'name' => 'MongoDB',
+  'type' => 'database',
+  'shards' => 1,
+  'capacity_planning_required' => true,
+  'price' => [
+    'db_writes' => floatval(0.1),
+    'db_reads' => floatval(1),
+    'search_writes' => floatval(-1),
+    'search_reads' => floatval(-1)
+  ]
+]);
+$mongoDBId = $result->getInsertedId();
+printf("Inserted with MongoDB with ObjectID: %s\n", $mongoDBId);
+
+$result = $databaseCollection->insertOne([
+  'name' => 'Tigris',
+  'type' => 'database and search platform',
+  'shards' => 0,
+  'capacity_planning_required' => false,
+  'price' => [
+    'db_writes' => floatval(0.1),
+    'db_reads' => floatval(0.1),
+    'search_writes' => floatval(0.4),
+    'search_reads' => floatval(0.4)
+  ]
+]);
+$tigrisId = $result->getInsertedId();
+printf("Inserted with Tigris with ObjectID: %s\n", $tigrisId);
+
+$result = $databaseCollection->insertOne([
+  'name' => 'Algolia',
+  'type' => 'search',
+  'shards' => 0,
+  'capacity_planning_required' => false,
+  'price' => [
+    'db_writes' => floatval(-1),
+    'db_reads' => floatval(-1),
+    'search_writes' => floatval(1),
+    'search_reads' => floatval(1)
+  ]
+]);
+$algoliaId = $result->getInsertedId();
+printf("Inserted with Algolia with ObjectID: %s\n", $algoliaId);
+```
+
+Output:
+
+```sh
+Inserting single documents
+Inserted with MongoDB with ObjectID: 6424b22c4ac4f02c6f01ccd2
+Inserted with Tigris with ObjectID: 6424b22e4ac4f02c6f01ccd3
+Inserted with Algolia with ObjectID: 6424b22e4ac4f02c6f01ccd4
+```
+
+Each insertion returns a document ID for that database or search platform.
+
+### Insert many documents
+
+Next, insert a number of customer documents into the `$customerCollection` collection:
+
+```php
+$dataPlatforms = [$mongoDBId, $tigrisId];
+
+$customersToInsert = [];
+for ($index = 0; $index < 200; ++$index) {
+  $customersToInsert[] = [
+    "name" => "Customer {$index}",
+    "database_id" => $dataPlatforms[array_rand($dataPlatforms)],
+  ];
+}
+
+$insertManyResult = $customerCollection->insertMany($customersToInsert);
+printf("Inserted %d document(s)\n", $insertManyResult->getInsertedCount());
+```
+
+Output:
+
+```sh
+Inserted 200 document(s)
+```
+
+The IDs for Tigris and MongoDB are added to a `$dataPlatforms` Array. Then, 200 associative Arrays are created to represent customers with randomly assigned `database_id` references. The 200 documents are inserted into the `$customerCollection` using the `insertMany($documents)` function. Finally, the number of documents inserted is retrieved via `$insertManyResult->getInsertedCount()` and printed.
+
+### Find by field value
+
+With the customers inserted, find all customers that are using Tigris:
+
+```php
+echo "Querying customers using find()\n";
+$result = $customerCollection->find(['database_id' => $tigrisId]);
+foreach ($result as $doc) {
+  printf("ID: %s, Name: %s\n", $doc['_id'], $doc['name']);
+}
+```
+
+Output:
+
+```sh
+Querying customers using find()
+ID: 6424b22e4ac4f02c6f01ccdb, Name: Customer 6
+ID: 6424b22e4ac4f02c6f01cce0, Name: Customer 11
+...
+```
+
+The `find()` function is invoked filtering on `database_id` equal to the value of `$tigrisId`. The `$result` cursor is then looped over and the ID and name of each result is printed.
+
+### Find by Regex
+
+Find all the databases in the database collection:
+
+```php
+echo "Querying databases using find with regex()\n";
+$regex = new MongoDB\BSON\Regex('database', 'i');
+$result = $databaseCollection->find(['type' => $regex]);
+foreach ($result as $doc) {
+  printf("ID: %s, Name: %s\n", $doc['_id'], $doc['name']);
+}
+```
+
+Output:
+
+```sh
+Querying databases using find with regex()
+ID: 6424b22c4ac4f02c6f01ccd2, Name: MongoDB
+ID: 6424b22e4ac4f02c6f01ccd3, Name: Tigris
+```
+
+A new `Regex` is created looking for the value `database`. A query is then performed on the collection, `$databaseCollection`, using `find(['type' => $regex])`. The code then iterates over the `$result` cursort and the ID and name of the database are printed.
+
+### Aggregation with sort
+
+Find any databases where the cost of one million reads is greater than $0 and less than $1:
+
+```php
+printf("Aggregation result: \n");
+$result = $databaseCollection->aggregate([
+  [
+    '$match' => [
+      '$and' => [
+        ['price.db_reads' => ['$gt' => 0]],
+        ['price.db_reads' => ['$lt' => 1]]
+      ]
+    ]
+  ]
+]);
+foreach ($result as $doc) {
+  printf("Name: %s, price.db_reads: %s\n", $doc['name'], $doc['price']['db_reads']);
+}
+printf("Finished.\n");
+```
+
+Output:
+
+```sh
+Aggregation result:
+Name: Tigris, price.db_reads: 0.1
+Finished.
+```
+
+The code runs an aggregate pipeline on the `$databaseCollection`. In this case it only has one pipeline element which is a `$match`. The match is on `price.db_reads` of documents there the value is greater than `0` and less than `1`.
+
+## Where next?
+
+More details on [Tigris MongoDB compatibility](/docs/concepts/mongodb-compatibility/).

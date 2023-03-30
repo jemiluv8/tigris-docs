@@ -9,6 +9,7 @@ import {
   TSIcon,
   // DotNetIcon,
   PythonIcon,
+  PhpIcon,
 } from "../../icons";
 
 interface Props {
@@ -46,6 +47,13 @@ export default function MongoDBCompatibilityQuickStartCards({
         description="Get started with Tigris using the MongoDB Python driver"
         to="/quickstarts/mongodb-compatibility/python"
         icon={<PythonIcon />}
+      />
+      <Card
+        id="php"
+        title="PHP"
+        description="Get started with Tigris using the MongoDB PHP driver and library"
+        to="/quickstarts/mongodb-compatibility/php"
+        icon={<PhpIcon />}
       />
     </Section>
   );

@@ -84,6 +84,11 @@ const sidebars = {
               label: "Python",
               id: "quickstarts/mongodb-compatibility/python/index",
             },
+            {
+              type: "doc",
+              label: "PHP",
+              id: "quickstarts/mongodb-compatibility/php/index",
+            },
           ],
         },
       ],

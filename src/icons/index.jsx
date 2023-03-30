@@ -12,3 +12,4 @@ export { default as APIReferenceIcon } from "./APIReferenceIcon";
 export { default as NextJsIcon } from "./NextJsIcon";
 export { default as DotNetIcon } from "./DotNetIcon";
 export { default as PythonIcon } from "./PythonIcon";
+export { default as PhpIcon } from "./PhpIcon";
