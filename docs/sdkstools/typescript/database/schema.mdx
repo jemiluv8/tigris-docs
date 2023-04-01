@@ -1,10 +1,7 @@
-import { DataModels, TSDataModels } from "@site/docs/templates/commons";
+import CodeBlock from "@theme/CodeBlock";
 import decoratorCollectionSource from "!!raw-loader!../_snippets/schema/collectionWithDecorator";
-import interfaceCollectionSource from "!!raw-loader!../_snippets/schema/collectionWithInterface";
 import decoratorCreateSource from "!!raw-loader!../_snippets/schema/createWithDecorator";
-import interfaceCreateSource from "!!raw-loader!../_snippets/schema/createWithInterface";
 import decoratorDiffSource from "!!raw-loader!../_snippets/schema/diffWithDecorator";
-import interfaceDiffSource from "!!raw-loader!../_snippets/schema/diffWithInterface";
 
 # Schema
 
@@ -56,27 +53,17 @@ The following schema changes are currently not supported:
 
 Suppose you have the following data model defined:
 
-<TSDataModels
-  decoratorExample={decoratorCollectionSource}
-  interfaceExample={interfaceCollectionSource}
-/>
+<CodeBlock language="ts">{decoratorCollectionSource}</CodeBlock>
 
 And you would like to modify the model and add a new field `brand` of type
 `string`. The steps to make this change are as follows:
 
 #### Step 1: Update the data model in your application code
 
-<DataModels
-  codeLang="diff"
-  decoratorExample={decoratorDiffSource}
-  interfaceExample={interfaceDiffSource}
-/>
+<CodeBlock language="diff">{decoratorDiffSource}</CodeBlock>
 
 #### Step 2: Update the Collection
 
 Updates the collection with the new model and any new operation will see the changes.
 
-<TSDataModels
-  decoratorExample={decoratorCreateSource}
-  interfaceExample={interfaceCreateSource}
-/>
+<CodeBlock language="ts">{decoratorCreateSource}</CodeBlock>

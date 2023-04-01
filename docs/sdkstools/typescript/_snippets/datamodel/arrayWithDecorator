@@ -3,6 +3,7 @@ export class City {
   @PrimaryKey({ order: 1 })
   name: string;
 
+  @SearchField({ elements: TigrisDataTypes.STRING, facet: true })
   @Field({ elements: TigrisDataTypes.STRING })
   neighborhoods: Array<string>;
 }

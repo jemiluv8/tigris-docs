@@ -1,26 +1,13 @@
-import TabItem from "@theme/TabItem";
-import Tabs from "@theme/Tabs";
 import CodeBlock from "@theme/CodeBlock";
-import { TSDataModels } from "@site/docs/templates/commons";
-import {
-  dataModelTabGroupId,
-  decoratorModelLabel,
-  interfaceModelLabel,
-} from "@site/docs/sdkstools/typescript/commons";
 import decoratorIndexSchema from "!!raw-loader!./_snippets/datamodel/indexWithDecorator";
-import interfaceIndexSchema from "!!raw-loader!./_snippets/datamodel/indexWithInterface";
 import createWithDecorator from "!!raw-loader!./_snippets/datamodel/createWithDecorator";
-import createWithInterface from "!!raw-loader!./_snippets/datamodel/createWithInterface";
 import embeddedWithDecorator from "!!raw-loader!./_snippets/datamodel/embeddedWithDecorator";
-import embeddedWithInterface from "!!raw-loader!./_snippets/datamodel/embeddedWithInterface";
 import arrayWithDecorator from "!!raw-loader!./_snippets/datamodel/arrayWithDecorator";
-import arrayWithInterface from "!!raw-loader!./_snippets/datamodel/arrayWithInterface";
 import nestedArrayWithDecorator from "!!raw-loader!./_snippets/datamodel/nestedArrayWithDecorator";
-import nestedArrayWithInterface from "!!raw-loader!./_snippets/datamodel/nestedArrayWithInterface";
 
 # Search Modeling
 
-The first step is to define search modes as part of your application code. The
+The first step is to define search models as part of your application code. The
 data conforming to these models is stored as JSON documents and indexed in Tigris
 to facilitate searches.
 
@@ -33,13 +20,11 @@ that are not defined in the search model
 
 ## Declaring Models
 
-With the Tigris TypeScript client you can define your search models using
-**Decorated classes** or **Interfaces**.
+With the Tigris TypeScript client you can define your data models using
+**Decorated classes** or **Interfaces**. The use of Decorators is recommended and is covered in this section.
+If you prefer to use Interfaces, you can refer to the [Interfaces](../using-interfaces) section.
 
 Below we describe how the search models can be defined.
-
-<Tabs groupId={dataModelTabGroupId} queryString>
-<TabItem value={decoratorModelLabel} label={decoratorModelLabel}>
 
 Tigris client uses `@TigrisSearchIndex("search-index-name")` decorator on a class
 to identify a schema (search model) for the index. Requires a `string`
@@ -52,11 +37,12 @@ with the `@SearchField()` annotation. The data type is determined using
 "reflection" if the optional `type` parameter is not specified. A `@SearchField()`
 decorator accepts optional parameters to further refine how the document field is indexed.
 
-| Option      | Type    | Default | Usage                                                                                                   |
-| ----------- | ------- | ------- | ------------------------------------------------------------------------------------------------------- |
-| searchIndex | boolean | True    | To enable/disable indexing on a field. Any non-indexed field won't be searchable.                       |
-| sort        | boolean | False   | To enable/disable sorting on a field. Not supported for Arrays and Objects without a predefined schema. |
-| facet       | boolean | False   | To enable/disable faceting on a field. Not supported for Array of Objects.                              |
+| Option      | Type            | Default                   | Usage                                                                                                   |
+| ----------- | --------------- | ------------------------- | ------------------------------------------------------------------------------------------------------- |
+| searchIndex | boolean         | True                      | To enable/disable indexing on a field. Any non-indexed field won't be searchable.                       |
+| sort        | boolean         | False                     | To enable/disable sorting on a field. Not supported for Arrays and Objects without a predefined schema. |
+| facet       | boolean         | False                     | To enable/disable faceting on a field. Not supported for Array of Objects.                              |
+| elements    | TigrisDataTypes | Required for Array fields | The type of the elements in the array.                                                                  |
 
 ```ts
 @TigrisSearchIndex("catalog")
@@ -69,6 +55,10 @@ export class Catalog {
 
   @SearchField({ facet: true })
   brand: string;
+
+  @SearchField({ elements: TigrisDataTypes.STRING, facet: true })
+  @Field({ elements: TigrisDataTypes.STRING })
+  tags: Array<string>;
 }
 ```
 
@@ -108,87 +98,11 @@ type `Array<Array<Array<Array<string>>>>` would have **depth = 4**.
 
 <CodeBlock language="ts">{nestedArrayWithDecorator}</CodeBlock>
 
-</TabItem>
-<TabItem value={interfaceModelLabel} label={interfaceModelLabel}>
-
-If you prefer to not use class decorators you can define the search model as follows:
-
-<CodeBlock language="ts">{interfaceIndexSchema}</CodeBlock>
-
-Along with defining the interface for the search model, you will also need to
-define the TigrisIndexSchema definition for the interface. There are additional
-properties that can be specified to control how the fields in the search model
-are indexed.
-
-| Option      | Type    | Default | Usage                                                                             |
-| ----------- | ------- | ------- | --------------------------------------------------------------------------------- |
-| searchIndex | boolean | True    | To enable/disable indexing on a field. Any non-indexed field won't be searchable. |
-| sort        | boolean | False   | To enable/disable sorting on a field.                                             |
-| facet       | boolean | False   | To enable/disable faceting on a field.                                            |
-
-```ts
-// data container
-interface Catalog extends TigrisIndexType {
-  name: string;
-  price: number;
-  brand: string;
-}
-
-// schema definition
-const catalogSchema: TigrisIndexSchema<Catalog> = {
-  name: {
-    type: TigrisDataTypes.STRING,
-  },
-  number: {
-    type: TigrisDataTypes.NUMBER,
-    sort: true,
-  },
-  brand: {
-    types: TigrisDataTypes.STRING,
-    facet: true,
-  },
-};
-```
-
-:::info
-Make sure you always keep the search model interface and the TigrisIndexSchema
-definition in sync.
-:::
-
-## Indexing Embedded Documents
-
-Tigris supports rich document structures. For example, you can embed related
-data in a single document. Embedded models allow application to fetch data with
-fewer queries, thus reducing query activity and increasing efficiency.
-
-Below is an example of embedded model. We first define the `ProductItem` type
-and then embed it inside the `Order` type.
-
-<CodeBlock language="ts">{embeddedWithInterface}</CodeBlock>
-
-## Arrays in documents
-
-Including arrays in your schema requires `items` attribute to identify its contents.
-
-<CodeBlock language="ts">{arrayWithInterface}</CodeBlock>
-
-### Array of array(s)
-
-Following example demonstrates a search model with nested arrays:
-
-<CodeBlock language="ts">{nestedArrayWithInterface}</CodeBlock>
-
-</TabItem>
-</Tabs>
-
 ## Create a Search Index
 
 Tigris provides an easy to use way to create or modify search indexes.
 
-<TSDataModels
-  decoratorExample={createWithDecorator}
-  interfaceExample={createWithInterface}
-/>
+<CodeBlock language="ts">{createWithDecorator}</CodeBlock>
 
 ## `id` field in a document {#id-field}
 

@@ -1,0 +1,161 @@
+import CodeBlock from "@theme/CodeBlock";
+import interfaceCollectionSource from "!!raw-loader!../_snippets/datamodel/collectionWithInterface";
+import interfaceCreateSource from "!!raw-loader!../_snippets/datamodel/createWithInterface";
+import interfaceDropSource from "!!raw-loader!../_snippets/datamodel/dropWithInterface";
+import interfaceListSource from "!!raw-loader!../_snippets/datamodel/listWithInterface";
+import interfaceDropAllSource from "!!raw-loader!../_snippets/datamodel/dropAllWithInterface";
+import interfaceEmbeddedSource from "!!raw-loader!../_snippets/datamodel/embeddedWithInterface";
+import interfaceCompositeSource from "!!raw-loader!../_snippets/datamodel/compositeWithInterface";
+import interfaceArraySource from "!!raw-loader!../_snippets/datamodel/arrayWithInterface";
+import interfaceNestedArraySource from "!!raw-loader!../_snippets/datamodel/nestedArrayWithInterface";
+import interfaceBigIntString from "!!raw-loader!../_snippets/types/bigintStringWithInterface";
+import interfaceBigInt from "!!raw-loader!../_snippets/types/bigintWithInterface";
+import interfaceDiffSource from "!!raw-loader!../_snippets/schema/diffWithInterface";
+
+# Using Interfaces
+
+We recommend using [Classes and Decorators](datamodel.mdx) to define the data model.
+However, if you prefer to not use class decorators you can define the collection schema using Interfaces.
+This section describes how to define the data model using Interfaces.
+
+## Declaring Models
+
+Below we describe how the database models can be defined.
+
+<CodeBlock language="ts">{interfaceCollectionSource}</CodeBlock>
+
+Essentially, schema is modeled as two parts:
+
+1. Data containers - interface that holds the data model
+2. Schema of Data containers - TigrisSchema definition of these data containers.
+
+```ts
+// data container
+interface Catalog extends TigrisCollectionType {
+  id?: string;
+  name: string;
+}
+
+// schema definition
+const catalogSchema: TigrisSchema<Catalog> = {
+  id: {
+    type: TigrisDataTypes.INT64,
+    primary_key: {
+      order: 1,
+      autoGenerate: true,
+    },
+  },
+  name: { type: TigrisDataTypes.STRING },
+};
+```
+
+:::info
+
+You must keep the data container and schema definition in sync.
+
+:::
+
+## Embedded Data Model
+
+Tigris offers rich documents that enable embedding related data in a single
+document. Embedded models allow applications to complete database operations
+with fewer queries or updates, thus reducing query activity and increasing
+efficiency.
+
+Below is an example of embedded data model. We first define the `ProductItem`
+type and then embed it inside the `Order` type.
+
+<CodeBlock language="ts">{interfaceEmbeddedSource}</CodeBlock>
+
+## Arrays in documents
+
+Including arrays in your schema requires `items` attribute to identify its
+contents.
+
+<CodeBlock language="ts">{interfaceArraySource}</CodeBlock>
+
+### Array of array(s)
+
+Following example demonstrates a collection schema with nested arrays:
+
+<CodeBlock language="ts">{interfaceNestedArraySource}</CodeBlock>
+
+## Create a Collection
+
+Creates a collection with the model and any new operation will see the changes.
+
+<CodeBlock language="ts">{interfaceCreateSource}</CodeBlock>
+
+## Drop a Collection
+
+Drops a collection with the model and any new operation will see the changes.
+
+<CodeBlock language="ts">{interfaceDropSource}</CodeBlock>
+
+## List Collections
+
+Lists all the collections in the database.
+
+<CodeBlock language="ts">{interfaceListSource}</CodeBlock>
+
+## Drop all Collections
+
+Drops all collections in the database.
+
+<CodeBlock language="ts">{interfaceDropAllSource}</CodeBlock>
+
+## Data Types
+
+Tigris supports the majority of the primitive TypeScript types while also
+providing support for custom types.
+
+- primitive types: `string`, `boolean`, `number`, `bigint`, `Date`, `object`.
+- Custom types: user-defined class to define custom types.
+- Array and object of all of above is supported.
+
+### Working with 64-bit integers (BigInt) {#bigint}
+
+If your collection field has a use-case for 64-bit integers, we recommend using `bigint` or `string` field type to represent
+your integers. If chose to use `bigint` primitive type, please enable `{supportBigInt: true}` flag
+in the client configuration.
+
+#### 64-bit integers using String
+
+<CodeBlock language="ts">{interfaceBigIntString}</CodeBlock>
+
+#### 64-bit integers using [BigInt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/references/Global_Objects/BigInt)
+
+<CodeBlock language="ts">{interfaceBigInt}</CodeBlock>
+
+## Primary Key
+
+A primary key uniquely identifies a document in the collection and enforces the
+unique constraint. In the absence of a user-defined primary key, it is
+auto-generated.
+
+### Defining a Primary Key
+
+The example above demonstrates how primary key is defined. The `order` attribute
+in `primaryKey` represents the order of the field in the primary key. While
+`autoGenerate: true` represents that the values for this field will be
+automatically generated by the Tigris server.
+
+### Composite Primary Key
+
+Composite primary keys are also supported but in case of composite keys order of
+the fields is important. The example below demonstrates how the order of the
+fields are defined in case of a composite primary key.
+
+<CodeBlock language="ts">{interfaceCompositeSource}</CodeBlock>
+
+## Modifying Schema
+
+### Step 1: Update the data model in your application code
+
+<CodeBlock language="diff">{interfaceDiffSource}</CodeBlock>
+
+### Step 2: Update the Collection
+
+Updates the collection with the new model and any new operation will see the changes.
+
+<CodeBlock language="ts">{interfaceCreateSource}</CodeBlock>

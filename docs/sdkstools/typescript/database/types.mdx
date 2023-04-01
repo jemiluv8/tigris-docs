@@ -1,43 +1,132 @@
-import { TSDataModels } from "@site/docs/templates/commons";
-import decoratorCollectionSource from "!!raw-loader!../_snippets/types/collectionWithDecorator";
-import interfaceCollectionSource from "!!raw-loader!../_snippets/types/collectionWithInterface";
-import decoratorBigIntString from "!!raw-loader!../_snippets/types/bigintStringWithDecorator";
-import interfaceBigIntString from "!!raw-loader!../_snippets/types/bigintStringWithInterface";
-import decoratorBigInt from "!!raw-loader!../_snippets/types/bigintWithDecorator";
-import interfaceBigInt from "!!raw-loader!../_snippets/types/bigintWithInterface";
+# Data Types
 
-# Field Types
+Tigris supports all of the TypeScript types while also providing support for custom types via classes.
 
-Tigris supports the majority of the primitive TypeScript types while also
-providing support for custom types.
+## Strings
 
-- primitive types: `string`, `boolean`, `number`, `bigint`, `Date`, `object`.
-- Custom types: user-defined class to define custom types.
-- Array and object of all of above is supported.
+```ts
+@TigrisCollection("post")
+export class Post {
+  @Field()
+  title: string;
 
-<TSDataModels
-  decoratorExample={decoratorCollectionSource}
-  interfaceExample={interfaceCollectionSource}
-/>
+  @Field({ maxLength: 100 })
+  name: string;
 
-## Working with 64-bit integers (BigInt) {#bigint}
+  @Field({ default: "default value" })
+  author: string;
 
-Javascript [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/references/Global_Objects/Number) type
-can only represent integer values from `-9007199254740991` to `9007199254740991`. If your collection
-field has a use-case for 64-bit integers, we recommend using `bigint` or `string` field type to represent
-your integers. If chose to use `bigint` primitive type, please enable `{supportBigInt: true}` flag
-in the client configuration.
+  @Field(TigrisDataTypes.BYTE_STRING)
+  media: string;
+}
+```
 
-### 64-bit integers using String
+## Boolean
 
-<TSDataModels
-  decoratorExample={decoratorBigIntString}
-  interfaceExample={interfaceBigIntString}
-/>
+```ts
+@TigrisCollection("post")
+export class Post {
+  @Field()
+  pinned: boolean;
 
-### 64-bit integers using [BigInt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/references/Global_Objects/BigInt)
+  @Field({ default: false })
+  active: boolean;
+}
+```
 
-<TSDataModels
-  decoratorExample={decoratorBigInt}
-  interfaceExample={interfaceBigInt}
-/>
+## Numbers
+
+```ts
+@TigrisCollection("post")
+export class Post {
+  @Field(TigrisDataTypes.INT32, { default: 0 })
+  viewCount: number;
+
+  @Field(TigrisDataTypes.INT64)
+  authorId: bigint;
+
+  @Field(TigrisDataTypes.INT64)
+  postId: string;
+}
+```
+
+Javascript [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/references/Global_Objects/Number) type can only represent
+integer values from -9007199254740991 to 9007199254740991. If your collection field has a use-case for 64-bit integers, we recommend
+using `bigint` or `string` field type to represent your integers.
+
+## Dates
+
+```ts
+@TigrisCollection("post")
+export class Post {
+  @Field({ timestamp: "createdAt" })
+  createdAt: Date;
+
+  @Field({ timestamp: "updatedAt" })
+  updatedAt: Date;
+
+  @Field()
+  publishedAt: Date;
+}
+```
+
+## UUIDs
+
+```ts
+@TigrisCollection("post")
+export class Post {
+  @Field(TigrisDataTypes.UUID)
+  id: string;
+}
+```
+
+## Bytes
+
+Fields of bytes type can be used to store raw bytes such as images, videos, etc.
+
+```ts
+@TigrisCollection("post")
+export class Post {
+  @Field(TigrisDataTypes.BYTE_STRING)
+  media: string;
+}
+```
+
+## Objects
+
+User-defined classes and objects are supported. Fields can be of any type,
+there is no restriction.
+
+```ts
+export class Bio {
+  @Field()
+  text: string;
+
+  @Field({ timestamp: "createdAt" })
+  createdAt: Date;
+}
+
+@TigrisCollection("authors")
+export class Author {
+  @Field()
+  bio: Bio;
+
+  @Field()
+  details: object;
+}
+```
+
+## Arrays
+
+Arrays of all the above types are supported. There is no restriction.
+
+```ts
+@TigrisCollection("post")
+export class Post {
+  @Field({ elements: TigrisDataTypes.STRING })
+  tags: string[];
+
+  @Field({ elements: Comment })
+  comments: Comment[];
+}
+```

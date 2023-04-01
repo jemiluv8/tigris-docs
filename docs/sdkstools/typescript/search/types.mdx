@@ -1,4 +1,97 @@
-# Field Types
+# Data Types
+
+Tigris supports all of the TypeScript types while also providing support for custom types via classes.
+
+## Strings
+
+```ts
+@TigrisSearchIndex("post")
+export class Post {
+  @SearchField()
+  title: string;
+
+  @SearchField({ sort: true, facet: true })
+  author: string;
+}
+```
+
+## Boolean
+
+```ts
+@TigrisSearchIndex("post")
+export class Post {
+  @SearchField()
+  pinned: boolean;
+
+  @SearchField({ sort: true, facet: true })
+  active: boolean;
+}
+```
+
+## Numbers
+
+```ts
+@TigrisSearchIndex("post")
+export class Post {
+  @SearchField({ sort: true, facet: true })
+  viewCount: number;
+
+  @SearchField({ facet: true })
+  authorId: bigint;
+}
+```
+
+Javascript [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/references/Global_Objects/Number) type can only represent
+integer values from -9007199254740991 to 9007199254740991. If your collection field has a use-case for 64-bit integers, we recommend
+using `bigint` or `string` field type to represent your integers.
+
+## Dates
+
+```ts
+@TigrisSearchIndex("post")
+export class Post {
+  @SearchField({ sort: true })
+  publishedAt: Date;
+}
+```
+
+## Objects
+
+User-defined classes and objects are supported. Fields can be of any type,
+there is no restriction.
+
+```ts
+export class Bio {
+  @SearchField()
+  text: string;
+
+  @SearchField({ sort: true })
+  createdAt: Date;
+}
+
+@TigrisSearchIndex("authors")
+export class Author {
+  @SearchField()
+  bio: Bio;
+}
+```
+
+## Arrays
+
+Arrays of all the above types are supported. There is no restriction.
+
+```ts
+@TigrisSearchIndex("post")
+export class Post {
+  @SearchField({ elements: TigrisDataTypes.STRING, facet: true })
+  tags: string[];
+
+  @SearchField({ elements: Comment })
+  comments: Comment[];
+}
+```
+
+## Sorting and Faceting
 
 Tigris supports the majority of the primitive TypeScript types while also
 providing support for custom types.
@@ -16,12 +109,3 @@ providing support for custom types.
 :::note
 
 In case of an object type field, `sort` and `facet` properties apply to its nested fields. The above rules also apply to user-defined class.
-
-:::
-
-## Working with 64-bit integers (BigInt) {#bigint}
-
-Javascript [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/references/Global_Objects/Number) type
-can only represent integer values from `-9007199254740991` to `9007199254740991`. If your Search Index
-field has a use-case for 64-bit integers, we recommend using `bigint` or `string` field type to represent
-your integers.

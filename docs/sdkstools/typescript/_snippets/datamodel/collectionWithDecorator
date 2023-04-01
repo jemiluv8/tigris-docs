@@ -1,21 +1,22 @@
-export const CATALOG_COLLECTION_NAME = "catalog";
-
-@TigrisCollection(CATALOG_COLLECTION_NAME)
+@TigrisCollection("catalog")
 class Catalog {
   @PrimaryKey({ order: 1, autoGenerate: true })
   id?: string;
 
+  @SearchField()
   @Field()
   name: string;
 
   @Field()
   price: number;
 
+  @SearchField({ sort: true, facet: true })
   @Field()
   brand: string;
 
-  @Field()
-  labels: string;
+  @SearchField({ facet: true })
+  @Field({ elements: TigrisDataTypes.STRING })
+  labels: Array<string>;
 
   @Field(TigrisDataTypes.INT32)
   popularity: number;

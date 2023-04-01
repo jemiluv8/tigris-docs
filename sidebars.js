@@ -277,6 +277,7 @@ const sidebars = {
                 "sdkstools/typescript/database/search",
                 "sdkstools/typescript/database/transactions",
                 "sdkstools/typescript/database/cursor",
+                "sdkstools/typescript/database/using-interfaces",
               ],
             },
             {
@@ -295,6 +296,7 @@ const sidebars = {
                 "sdkstools/typescript/search/get",
                 "sdkstools/typescript/search/delete",
                 "sdkstools/typescript/search/pagination",
+                "sdkstools/typescript/search/using-interfaces",
               ],
             },
           ],

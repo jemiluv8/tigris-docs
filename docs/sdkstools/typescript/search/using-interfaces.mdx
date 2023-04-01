@@ -1,0 +1,104 @@
+import CodeBlock from "@theme/CodeBlock";
+import interfaceIndexSchema from "!!raw-loader!./_snippets/datamodel/indexWithInterface";
+import createWithInterface from "!!raw-loader!./_snippets/datamodel/createWithInterface";
+import embeddedWithInterface from "!!raw-loader!./_snippets/datamodel/embeddedWithInterface";
+import arrayWithInterface from "!!raw-loader!./_snippets/datamodel/arrayWithInterface";
+import nestedArrayWithInterface from "!!raw-loader!./_snippets/datamodel/nestedArrayWithInterface";
+
+# Using Interfaces
+
+We recommend using [Classes and Decorators](datamodel.mdx) to define the data model.
+However, if you prefer to not use class decorators you can define the collection schema using Interfaces.
+This section describes how to define the data model using Interfaces.
+
+:::note
+You do not need to have all the fields present in your document, defined in the
+search model, only the fields that you need to be searchable. When you store
+documents in the search index, we store the entire document including the fields
+that are not defined in the search model
+:::
+
+## Declaring Models
+
+Below we describe how the search models can be defined.
+
+<CodeBlock language="ts">{interfaceIndexSchema}</CodeBlock>
+
+Along with defining the interface for the search model, you will also need to
+define the TigrisIndexSchema definition for the interface. There are additional
+properties that can be specified to control how the fields in the search model
+are indexed.
+
+| Option      | Type    | Default | Usage                                                                             |
+| ----------- | ------- | ------- | --------------------------------------------------------------------------------- |
+| searchIndex | boolean | True    | To enable/disable indexing on a field. Any non-indexed field won't be searchable. |
+| sort        | boolean | False   | To enable/disable sorting on a field.                                             |
+| facet       | boolean | False   | To enable/disable faceting on a field.                                            |
+
+```ts
+// data container
+interface Catalog extends TigrisIndexType {
+  name: string;
+  price: number;
+  brand: string;
+}
+
+// schema definition
+const catalogSchema: TigrisIndexSchema<Catalog> = {
+  name: {
+    type: TigrisDataTypes.STRING,
+  },
+  number: {
+    type: TigrisDataTypes.NUMBER,
+    sort: true,
+  },
+  brand: {
+    types: TigrisDataTypes.STRING,
+    facet: true,
+  },
+};
+```
+
+:::info
+Make sure you always keep the search model interface and the TigrisIndexSchema
+definition in sync.
+:::
+
+## Indexing Embedded Documents
+
+Tigris supports rich document structures. For example, you can embed related
+data in a single document. Embedded models allow application to fetch data with
+fewer queries, thus reducing query activity and increasing efficiency.
+
+Below is an example of embedded model. We first define the `ProductItem` type
+and then embed it inside the `Order` type.
+
+<CodeBlock language="ts">{embeddedWithInterface}</CodeBlock>
+
+## Arrays in documents
+
+Including arrays in your schema requires `items` attribute to identify its contents.
+
+<CodeBlock language="ts">{arrayWithInterface}</CodeBlock>
+
+### Array of array(s)
+
+Following example demonstrates a search model with nested arrays:
+
+<CodeBlock language="ts">{nestedArrayWithInterface}</CodeBlock>
+
+## Create a Search Index
+
+Tigris provides an easy to use way to create or modify search indexes.
+
+<CodeBlock language="ts">{createWithInterface}</CodeBlock>
+
+## `id` field in a document {#id-field}
+
+Every indexed document in Tigris has an `id` field of `string` type to uniquely
+identify it. The `id` can be used to get, replace or delete a document in search
+index. `id` is immutable.
+
+Tigris assigns an auto-generated `id` to each document. However, there might be
+cases where you want to supply your own ID, for example to avoid duplicate
+documents to be indexed. In such cases you can specify an `id` field in the schema.
