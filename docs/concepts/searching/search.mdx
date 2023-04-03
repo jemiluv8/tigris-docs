@@ -3,69 +3,103 @@ id: search
 slug: /concepts/searching/
 ---
 
+import SearchFeatureCards from "@site/src/components/SearchFeatureCards";
+
 # Searching
 
-Tigris provides an embedded full-text search engine that gives you a
-seamless and scalable experience for building rich search experiences in
-your app. Built on Typesense, the embedded search engine eliminates the need
-to run a separate search system alongside your database.
+Tigris integrates database, search engine, and sync mechanism in a single,
+unified platform providing the fastest and easiest way to build search
+capabilities into applications.
 
-:::info Automatic Indexing
-
-Tigris automatically indexes the data in collections and topics,
-providing rich search capability out-of-the-box.
-
-:::
-
-![Search Architecture](/img/search.jpg)
+With Tigris, there is no need to stand up and manage a sync mechanism,
+write custom transformation logic, or remap search indexes as your database evolves.
 
 ## Features
 
-Tigris embedded search provides the following rich set of features:
+Tigris search provides the following rich set of features:
 
-- **Full-text search**: Ability to perform full-text search queries on the
-  collections
-- **Faceted search**: Ability to perform facet query to aggregate search
-  results by fields.
-- **Searching on nested fields**: Ability to perform search on nested fields
-- **Projection**: Ability to include or exclude fields that are not needed in
-  the result
+<SearchFeatureCards title={null} />
 
-## Search queries
+## Usage
 
-Tigris TypeScript SDK provides the following API to search documents or events
-in a collection or topic:
+There are two ways to use search in Tigris:
 
-- [search()](../../sdkstools/typescript/database/search.mdx#searching-for-documents): search for one
-  or more documents or events in a collection or topic
+- **Database + Search**: Automatically synchronize some or all of the data
+  in a database collection to a search index that is automatically created
+  and maintained by Tigris.
+- **Standalone Search**: Use search without a database for use cases where
+  you need to provide search capabilities for data that is not stored in a
+  Tigris database.
 
-## Search filters
+### Database + Search
 
-The search operations allow specifying filters on any of the fields.
+Tigris automatically creates a search index and synchronizes data from a
+database collection. All you have to do is mark fields in your schema as searchable.
+Below is an example of a data model for the `products` collection that has
+searchable fields `name`, `description`, and `tags`:
 
-Filters support the following comparison operators:
+```ts
+@TigrisCollection("products")
+export class Product {
+  @PrimaryKey({ order: 1, autogenerate: true })
+  id?: number;
 
-- **EQ**: equal to is used for exact matching
-- **LT**: less than is used for matching documents using less than criteria
-- **LTE**: less than or equal to is similar to **LT** but also matches for
-  equality
-- **GT**: greater than is used for matching documents using greater than
-  criteria
-- **GTE**: greater than or equal to is similar to **GT** but also matches
-  for equality
+  @SearchField({ sort: true })
+  @PrimaryKey({ order: 2 })
+  name: string;
 
-For multiple conditions, there are two logical operators provided:
+  @Field({ default: 1 })
+  quantity: number;
 
-- **OR**: Combines multiple filter operators and returns documents when
-  either condition is met
-- **AND**: Combines multiple filter operators and returns documents when all
-  the conditions are met
+  @SearchField()
+  @Field({ maxLength: 128, default: "" })
+  description: string;
+
+  @SearchField({ elements: TigrisDataTypes.STRING, facet: true })
+  @Field({ elements: TigrisDataTypes.STRING })
+  tags: Array<string>;
+}
+```
+
+You can then use the [search](../../sdkstools/typescript/database/search.mdx)
+API to search for documents in the collection.
+
+### Standalone Search
+
+Tigris provides a standalone search API that can be used to index and search
+data that is not stored in a Tigris database.
+
+To use standalone search, you need to create a search model describing the index
+
+```ts
+@TigrisSearchIndex("catalog")
+export class Catalog {
+  @SearchField({ sort: true })
+  name: string;
+
+  @SearchField({ sort: true })
+  price: number;
+
+  @SearchField({ facet: true })
+  brand: string;
+
+  @SearchField({ elements: TigrisDataTypes.STRING, facet: true })
+  @Field({ elements: TigrisDataTypes.STRING })
+  tags: Array<string>;
+}
+```
+
+You can then use the [create](../../sdkstools/typescript/search/index-documents.mdx)
+API to index documents in the search index and the
+[search](../../sdkstools/typescript/search/search-documents.mdx)
+API to search for documents in the collection.
 
 ## Further reading
 
 Checkout the language-specific reference sections to learn more about
 using search in your favorite language.
 
-- [Search in TypeScript](../../sdkstools/typescript/search)
-- [Search in Go](../../sdkstools/golang/database/search)
-- [Search in Java](../../sdkstools/java/database/search)
+- [Database + Search in TypeScript](../../sdkstools/typescript/database/search)
+- [Standalone Search in TypeScript](../../sdkstools/typescript/search)
+- [Database + Search in Go](../../sdkstools/golang/database/search)
+- [Database + Search in Java](../../sdkstools/java/database/search)
