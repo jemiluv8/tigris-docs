@@ -6,8 +6,8 @@ Tigris supports all of the TypeScript types while also providing support for cus
 
 ```golang
 type Post struct {
-	Title  string `tigris:"searchIndex"`
-	Author string `tigris:"searchIndex,facet,sort"`
+	Title  string
+	Author string `tigris:"facet,sort"`
 }
 ```
 
@@ -15,8 +15,8 @@ type Post struct {
 
 ```golang
 type Post struct {
-	Pinned bool `tigris:"searchIndex"`
-	Active bool `tigris:"searchIndex,facet,sort"`
+	Pinned bool
+	Active bool `tigris:"facet,sort"`
 }
 ```
 
@@ -24,8 +24,8 @@ type Post struct {
 
 ```golang
 type Post struct {
-	Views    int64 `tigris:"searchIndex"`
-	AuthorID int64 `tigris:"searchIndex,facet,sort"`
+	Views    int64
+	AuthorID int64 `tigris:"facet,sort"`
 }
 ```
 
@@ -33,7 +33,7 @@ type Post struct {
 
 ```golang
 type Post struct {
-	PublishedAt    time.Time `tigris:"searchIndex,sort"`
+	PublishedAt    time.Time `tigris:"sort"`
 }
 ```
 
@@ -44,9 +44,9 @@ there is no restriction.
 
 ```golang
 type Bio struct {
-  Text string `tigris:"searchIndex"`
+  Text string
 
-  CreatedAt time.Time `tigris:"searchIndex,sort"`
+  CreatedAt time.Time `tigris:"sort"`
 }
 
 type Author struct {
@@ -60,9 +60,9 @@ Arrays of all the above types are supported. There is no restriction.
 
 ```golang
 type Post struct {
-  Tags []string `tigris:"searchIndex,facet"`
+  Tags []string `tigris:"facet"`
 
-  Comments []Comment `tigris:"searchIndex"`
+  Comments []Comment
 }
 ```
 
