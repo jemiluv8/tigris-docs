@@ -12,10 +12,10 @@ Field properties can be modified using optional "tigris" tag.
 ```go
 type Catalog struct {
 	Id         int `tigris:"primary_key,autoGenerate"`
-	Name       string
+	Name       string `tigris:"searchIndex"`
 	Price      float64
-	Brand      string
-	Labels     string
+	Brand      string `tigris:"searchIndex,facet"`
+	Labels     string `tigris:"searchIndex,facet"`
 	Popularity int
 }
 ```

@@ -24,33 +24,34 @@ type Catalog struct {
 }
 ```
 
+:::note
+
 Unexported fields and fields annotated with `json:"-"` or `tigris"-"` are
 not persisted in the collection.
+
+:::
 
 Custom `tigris` tag can be used to alter the properties of the fields.
 Examples of setting the tags:
 
-- Boolean
-  - `tigris:"sort"` (defaults to true)
-  - `tigris:"sort:true"`,
-  - `tigris:"searchIndex:false"`
-- String
-  - `tigris:"default:str1"`
-  - `tigris:"default:'quoted string'"`
-- Any other type should be set as it's JSON representation
-  - `tigris:"default:1.234"`
-  - `tigris:"default:1000"`
+- `tigris:"searchIndex,sort"`
+- `tigris:"searchIndex:true,sort:true"`,
+- `tigris:"searchIndex,facet"`,
+- `tigris:"default:str1"`
+- `tigris:"default:'quoted string'"`
+- `tigris:"default:1.234"`
+- `tigris:"default:1000"`
 
 Here is the list of the supported tags:
 
-| Tag Name     | Description                                                                                                                                                                    |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| primaryKey   | Specify the field that will be used as the primary key. Optionally specify a number, for example `tigris:"primaryKey:1"`, to define the field order in a composite primary key |
-| autoGenerate | Specify that Tigris should autogenerate the values for this field. This can be combined with the primaryKey tag                                                                |
-| default      | Specify default value for the field, for example `tigris:"default:def_str"`                                                                                                    |
-| maxLength    | Specify maximum length for the string field type, example `tigris:"maxLength:10"`                                                                                              |
-| createdAt    | The field will be automatically populated with the current time at the document creation                                                                                       |
-| updatedAt    | The field will be automatically populated with the current time every time the document is updated                                                                             |
-| searchIndex  | Add the fields to text search index, so the field is searchable using Search API                                                                                               |
-| sort         | Additionally specify search field as sorted                                                                                                                                    |
-| facet        | Additionally specify search field as faceted                                                                                                                                   |
+| Tag Name     | Description                                                                                                                                 |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| primaryKey   | Specify the field that will be used as the primary key. Optionally specify a field order in a composite primary key `tigris:"primaryKey:1"` |
+| autoGenerate | Specify that Tigris should autogenerate the values for this field. This can be combined with the primaryKey tag                             |
+| default      | Specify default value for the field, for example `tigris:"default:def_str"`                                                                 |
+| maxLength    | Specify maximum length for the string field type, example `tigris:"maxLength:10"`                                                           |
+| createdAt    | The field will be automatically populated with the current time at the document creation                                                    |
+| updatedAt    | The field will be automatically populated with the current time every time the document is updated                                          |
+| searchIndex  | Add the fields to text search index, so the field is searchable using Search API                                                            |
+| sort         | Additionally specify search field as sorted                                                                                                 |
+| facet        | Additionally specify search field as faceted                                                                                                |
