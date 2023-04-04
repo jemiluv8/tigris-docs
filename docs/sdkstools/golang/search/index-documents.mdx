@@ -1,0 +1,127 @@
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Index documents
+
+A document to be indexed in a search index must conform to its schema. An
+auto-generated `id` field will be [assigned to the document](../datamodel#id-field)
+if it doesn't have one.
+
+### Get Search Index instance
+
+<CodeBlock language="go">{getSearchIndex}</CodeBlock>
+
+## Index documents
+
+`Create()` allows indexing of one or multiple documents by accepting an array of documents and returning
+an array of document ids. The array of returned ids have the same order as of provided documents.
+
+```golang
+docs := []*model.Catalog{
+	{
+		Name:       "tote bag",
+		Price:      49,
+		Brand:      "coach",
+		Labels:     "handbags",
+		Popularity: 9,
+	},
+	{
+		Name:       "sling bag",
+		Price:      75,
+		Brand:      "coach",
+		Labels:     "purses",
+		Popularity: 9,
+	},
+}
+
+resp, err := catalog.Create(ctx, docs...)
+if err != nil {
+	panic(err)
+}
+
+fmt.Printf("%+v\n", resp.Statuses[0])
+fmt.Printf("%+v\n", resp.Statuses[1])
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{ID:561cdaad-e325-4aa4-a55e-036e2cbfda17 Error:<nil>}
+{ID:a48551cf-c663-40b0-afe7-6b44942486ad Error:<nil>}
+```
+
+</details>
+
+### With `id`
+
+Documents can have `id` field, and if any of the ids already exist in the system, that document will
+fail to index with an error.
+
+```golang
+docs := []*model.Catalog{
+	{
+	    Id:         "e6de597d-061d-44ff-a23d-e2fc891482b1",
+		Name:       "tote bag",
+		Price:      49,
+		Brand:      "coach",
+		Labels:     "handbags",
+		Popularity: 9,
+	},
+	{
+		Name:       "sling bag",
+		Price:      75,
+		Brand:      "coach",
+		Labels:     "purses",
+		Popularity: 9,
+	},
+}
+
+resp, err := catalog.Create(ctx, docs...)
+if err != nil {
+	panic(err)
+}
+
+fmt.Printf("%+v\n", resp.Statuses[0])
+fmt.Printf("%+v\n", resp.Statuses[1])
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{ID:e6de597d-061d-44ff-a23d-e2fc891482b1 Error:A document with id 'e6de597d-061d-44ff-a23d-e2fc891482b1' already exists.}
+{ID:3def32ae-6b6d-47cd-b50f-808b839ab16f Error:<nil>}
+```
+
+</details>
+
+Alternatively, [index or replace](#create-or-replace) can be used to replace existing documents.
+
+## Create or Replace documents {#create-or-replace}
+
+The **create** method does not allow documents with duplicate id, you can use
+the **CreateOrReplace** methods to replace a document with matching id if it
+exists in the search index.
+
+### Replace documents
+
+```golang
+resp, err := catalog.CreateOrReplace(ctx, c...)
+if err != nil {
+	panic(err)
+}
+
+fmt.Printf("%+v\n", resp.Statuses[0])
+fmt.Printf("%+v\n", resp.Statuses[1])
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{ID:e6de597d-061d-44ff-a23d-e2fc891482b1 Error:<nil>}
+{ID:e9b69ebd-518e-42b2-b3e0-f59e5a592cc2 Error:<nil>}
+```
+
+</details>

@@ -1,0 +1,18 @@
+it, err := catalog.Search(ctx, &search.Request{
+	Q:       "*",
+	Options: &search.Options{PageSize: 5, Page: 1},
+})
+if err != nil {
+	panic(err)
+}
+
+var res search.Result[model.Catalog]
+for it.Next(&res) {
+	for _, v := range res.Hits {
+		fmt.Printf("%+v\n", v.Document)
+	}
+}
+
+if it.Err() != nil {
+	panic(it.Err())
+}

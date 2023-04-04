@@ -1,0 +1,4 @@
+var res search.Result[model.Catalog]
+for it.Next(&res) {
+	fmt.Printf("%+v\n", res.Meta)
+}

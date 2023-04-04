@@ -1,0 +1,17 @@
+&{Brand:AllSaints Id:72b8f1f4-9e91-43d9-8b8f-c26d7413990f Labels: Name:leather jacket Popularity:0 Price:200 Review:{Author:jane Rating:9.7}}
+&{Brand:Puma Id:5af290ce-8c22-4460-9e33-9a9a869df8b9 Labels: Name:sneakers Popularity:0 Price:80 Review:{Author:joe Rating:8.5}}
+&{Brand:Kate Spade Id:34e601bf-0c7b-4bea-8ab4-e4c4c7f44d54 Labels: Name:satchel bag Popularity:0 Price:120 Review:{Author:mary Rating:9.8}}
+&{Brand:Levi's Id:2a2d47f2-099a-4391-90f8-d52c8a06a9a9 Labels: Name:denim jeans Popularity:0 Price:55 Review:{Author:joe Rating:7.5}}
+&{Brand:Clarks Id:1df0a235-ecda-416f-b19a-7e89c1dcd2c8 Labels: Name:leather shoes Popularity:0 Price:110 Review:{Author:jane Rating:9.5}}
+{Found:12 TotalPages:3 Page:{Current:1 Size:5}}
+
+&{Brand:Fossil Id:01a83c14-3d67-438c-b3cf-2b75a09c34d6 Labels: Name:leather wallet Popularity:0 Price:65 Review:{Author:john Rating:8.5}}
+&{Brand:adidas Id:a3e3c779-31cb-4d60-87cb-c4edc64ab4b7 Labels: Name:running shorts Popularity:0 Price:35 Review:{Author:olivia Rating:7.5}}
+&{Brand:nike Id:1aeb7c50-201d-42e8-8b77-23f3a3b86a89 Labels: Name:running shoes Popularity:0 Price:89 Review:{Author:olivia Rating:8.5}}
+&{Brand:adidas Id:24034d4c-4de4-4ee7-8492-0d0f27b8d46b Labels: Name:sneakers shoes Popularity:0 Price:40 Review:{Author:olivia Rating:9}}
+&{Brand:coach Id:4b4f7e06-025a-4b70-853f-0be7a38d221d Labels: Name:sling bag Popularity:0 Price:75 Review:{Author:alice Rating:9.2}}
+
+{Found:12 TotalPages:3 Page:{Current:2 Size:5}}
+&{Brand:coach Id:c7ec6a25-6a7a-4d9b-bced-6b40f6d097c6 Labels: Name:tote bag Popularity:0 Price:49 Review:{Author:olivia Rating:8.3}}
+&{Brand:michael kors Id:2f7301f2-69b2-4b67-a3e3-9d9e7cda5948 Labels: Name:fiona handbag Popularity:0 Price:99.9 Review:{Author:alice Rating:7}}
+{Found:12 TotalPages:3 Page:{Current:3 Size:5}}

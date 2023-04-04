@@ -1,0 +1,38 @@
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Get documents
+
+Tigris also lets you retrieve documents from the search index by using their ids.
+
+### Get Search Index instance
+
+<CodeBlock language="ts">{getSearchIndex}</CodeBlock>
+
+## Get documents
+
+The `Get` accepts an array of document ids and fetches the relevant documents
+from Tigris. The returned array of documents maintains the same order as the given ids.
+
+```golang
+docs, err := catalog.Get(ctx, []string{
+  "002eeee4-4249-469d-9425-100fc0e60a68",
+  "5659ff93-83fc-4355-8564-ac8efb47f4ef",
+});
+if err != nil {
+	panic(err)
+}
+
+fmt.Printf("%+v\n", docs[0])
+fmt.Printf("%+v\n", docs[1])
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{Brand:adidas Id:9d9cf678-4441-4d0e-ba1f-f19cf490a6dc Labels:shoes Name:sneakers shoes Popularity:10 Price:40 Review:{Author:olivia Rating:9}}
+{Brand:coach Id:3fcec3b1-05b8-48ef-add1-9358a0c59f55 Labels:purses Name:sling bag Popularity:9 Price:75 Review:{Author:alice Rating:9.2}}
+```
+
+</details>

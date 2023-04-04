@@ -1,0 +1,62 @@
+  {
+    "hits": [
+      {
+        "document": {
+          "brand": "adidas",
+          "price": 35,
+          "review": {
+            "author": "olivia",
+            "rating": 7.5
+          },
+          "popularity": 7,
+          "id": "6",
+          "labels": "clothing",
+          "name": "running shorts"
+        },
+        "meta": {
+          "createdAt": "2023-03-13T21:42:35.000Z",
+          "textMatch": {
+            "fields": [
+              "name"
+            ],
+            "score": "578730123365187697"
+          }
+        }
+      },
+      {
+        "document": {
+          "id": "5",
+          "brand": "nike",
+          "name": "running shoes",
+          "price": 89,
+          "labels": "shoes",
+          "popularity": 10,
+          "review": {
+            "rating": 8.5,
+            "author": "olivia"
+          }
+        },
+        "meta": {
+          "createdAt": "2023-03-13T21:42:35.000Z",
+          "textMatch": {
+            "fields": [
+              "name"
+            ],
+            "score": "578730123365187697"
+          }
+        }
+      }
+    ],
+    "facets": {},
+    "meta": {
+      "found": 23,
+      "totalPages": 3,
+      "page": {
+        "current": 1,
+        "size": 10
+      },
+      "matchedFields": [
+        "name"
+      ]
+    }
+  }

@@ -1,0 +1,5 @@
+type City struct {
+  Name string
+
+  Neighborhoods []string
+}

@@ -1,0 +1,6 @@
+var res search.Result[model.Catalog]
+for it.Next(&res) {
+	for _, v := range res.Hits {
+		fmt.Printf("%+v\n", v.Document)
+	}
+}

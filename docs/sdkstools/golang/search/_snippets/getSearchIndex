@@ -1,0 +1,10 @@
+client, err := tigris.NewClient(ctx, &tigris.Config{Project: "test"})
+
+if err != nil {
+		panic(err)
+}
+
+defer func() { _ = client.Close() }()
+
+s := client.GetSearch()
+catalog := search.GetIndex[Catalog](s)

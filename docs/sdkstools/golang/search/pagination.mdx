@@ -1,0 +1,75 @@
+import CodeBlock from "@theme/CodeBlock";
+import Details from "@theme/Details";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+import searchPaginationPageNumber from "!!raw-loader!../_snippets/search/_paginationPageNumber";
+import searchPaginationMeta from "!!raw-loader!../_snippets/search/_paginationMeta";
+import searchPaginationInfiniteScrolling from "!!raw-loader!../_snippets/search/_paginationInfiniteScrolling";
+import searchPaginationPageNumberOutput from "!!raw-loader!../_snippets/search/_paginationPageNumberOutput";
+import searchPaginationMetaOutput from "!!raw-loader!../_snippets/search/_paginationMetaOutput";
+import searchPaginationInfiniteScrollingOutput from "!!raw-loader!../_snippets/search/_paginationInfiniteScrollingOutput";
+
+# Pagination
+
+Pagination is commonly used by applications to consume large amount of data by
+dividing it into small pages. Modern applications leverage one of the
+following commonly used UX patterns:
+
+- **Traditional pagination using page numbers** - Users can visit next or previous page of results
+  or jump an arbitraty page by choosing page numbers. The main benefit to a user is a visibility into
+  number of pages and ability to jump to an arbitrary page number.
+
+![Pages](/img/pagination/page-number-2.jpg)
+![Page numbers](/img/pagination/page-numbers.jpg)
+
+- **Infinite scrolling** - When a website returns only a part of the results. But as the users
+  scroll down to the end of the page, additional results are loaded and rendered for the users.
+  This allows users to browse as many results they want without having to click anything, which is
+  friendlier to mobile device users.
+
+![Infinite scrolling](/img/pagination/infinite-scrolling.gif)
+
+## Paginating through search results
+
+In this section we'll see the constructs provided by our SDK that assist
+developers in building out pagination into their apps. Considering the
+[search example](../search#example) let's work through the search index:
+
+<CodeBlock language="go">{getSearchIndex}</CodeBlock>
+
+### Using page numbers {#using-page-number}
+
+To retrieve a page of results, you can simply use `Search` method with page number and
+page size. Following query fetches the first page of results with page size set as **5**
+
+<CodeBlock language="go">{searchPaginationPageNumber}</CodeBlock>
+<Details language="go">
+  <summary>Output</summary>
+  <CodeBlock>{searchPaginationPageNumberOutput}</CodeBlock>
+</Details>
+
+The `PageSize` parameter controls the number of documents to include in a result page. The returned
+array of documents is accessible under `Hits` key along with some search metadata.
+
+Additionally, search result contains `Meta` object having current page and total pages along with
+other information.
+
+<CodeBlock language="go">{searchPaginationMeta}</CodeBlock>
+<Details language="go">
+  <summary>Output</summary>
+  <CodeBlock>{searchPaginationMetaOutput}</CodeBlock>
+</Details>
+
+### Infinite scrolling
+
+Infinite scrolling also loads data in pages, it is just that the UX is more fluid.
+Instead of using page number, an Iterator object can be obtained from `Search()`
+method call and processed iteratively.
+
+<CodeBlock language="go">{searchPaginationInfiniteScrolling}</CodeBlock>
+<Details language="go">
+  <summary>Output</summary>
+  <CodeBlock>{searchPaginationInfiniteScrollingOutput}</CodeBlock>
+</Details>
+
+As you can see, the iterator returns the same `search.Result` object as in [previous section](#using-page-number)
+with pagination metadata.

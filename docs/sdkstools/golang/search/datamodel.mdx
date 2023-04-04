@@ -1,0 +1,81 @@
+import CodeBlock from "@theme/CodeBlock";
+import indexSchema from "!!raw-loader!./_snippets/datamodel/indexSchema";
+import createIndex from "!!raw-loader!./_snippets/datamodel/createIndex";
+import embeddedSchema from "!!raw-loader!./_snippets/datamodel/embeddedSchema";
+import arraySchema from "!!raw-loader!./_snippets/datamodel/arraySchema";
+import nestedArraySchema from "!!raw-loader!./_snippets/datamodel/nestedArraySchema";
+
+# Search Modeling
+
+The first step is to define search models as part of your application code. The
+data conforming to these models is stored as JSON documents and indexed in Tigris
+to facilitate searches.
+
+:::note
+You do not need to have all the fields present in your document, defined in the
+search model, only the fields that you need to be searchable. When you store
+documents in the search index, we store the entire document including the fields
+that are not defined in the search model
+:::
+
+## Declaring Models
+
+Below we describe how the search models can be defined.
+
+Declaring a model is as simple as defining Go struct type in the code.
+Defining search index data models is no different from defining regular collection data model.
+
+<CodeBlock language="go">{indexSchema}</CodeBlock>
+
+By default, all fields in the search index are indexes. No explicit `tigris:"searchIndex"` annotation required
+as it would be for regular collection. The following optional annotation can be explicitly used to refine how
+the document field is indexed.
+
+| Option | Type    | Default | Usage                                                                                                   |
+| ------ | ------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| sort   | boolean | False   | To enable/disable sorting on a field. Not supported for Arrays and Objects without a predefined schema. |
+| facet  | boolean | False   | To enable/disable faceting on a field. Not supported for Array of Objects.                              |
+
+:::info
+Documents that you store in a search index can have `tigris:"searchIndex:false"` annotation.
+These fields are not searchable. A common use-case is
+where you have a document with ten fields and you only want five of the fields
+to be searchable but would like to store the entire document.
+:::
+
+## Indexing Embedded Documents
+
+Tigris supports rich document structures. For example, you can embed related
+data in a single document. Embedded models allow application to fetch data with
+fewer queries, thus reducing query activity and increasing efficiency.
+
+Below is an example of embedded model. We first define the `ProductItem` type
+and then embed it inside the `Order` type.
+
+<CodeBlock language="go">{embeddedSchema}</CodeBlock>
+
+## Arrays in documents
+
+Arrays are defined as usual no additional annotations required.
+
+<CodeBlock language="go">{arraySchema}</CodeBlock>
+
+same with multidimensional arrays
+
+<CodeBlock language="go">{nestedArraySchema}</CodeBlock>
+
+## Create a Search Index
+
+Tigris provides an easy to use way to create or modify search indexes.
+
+<CodeBlock language="go">{createIndex}</CodeBlock>
+
+## `id` field in a document {#id-field}
+
+Every indexed document in Tigris has an `id` field of `string` type to uniquely
+identify it. The `id` can be used to get, replace or delete a document in search
+index. `id` is immutable.
+
+Tigris assigns an auto-generated `id` to each document. However, there might be
+cases where you want to supply your own ID, for example to avoid duplicate
+documents to be indexed. In such cases you can specify an `id` field in the schema.

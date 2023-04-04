@@ -1,0 +1,14 @@
+type Review struct {
+	Author string  `json:"author"`
+	Rating float64 `json:"rating" tigris:"sort"`
+}
+
+type Catalog struct {
+	Brand      string     `json:"brand"`
+	Id         *uuid.UUID `json:"id,omitempty"`
+	Labels     string     `json:"labels"`
+	Name       string     `json:"name" tigris:"sort"`
+	Popularity int64      `json:"popularity" tigris:"facet,sort"`
+	Price      float64    `json:"price"`
+	Review     Review     `json:"review"`
+}

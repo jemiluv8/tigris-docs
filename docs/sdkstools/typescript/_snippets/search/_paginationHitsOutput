@@ -1,0 +1,48 @@
+  [
+    {
+      "document": {
+        "labels": "clothing",
+        "popularity": 7,
+        "id": "6",
+        "name": "running shorts",
+        "review": {
+          "rating": 7.5,
+          "author": "olivia"
+        },
+        "price": 35,
+        "brand": "adidas"
+      },
+      "meta": {
+        "createdAt": "2023-03-13T21:42:07.000Z",
+        "textMatch": {
+          "fields": [
+            "name"
+          ],
+          "score": "578730123365187697"
+        }
+      }
+    },
+    {
+      "document": {
+        "name": "running shoes",
+        "id": "5",
+        "price": 89,
+        "popularity": 10,
+        "review": {
+          "author": "olivia",
+          "rating": 8.5
+        },
+        "brand": "nike",
+        "labels": "shoes"
+      },
+      "meta": {
+        "createdAt": "2023-03-13T21:42:07.000Z",
+        "textMatch": {
+          "fields": [
+            "name"
+          ],
+          "score": "578730123365187697"
+        }
+      }
+    }
+  ]

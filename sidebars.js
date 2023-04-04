@@ -331,6 +331,24 @@ const sidebars = {
                 "sdkstools/golang/database/transactions",
               ],
             },
+            {
+              type: "category",
+              label: "Search",
+              link: {
+                type: "doc",
+                id: "sdkstools/golang/search/index",
+              },
+              collapsed: false,
+              items: [
+                "sdkstools/golang/search/datamodel",
+                "sdkstools/golang/search/types",
+                "sdkstools/golang/search/index-documents",
+                "sdkstools/golang/search/search-documents",
+                "sdkstools/golang/search/get",
+                "sdkstools/golang/search/delete",
+                "sdkstools/golang/search/pagination",
+              ],
+            },
           ],
         },
         {

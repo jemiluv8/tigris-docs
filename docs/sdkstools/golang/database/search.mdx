@@ -18,6 +18,14 @@ import multipleSortFieldsSource from "!!raw-loader!../_snippets/search/_multiple
 import includeFieldsSource from "!!raw-loader!../_snippets/search/_includeFields";
 import excludeFieldsSource from "!!raw-loader!../_snippets/search/_excludeFields";
 import searchUsingCollationSource from "!!raw-loader!../_snippets/search/_searchUsingCollation";
+import searchPaginationPageNumber from "!!raw-loader!../_snippets/search/_paginationPageNumber";
+import searchPaginationHits from "!!raw-loader!../_snippets/search/_paginationHits";
+import searchPaginationMeta from "!!raw-loader!../_snippets/search/_paginationMeta";
+import searchPaginationInfiniteScrolling from "!!raw-loader!../_snippets/search/_paginationInfiniteScrolling";
+import searchPaginationPageNumberOutput from "!!raw-loader!../_snippets/search/_paginationPageNumberOutput";
+import searchPaginationHitsOutput from "!!raw-loader!../_snippets/search/_paginationHitsOutput";
+import searchPaginationMetaOutput from "!!raw-loader!../_snippets/search/_paginationMetaOutput";
+import searchPaginationInfiniteScrollingOutput from "!!raw-loader!../_snippets/search/_paginationInfiniteScrollingOutput";
 
 <SearchTemplate
   codeLang="go"
@@ -34,6 +42,16 @@ import searchUsingCollationSource from "!!raw-loader!../_snippets/search/_search
   includeFields={includeFieldsSource}
   excludeFields={excludeFieldsSource}
   searchUsingCollation={searchUsingCollationSource}
+  searchPaginationPageNumber={searchPaginationPageNumber}
+  searchPaginationPageNumberOutput={searchPaginationPageNumberOutput}
+  searchPaginationHits={searchPaginationHits}
+  searchPaginationHitsOutput={searchPaginationHitsOutput}
+  searchPaginationMeta={searchPaginationMeta}
+  searchPaginationMetaOutput={searchPaginationMetaOutput}
+  searchPaginationInfiniteScrolling={searchPaginationInfiniteScrolling}
+  searchPaginationInfiniteScrollingOutput={
+    searchPaginationInfiniteScrollingOutput
+  }
 />
 
 [//]: # "workaround to generate table of contents, see https://github.com/facebook/docusaurus/issues/3915"

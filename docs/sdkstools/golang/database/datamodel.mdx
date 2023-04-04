@@ -48,13 +48,22 @@ fields in the collection schema with a different name, you can configure
 ```go
 type Catalog struct {
 	Id         int `json:"id" tigris:"primaryKey,autoGenerate"`
-	Name       string
+	ProductName string `json:"product_name"`
 	Price      float64
 	Brand      string
 	Labels     string
 	Popularity int
 }
 ```
+
+Unexported fields and fields annotated with `json:"-"` or `tigris"-"` are
+not persisted in the collection.
+
+### Field tags
+
+Fields behavior can be modified and enriched using `tigris` struct tag.
+
+[Check available tags and example usage.](#field-tags).
 
 ## Embedded Data Model
 

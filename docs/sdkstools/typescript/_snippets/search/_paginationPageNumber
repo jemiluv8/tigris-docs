@@ -1,0 +1,4 @@
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  hitsPerPage: 10, // Optional. Defaults to 20
+};

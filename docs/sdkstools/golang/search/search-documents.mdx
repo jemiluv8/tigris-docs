@@ -1,0 +1,324 @@
+---
+slug: search
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Search Documents
+
+Tigris offers easy to use constructs for building complex search queries. In
+this section we will take a look at the sample data in the example below and
+walk through a few scenarios to search for documents.
+
+### Example
+
+Let's say we have a Search Index `catalog` with following documents:
+
+| id  | name           | price | brand        | labels   | popularity | review                              |
+| --- | -------------- | ----- | ------------ | -------- | ---------- | ----------------------------------- |
+| 1   | fiona handbag  | 99.9  | michael kors | purses   | 8          | {"author": "alice", "rating": 7}    |
+| 2   | tote bag       | 49    | coach        | handbags | 9          | {"author": "olivia", "rating": 8.3} |
+| 3   | sling bag      | 75    | coach        | purses   | 9          | {"author": "alice", "rating": 9.2}  |
+| 4   | sneakers shoes | 40    | adidas       | shoes    | 10         | {"author": "olivia", "rating": 9}   |
+| 5   | running shoes  | 89    | nike         | shoes    | 10         | {"author": "olivia", "rating": 8.5} |
+| 6   | running shorts | 35    | adidas       | clothing | 7          | {"author": "olivia", "rating": 7.5} |
+
+### Get Search Index instance
+
+The first step is to get an instance of the search index.
+
+<CodeBlock language="ts">{getSearchIndex}</CodeBlock>
+
+## Searching for documents
+
+Search consists of executing a query against one or more text fields. Let's perform a simple search query to
+lookup any items matching "running".
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q: "running",
+})
+if err != nil {
+	panic(err)
+}
+
+var res search.Result[model.Catalog]
+for it.Next(&res) {
+	for _, v := range res.Hits {
+		fmt.Printf("%+v\n", v.Document)
+	}
+	fmt.Printf("%+v\n", res.Meta)
+}
+
+if it.Err() != nil {
+	panic(it.Err())
+}
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+&{Brand:adidas Id:a3e3c779-31cb-4d60-87cb-c4edc64ab4b7 Labels:clothing Name:running shorts Popularity:7 Price:35 Review:{Author:olivia Rating:0}}
+&{Brand:nike Id:1aeb7c50-201d-42e8-8b77-23f3a3b86a89 Labels:shoes Name:running shoes Popularity:10 Price:89 Review:{Author:olivia Rating:0}}
+{Found:2 TotalPages:1 Page:{Current:1 Size:20}}
+```
+
+</details>
+
+:::info
+Search is **case-insensitive**, i.e., a search for term `"ruNninG"` would
+match all of `["Running", "running", "RUnnIng", "RUNNING"]` etc.
+:::
+
+### Phrase search
+
+By default, search is performed over individual terms in the text. For example,
+searching for a query string `adventure park` in a dataset would yield
+following results:
+
+1. "California's kids **adventure park** and Safari"
+2. "**Adventure** island and water **park**"
+3. "Long Island water **park** and **adventure** activities"
+4. "Six flags kids recreation and **adventure park**"
+5. "Hollywood **adventure park** and studios"
+6. "Seaworld **adventure** and theme **park**"
+
+The search phrase can be _escaped_ in query for exact match. In the above example, querying for exact
+phrase `\"adventure park\"` would return:
+
+1. "California's kids **adventure park** and Safari"
+2. "Six flags kids recreation and **adventure park**"
+3. "The Great America **adventure park** and Zoo"
+
+Phrases can still be combined with keywords for richer text search. Continuing above example,
+the query string `kids \"adventure park\"` would result in:
+
+1. "California's **kids adventure park** and Safari"
+2. "Six flags **kids** recreation and **adventure park**"
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q: `"adventure park"`,
+})
+
+it, err := catalog.Search(ctx, &search.Request{
+	Q: `Kids "adventure park"`,
+})
+```
+
+### Match all search query
+
+When a query string isn't specified or an empty string (`""`) is specified, a
+match all query is performed. It returns all searchable documents, filtered by
+any filters specified.
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q: "",
+})
+```
+
+:::tip
+Fetching all documents is typically useful only when used in conjunction with
+**filters**, or when performing a **faceted search** across the search index.
+:::
+
+## Searching on specific fields
+
+We can optionally perform the search on specific fields. This is done by
+projecting the search query against these fields. Continuing previous example of
+searching for "running", we may not want to search for it in the `review` field.
+This can be accomplished by restricting the `searchFields` in the query as
+shown below:
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q:            "running",
+	SearchFields: []string{"name", "category"},
+})
+```
+
+## Refine the search results using filters {#filters}
+
+### Applying a simple filter on search results
+
+Let's adjust the query to only return items where `brand` is **nike**:
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q:            "running",
+	SearchFields: []string{"name", "category"},
+	Filter:       filter.Eq("brand", "nike"),
+})
+```
+
+### Applying complex filter on search results
+
+Let's adjust the query to only return items in `price` range of **[40, 90)**:
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q:            "running",
+	SearchFields: []string{"name", "category"},
+	Filter: filter.And(
+		filter.Gte("price", 40),
+		filter.Lt("price", 90),
+	),
+})
+```
+
+## Faceted search {#facets}
+
+We can additionally retrieve the stats on one or more fields from the search results.
+For example, if we wanted to retrieve the stats for the search results around
+number of items by `brand` and unique `labels`, we can add faceting to the query
+as shown below:
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q:            "running",
+	SearchFields: []string{"name", "labels"},
+	Facet: &search.FacetQuery{
+		FacetFields: map[string]search.FacetQueryOptions{
+			"popularity": {Size: 10},
+		},
+	},
+})
+if err != nil {
+	panic(err)
+}
+
+var res search.Result[model.Catalog]
+for it.Next(&res) {
+	f := res.Facets["popularity"]
+
+	fmt.Printf("%+v\n", f.Counts)
+	fmt.Printf("Max: %+v Min: %+v Avg: %+v Count: %+v\n",
+		*f.Stats.Max, *f.Stats.Min, *f.Stats.Avg, f.Stats.Count)
+}
+if it.Err() != nil {
+	panic(it.Err())
+}
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+[{Count:1 Value:7} {Count:1 Value:10}]
+Max: 10 Min: 7 Avg: 8.5 Count: 2
+```
+
+</details>
+
+## Sorting the search results
+
+Tigris lets you specify an order to sort the search results. We can specify a ranking order in our
+search query to have results sorted with more popular items appearing first.
+
+```golang
+order := sort.NewSortOrder(sort.Descending("popularity"))
+it, err := catalog.Search(ctx, &search.Request{
+	Q:            "running",
+	SearchFields: []string{"name", "labels"},
+	Sort:         &order,
+})
+```
+
+We can also sort by multiple fields. In the example below, the search results
+are sorted by the first field `popularity`, where there are documents that have
+the same `popularity` score, they are further sorted by the field `review.rating`:
+
+```golang
+order := sort.NewSortOrder(
+	sort.Descending("popularity"),
+	sort.Descending("review.rating"),
+)
+
+it, err := catalog.Search(ctx, &search.Request{
+	Q:            "running",
+	SearchFields: []string{"name", "labels"},
+	Sort:         &order,
+})
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+&{Brand:nike Id:1aeb7c50-201d-42e8-8b77-23f3a3b86a89 Labels:shoes Name:running shoes Popularity:10 Price:89 Review:{Author:olivia Rating:8.5}}
+&{Brand:adidas Id:a3e3c779-31cb-4d60-87cb-c4edc64ab4b7 Labels:clothing Name:running shorts Popularity:7 Price:35 Review:{Author:olivia Rating:7.5}}
+```
+
+</details>
+
+The results will be first sorted by value of `popularity` field, `review.rating` will be used to
+decide ordering if two matching documents have same `popularity`.
+
+:::note
+Documents can be sorted by `int32/int64`, `float64`, `string` and `time.Time` fields.
+Sorting by nested fields is also allowed.
+:::
+
+## Specifying document fields to retrieve
+
+Search query can be programmed to return only specific fields in a document in
+search results. For example, if we only need to retrieve product `name`, `brand`
+and `price` we can specify the `includeFields` option as follows:
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q:             "running",
+	IncludeFields: []string{"name", "brand"},
+})
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+&{Brand:nike Id:<nil> Labels: Name:running shoes Popularity:0 Price:0 Review:{Author: Rating:0}}
+&{Brand:adidas Id:<nil> Labels: Name:running shorts Popularity:0 Price:0 Review:{Author: Rating:0}}
+```
+
+</details>
+
+Optionally, we can exclude fields from search results. This might be useful
+to exclude/hide potentially sensitive fields. For example, to include all fields
+except `id` and `review.rating` in search results:
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+    Q:             "running",
+        ExcludeFields: []string{"id", "review.rating"},
+})
+```
+
+:::note
+Field selection does not impact searching, filtering and faceting capabilities for that field. For
+example, if `review` field is not included in documents in search results, it could still be used
+for text querying, filtering and/or faceting; just that matched documents in
+the search results won't include `review` field.
+:::
+
+## Case Insensitive Search Result Filtering
+
+Search is **case-insensitive** but the [filters](#filters) used for filtering
+the search results are **case-sensitive** by default.
+
+Tigris provides `Collation` support which allows you to specify string
+comparison rules for filtering on text fields. Set the case to `ci` in the
+collation object to make it **case-insensitive**.
+
+The following example demonstrates using case-insensitive filters when
+performing a search query:
+
+```golang
+it, err := catalog.Search(ctx, &search.Request{
+	Q:            "running",
+	SearchFields: []string{"name", "labels"},
+	Options: &search.Options{Collation: &driver.Collation{Case: "ci"}},
+})
+```

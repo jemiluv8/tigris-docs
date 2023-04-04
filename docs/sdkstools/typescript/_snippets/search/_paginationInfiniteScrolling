@@ -1,0 +1,10 @@
+const query: SearchQuery<Catalog> = {
+  q: "running",
+  hitsPerPage: 10, // Optional. Defaults to 20
+};
+
+const resultIterable: SearchIterator<Catalog> = await catalog.search(query);
+
+for await (const result of resultIterable) {
+  console.log(result);
+}

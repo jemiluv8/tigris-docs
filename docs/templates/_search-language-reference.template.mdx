@@ -1,10 +1,11 @@
 import SearchOverview from "./_search-overview.template.mdx";
 import CodeBlock from "@theme/CodeBlock";
+import Details from "@theme/Details";
 import { AsyncCodeBlock } from "./commons";
 
-Tigris offers a realtime search for documents in a collection. Searching is by default enabled for a
-collection, there is no setup. This guide section will walk through how to use Tigris search in
-different scenarios.
+Tigris offers a realtime search for documents in a collection. The fields need to be annotated
+in order to be indexed. Please check data modeling section. This guide section will walk through how to use
+Tigris search in different scenarios.
 
 <div>{props.loadOverview && <SearchOverview />}</div>
 
@@ -172,266 +173,48 @@ and you need to filter by `brand` field, but you don't care about the case.
 
 ### Using page numbers {#using-page-number}
 
-To retrieve a page of results, you can simply use `search(query, page)` method with page number and
+To retrieve a page of results, you can simply use `Search` method with page number and
 page size. Following query fetches the first page of results with page size set as **10**
 
-```ts
-const query: SearchQuery<Catalog> = {
-  q: "running",
-  hitsPerPage: 10, // Optional. Defaults to 20
-};
-const result: SearchResult<Catalog> = await catalog.search(query, 1);
-
-console.log(result);
-```
-
-<details>
+<CodeBlock language={props.codeLang}>
+  {props.searchPaginationPageNumber}
+</CodeBlock>
+<Details language={props.codeLang}>
   <summary>Output</summary>
-
-```
-  {
-    "hits": [
-      {
-        "document": {
-          "brand": "adidas",
-          "price": 35,
-          "review": {
-            "author": "olivia",
-            "rating": 7.5
-          },
-          "popularity": 7,
-          "id": "6",
-          "labels": "clothing",
-          "name": "running shorts"
-        },
-        "meta": {
-          "createdAt": "2023-03-13T21:42:35.000Z",
-          "textMatch": {
-            "fields": [
-              "name"
-            ],
-            "score": "578730123365187697"
-          }
-        }
-      },
-      {
-        "document": {
-          "id": "5",
-          "brand": "nike",
-          "name": "running shoes",
-          "price": 89,
-          "labels": "shoes",
-          "popularity": 10,
-          "review": {
-            "rating": 8.5,
-            "author": "olivia"
-          }
-        },
-        "meta": {
-          "createdAt": "2023-03-13T21:42:35.000Z",
-          "textMatch": {
-            "fields": [
-              "name"
-            ],
-            "score": "578730123365187697"
-          }
-        }
-      }
-    ],
-    "facets": {},
-    "meta": {
-      "found": 23,
-      "totalPages": 3,
-      "page": {
-        "current": 1,
-        "size": 10
-      },
-      "matchedFields": [
-        "name"
-      ]
-    }
-  }
-```
-
-</details>
+  <CodeBlock>{props.searchPaginationPageNumberOutput}</CodeBlock>
+</Details>
 
 The `hitsPerPage` parameter controls the number of documents to include in a result page. The returned
 array of documents is accessible under `hits` key along with some search metadata.
 
-```ts
-console.log(result.hits);
-```
-
-<details>
+<CodeBlock language={props.codeLang}>{props.searchPaginationHits}</CodeBlock>
+<Details language={props.codeLang}>
   <summary>Output</summary>
+  <CodeBlock>{props.searchPaginationHitsOutput}</CodeBlock>
+</Details>
 
-```
-  [
-    {
-      "document": {
-        "labels": "clothing",
-        "popularity": 7,
-        "id": "6",
-        "name": "running shorts",
-        "review": {
-          "rating": 7.5,
-          "author": "olivia"
-        },
-        "price": 35,
-        "brand": "adidas"
-      },
-      "meta": {
-        "createdAt": "2023-03-13T21:42:07.000Z",
-        "textMatch": {
-          "fields": [
-            "name"
-          ],
-          "score": "578730123365187697"
-        }
-      }
-    },
-    {
-      "document": {
-        "name": "running shoes",
-        "id": "5",
-        "price": 89,
-        "popularity": 10,
-        "review": {
-          "author": "olivia",
-          "rating": 8.5
-        },
-        "brand": "nike",
-        "labels": "shoes"
-      },
-      "meta": {
-        "createdAt": "2023-03-13T21:42:07.000Z",
-        "textMatch": {
-          "fields": [
-            "name"
-          ],
-          "score": "578730123365187697"
-        }
-      }
-    }
-  ]
-```
-
-</details>
-
-Additionally, search result contains `meta` object having current page and total pages along with
+Additionally, search result contains metadata object having current page and total pages along with
 other information.
 
-```ts
-console.log(result.meta);
-```
-
-<details>
+<CodeBlock language={props.codeLang}>{props.searchPaginationMeta}</CodeBlock>
+<Details language={props.codeLang}>
   <summary>Output</summary>
-
-```
-  {
-    "found": 23,
-    "totalPages": 3,
-    "page": {
-      "current": 1,
-      "size": 10
-    },
-    "matchedFields": [
-      "name"
-    ]
-  }
-```
-
-</details>
+  <CodeBlock>{props.searchPaginationMetaOutput}</CodeBlock>
+</Details>
 
 ### Infinite scrolling
 
 Infinite scrolling also loads data in pages, it is just that the UX is more fluid.
-Instead of using page number, an Iterator object can be obtained from `search()`
+Instead of using page number, an Iterator object can be obtained from `search`
 method call and processed iteratively.
 
-```ts
-const query: SearchQuery<Catalog> = {
-  q: "running",
-  hitsPerPage: 10, // Optional. Defaults to 20
-};
-
-const resultIterable: SearchIterator<Catalog> = await catalog.search(query);
-
-for await (const result of resultIterable) {
-  console.log(result);
-}
-```
-
-<details>
+<CodeBlock language={props.codeLang}>
+  {props.searchPaginationInfiniteScrolling}
+</CodeBlock>
+<Details language={props.codeLang}>
   <summary>Output</summary>
-
-```
-  {
-    "hits": [
-      {
-        "document": {
-          "brand": "adidas",
-          "price": 35,
-          "review": {
-            "author": "olivia",
-            "rating": 7.5
-          },
-          "popularity": 7,
-          "id": "6",
-          "labels": "clothing",
-          "name": "running shorts"
-        },
-        "meta": {
-          "createdAt": "2023-03-13T21:42:35.000Z",
-          "textMatch": {
-            "fields": [
-              "name"
-            ],
-            "score": "578730123365187697"
-          }
-        }
-      },
-      {
-        "document": {
-          "id": "5",
-          "brand": "nike",
-          "name": "running shoes",
-          "price": 89,
-          "labels": "shoes",
-          "popularity": 10,
-          "review": {
-            "rating": 8.5,
-            "author": "olivia"
-          }
-        },
-        "meta": {
-          "createdAt": "2023-03-13T21:42:35.000Z",
-          "textMatch": {
-            "fields": [
-              "name"
-            ],
-            "score": "578730123365187697"
-          }
-        }
-      }
-    ],
-    "facets": {},
-    "meta": {
-      "found": 23,
-      "totalPages": 3,
-      "page": {
-        "current": 1,
-        "size": 10
-      },
-      "matchedFields": [
-        "name"
-      ]
-    }
-  }
-```
-
-</details>
+  <CodeBlock>{props.searchPaginationInfiniteScrollingOutput}</CodeBlock>
+</Details>
 
 As you can see, the iterator returns the same `SearchResult` object as in [previous section](#using-page-number)
 with pagination metadata.

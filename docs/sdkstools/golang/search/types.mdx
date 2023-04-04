@@ -1,0 +1,87 @@
+# Data Types
+
+Tigris supports all of the TypeScript types while also providing support for custom types via classes.
+
+## Strings
+
+```golang
+type Post struct {
+	Title  string `tigris:"searchIndex"`
+	Author string `tigris:"searchIndex,facet,sort"`
+}
+```
+
+## Boolean
+
+```golang
+type Post struct {
+	Pinned bool `tigris:"searchIndex"`
+	Active bool `tigris:"searchIndex,facet,sort"`
+}
+```
+
+## Numbers
+
+```golang
+type Post struct {
+	Views    int64 `tigris:"searchIndex"`
+	AuthorID int64 `tigris:"searchIndex,facet,sort"`
+}
+```
+
+## Dates
+
+```golang
+type Post struct {
+	PublishedAt    time.Time `tigris:"searchIndex,sort"`
+}
+```
+
+## Objects
+
+User-defined classes and objects are supported. Fields can be of any type,
+there is no restriction.
+
+```golang
+type Bio struct {
+  Text string `tigris:"searchIndex"`
+
+  CreatedAt time.Time `tigris:"searchIndex,sort"`
+}
+
+type Author struct {
+  Bio Bio;
+}
+```
+
+## Arrays
+
+Arrays of all the above types are supported. There is no restriction.
+
+```golang
+type Post struct {
+  Tags []string `tigris:"searchIndex,facet"`
+
+  Comments []Comment `tigris:"searchIndex"`
+}
+```
+
+## Sorting and Faceting
+
+Tigris supports the majority of the primitive Golang types while also
+providing support for custom types.
+
+| Type      | Sort | Facet |
+| --------- | ---- | ----- |
+| string    | yes  | yes   |
+| bool      | yes  | yes   |
+| int32     | yes  | yes   |
+| int64     | yes  | yes   |
+| float64   | yes  | yes   |
+| time.Time | yes  | no    |
+| object    | yes  | yes   |
+| array     | no   | yes   |
+
+:::note
+
+In case of an struct type field, `sort` and `facet` properties apply to its nested fields.

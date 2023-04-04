@@ -1,0 +1,12 @@
+type Cell struct {
+  x int64
+  y int64
+
+  Value string
+}
+
+export class Matrix {
+  ID string
+
+  Cells [][][]Cell;
+}

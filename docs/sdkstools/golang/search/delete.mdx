@@ -1,0 +1,62 @@
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Delete Documents
+
+Documents can be deleted from a search index either using `id` field or a
+filter that matches any number of documents.
+
+### Get Search Index instance
+
+<CodeBlock language="ts">{getSearchIndex}</CodeBlock>
+
+## Delete documents using `id`
+
+Use `Delete` to delete existing documents using `id`. It returns an
+array of DocStatus objects that has error in case deletion fails, error would be
+`nil` if deletion succeeds.
+
+```golang
+resp, err := catalog.Delete(ctx, []string{
+  "002eeee4-4249-469d-9425-100fc0e60a68",
+  "5659ff93-83fc-4355-8564-ac8efb47f4ef",
+});
+if err != nil {
+	panic(err)
+}
+
+fmt.Printf("%+v\n", resp.Statuses[0])
+fmt.Printf("%+v\n", resp.Statuses[1])
+```
+
+<details>
+  <summary>Output</summary>
+
+```
+{ID:002eeee4-4249-469d-9425-100fc0e60a68 Error:<nil>}
+{ID:5659ff93-83fc-4355-8564-ac8efb47f4ef Error:<nil>}
+```
+
+</details>
+
+## Delete multiple documents matching a filter
+
+Alternatively, you can use the [filters as used in search()](../search/#filters) to select a subset
+of documents for deletion. This `DeleteByQuery()` method returns a number of deleted documents.
+
+#### Example: delete documents by filtering for documents matching a `brand`
+
+```golang
+deleteCount, err := catalog.DeleteByQuery(ctx, filter.Eq("branch", "coach"));
+```
+
+#### Example: delete documents matching a more complex filtering condition
+
+```golang
+deleteCount, err := catalog.DeleteByQuery(
+  filter.And(
+    filter.Gte("price", 35),
+    filter.Lt("price", 90),
+  ),
+);
+```

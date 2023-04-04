@@ -1,0 +1,18 @@
+  type ProductItem struct {
+      // Id The product identifier
+      Id int64 `json:"id"`
+      // Quantity The quantity of this product in this order
+      Quantity int64 `json:"quantity"`
+  }
+
+  // Order Collection of documents with details of an order
+  type Order struct {
+      // Id A unique identifier for the order
+      Id int64 `json:"id"`
+      // OrderTotal The total cost of the order
+      OrderTotal float64 `json:"order_total"`
+      // ProductItems The list of products that are part of this order
+      ProductItems []ProductItem `json:"productItems"`
+      // UserId The identifier of the user that placed the order
+      UserId int64 `json:"user_id" tigris:"required"`
+  }
