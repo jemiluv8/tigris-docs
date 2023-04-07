@@ -67,6 +67,9 @@ Documents that you store in a search index can have fields that are not annotate
 with `@SearchField()`. These fields are not searchable. A common use-case is
 where you have a document with ten fields and you only want five of the fields
 to be searchable but would like to store the entire document.
+
+Additionally, it is possible to turn sorting or faceting on or off for the model
+in the search index at any time without the need to drop the index.
 :::
 
 The [Tigris TypeScript client repository](https://github.com/tigrisdata/tigris-client-ts/tree/main/src/__tests__/fixtures/schema/search)
