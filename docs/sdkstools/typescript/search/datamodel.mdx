@@ -3,7 +3,6 @@ import decoratorIndexSchema from "!!raw-loader!./_snippets/datamodel/indexWithDe
 import createWithDecorator from "!!raw-loader!./_snippets/datamodel/createWithDecorator";
 import embeddedWithDecorator from "!!raw-loader!./_snippets/datamodel/embeddedWithDecorator";
 import arrayWithDecorator from "!!raw-loader!./_snippets/datamodel/arrayWithDecorator";
-import nestedArrayWithDecorator from "!!raw-loader!./_snippets/datamodel/nestedArrayWithDecorator";
 
 # Search Modeling
 
@@ -92,14 +91,6 @@ Including arrays in your schema requires `elements` option to identify type of e
 `@SearchField()` decorator.
 
 <CodeBlock language="ts">{arrayWithDecorator}</CodeBlock>
-
-### Array of array(s)
-
-To model your search index with nested arrays, additional `depth` option is required
-in `@SearchField()` annotation. `depth` identifies the depth of your nested array. E.g - field of
-type `Array<Array<Array<Array<string>>>>` would have **depth = 4**.
-
-<CodeBlock language="ts">{nestedArrayWithDecorator}</CodeBlock>
 
 ## Create a Search Index
 
