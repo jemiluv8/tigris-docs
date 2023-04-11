@@ -9,7 +9,6 @@ import { APIReferenceIcon, YellowStar, GreenStar } from "../icons";
 import GuidesSection from "../components/GuidesSection";
 import SDKCards from "../components/SDKCards";
 import CliToolsCards from "../components/CliToolsCards";
-import MongoDBAnnouncement from "../components/MongoDBAnnoucement";
 
 export default function Homepage() {
   return (
@@ -33,7 +32,6 @@ export default function Homepage() {
               of the cost of MongoDB and DynamoDB, while providing high
               availability and data security.
             </p>
-            <MongoDBAnnouncement />
           </div>
 
           <Section title="Get to know Tigris">
