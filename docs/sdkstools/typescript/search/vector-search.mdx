@@ -1,0 +1,204 @@
+---
+slug: vector-search
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import getSearchIndex from "!!raw-loader!./_snippets/getSearchIndex";
+
+# Vector Search
+
+Tigris allows you to store vector embeddings in a search index for fast and scalable vector search.
+Vector search is a powerful technique that can be used for building semantic search
+applications, recommendation engines, and more.
+
+## Creating a Search Index
+
+Let's say we have a Search Index `reviews` with following schema:
+
+```ts
+@TigrisSearchIndex("reviews")
+export class Review {
+  @SearchField(TigrisDataTypes.INT64)
+  Id: string;
+
+  @SearchField({ sort: true, facet: true })
+  ProductId: string;
+
+  @SearchField()
+  UserId: string;
+
+  @SearchField(TigrisDataTypes.INT64, { sort: true, facet: true })
+  Score: number;
+
+  @SearchField(TigrisDataTypes.INT64, { sort: true })
+  Time: number;
+
+  @SearchField()
+  Summary: string;
+
+  @SearchField()
+  Text: string;
+
+  // 1536 floats total for ada-002
+  @SearchField({ dimensions: 1536 })
+  vector: number[];
+}
+```
+
+This search index can be created as following:
+
+```ts
+const tigrisClient = new Tigris();
+const search = tigrisClient.getSearch();
+await search.createOrUpdateIndex(Review);
+```
+
+Here the field `vector` stores the 1536-dimensional vector embedding. The vector embeddings can be generated
+using the OpenAPI Embeddings API.
+
+## Generating Vector Embeddings
+
+The next step is to generate vector embeddings for the documents to be stored in the search index.
+
+Below is sample code for generating vector embeddings using the OpenAI Embeddings API:
+
+```ts
+import { Configuration, OpenAIApi } from "openai";
+
+const MODEL = "text-embedding-ada-002";
+
+const getOpenaiClient = (): OpenAIApi => {
+  // setup OpenAI client
+  const config = new Configuration({
+    organization: process.env.OPENAI_ORG,
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  return new OpenAIApi(config);
+};
+
+const createEmbedding = async (
+  openai: OpenAIApi,
+  input: string
+): Promise<number[]> => {
+  const embeddings = await openai.createEmbedding({
+    model: MODEL,
+    input: input,
+  });
+  return embeddings.data.data[0]?.embedding;
+};
+```
+
+## Performing Vector Search
+
+Assuming that the search index has been populated with data, we can now perform vector search.
+
+Similar to how we generated vector embeddings for the documents, we need to generate vector
+embeddings for the search query. We can use the same code shown above to generate vector embeddings
+for the input query.
+
+Search consists of executing a query with these generated vector embeddings.
+
+```ts
+import { Search, SearchQuery } from "@tigrisdata/core";
+import { Review } from "../search/models/review";
+
+const index = await searchClient.getIndex<Review>("reviews");
+const embeddings = await createEmbedding(openai, "hot sauce");
+
+const request: SearchQuery<Review> = {
+  vectorQuery: {
+    vector: embeddings,
+  },
+  hitsPerPage: 5,
+};
+
+index.search(request).then((results) => {
+  const docs = [];
+  for (const hit of results.hits) {
+    docs.push({
+      Id: hit.document.Id,
+      ProductId: hit.document.ProductId,
+      UserId: hit.document.UserId,
+      ProfileName: hit.document.ProfileName,
+      Score: hit.document.Score,
+      Summary: hit.document.Summary,
+      Text: hit.document.Text,
+      VectorDistance: hit.meta.textMatch.vectorDistance,
+    });
+  }
+  console.log(docs);
+});
+```
+
+We have searched for "hot sauce" and the results are sorted by the vector distance. The
+vector distance is a measure of how similar the search string is to the review text. The
+closer the vector distance is to 0, the more similar the review text is to the search
+string.
+
+Below is the output of the above code:
+
+<details>
+<summary>Output</summary>
+
+```
+[
+  {
+    "Id": 988,
+    "ProductId": "B006F2NYI2",
+    "UserId": "A36GDATSF85X7W",
+    "ProfileName": "Matt Waz",
+    "Score": 5,
+    "Summary": "Awesome Sauce",
+    "Text": "This hot sauce is one of my favorites. Its a perfect balance of tasty and spicy. You can smell the flavors immediately when you open the bottle. A mix of garlic, habanero, and other spices. I put this on everything and tend to go through one bottle a week. I highly recommend this to anyone who likes hot sauce.",
+    "VectorDistance": 0.14292240142822266
+  },
+  {
+    "Id": 995,
+    "ProductId": "B006F2NYI2",
+    "UserId": "A1T5CH6SHV989P",
+    "ProfileName": "a biemold",
+    "Score": 5,
+    "Summary": "best hot sauce around",
+    "Text": "absolutely love the habenaro sauce...use it on eggs, sandwiches most anything for a good kick! have watched the progessing popularity of theis homegrown product...have nothing but the highes accolades for the chef and the product..get out there and try it!",
+    "VectorDistance": 0.14448332786560059
+  },
+  {
+    "Id": 994,
+    "ProductId": "B006F2NYI2",
+    "UserId": "A1KFUVZ3BZ59R1",
+    "ProfileName": "merplinger",
+    "Score": 5,
+    "Summary": "Best all around hot sauce",
+    "Text": "So far I have had the habanero and the medium sauces and they were amazing. My fiance and I use them nearly daily and I just picked up 3 more. It goes really well on all sorts of dishes to add the extra kick.<br /><br />The sauce itself lasts a lot longer than it appears. It is thick and a bottle will last us a couple of weeks of heavy use. We love to use it for breakfast on eggs or in burritos and for dinners or soups for added spice.",
+    "VectorDistance": 0.1463753581047058
+  },
+  {
+    "Id": 998,
+    "ProductId": "B006F2NYI2",
+    "UserId": "A3G313KLWDG3PW",
+    "ProfileName": "kefka82",
+    "Score": 5,
+    "Summary": "this sauce is the shiznit",
+    "Text": "this sauce is so good with just about anything, i like adding it to asian food or anything with egg or noodles, it has a good burn with a strong flavor. im hoping to see some of the other flavors like the pineapple experiment on here soon. buy it you wont regret it",
+    "VectorDistance": 0.1499418020248413
+  },
+  {
+    "Id": 996,
+    "ProductId": "B006F2NYI2",
+    "UserId": "A1D3F6UI1RTXO0",
+    "ProfileName": "Swopes",
+    "Score": 5,
+    "Summary": "Hot & Flavorful",
+    "Text": "BLACK MARKET HOT SAUCE IS WONDERFUL.... My husband Loves this Habenero sauce, its very very flavorful with a nice kick to it. I in fact love the medium sauce- the taste is so yummy with a bit of zing behind it. We used it for everything and you can use it with any meal.<br /><br />I like the fact that there are so many different levels of spicyness. We love the medium & habenero. Kind of like a \"HIS & HERS package\". Thank you for your hard work guys! Keep up the hard work.",
+    "VectorDistance": 0.15223878622055054
+  }
+]
+```
+
+</details>
+
+That is it! You have now successfully created a search index, populated it with data, and performed vector
+search.
+
+Check out our blog post on [Vector Search with Tigris and OpenAI](https://www.tigrisdata.com/blog/vector-search-openai/)
+that demonstrates building a Vector Search application with Tigris and OpenAI.

@@ -17,6 +17,7 @@ type Catalog struct {
 	Brand      string `tigris:"searchIndex,facet"`
 	Labels     string `tigris:"searchIndex,facet"`
 	Popularity int
+	VecField   [1536]float64 `json:"vec_field" tigris:"vector"`
 }
 ```
 
@@ -53,6 +54,7 @@ type Catalog struct {
 	Brand      string
 	Labels     string
 	Popularity int
+	VecField   [1536]float64 `json:"vec_field" tigris:"vector"`
 }
 ```
 
@@ -63,7 +65,7 @@ not persisted in the collection.
 
 Fields behavior can be modified and enriched using `tigris` struct tag.
 
-[Check available tags and example usage.](#field-tags).
+[Check available tags and example usage.](../types/#field-tags).
 
 ## Embedded Data Model
 
@@ -180,5 +182,19 @@ type CatalogDetail struct {
 	Id    int `tigris:"primaryKey:1,autoGenerate"`
 	Spec  string `tigris:"primaryKey:2"`
 	Description string
+}
+```
+
+## Vector Field
+
+Tigris supports vector fields. Vector fields are used to store the vector
+embeddings of the documents. These embeddings are used to perform vector search.
+
+```go
+type CatalogDetail struct {
+	Id    int `tigris:"primaryKey,autoGenerate"`
+	Spec  string
+	Description string
+	VecField [1536]float64 `json:"vec_field" tigris:"vector"`
 }
 ```

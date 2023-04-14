@@ -41,6 +41,7 @@ Examples of setting the tags:
 - `tigris:"default:'quoted string'"`
 - `tigris:"default:1.234"`
 - `tigris:"default:1000"`
+- `tigris:"vector"`
 
 Here is the list of the supported tags:
 
@@ -53,5 +54,6 @@ Here is the list of the supported tags:
 | createdAt    | The field will be automatically populated with the current time at the document creation                                                    |
 | updatedAt    | The field will be automatically populated with the current time every time the document is updated                                          |
 | searchIndex  | Add the fields to text search index, so the field is searchable using Search API                                                            |
+| vector       | Required for a fields that store vector embeddings                                                                                          |
 | sort         | Additionally specify search field as sorted                                                                                                 |
 | facet        | Additionally specify search field as faceted                                                                                                |

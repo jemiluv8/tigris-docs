@@ -91,6 +91,16 @@ export class Post {
 }
 ```
 
+## Vectors
+
+Tigris supports storing vector embeddings and vector search. Vectors are represented as arrays of numbers.
+
+```ts
+// 1536 floats total for ada-002
+@SearchField({ dimensions: 1536 })
+vector: number[];
+```
+
 ## Sorting and Faceting
 
 Tigris supports the majority of the primitive TypeScript types while also
@@ -109,3 +119,5 @@ providing support for custom types.
 :::note
 
 In case of an object type field, `sort` and `facet` properties apply to its nested fields. The above rules also apply to user-defined class.
+
+:::

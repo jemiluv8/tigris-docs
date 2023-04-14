@@ -37,6 +37,11 @@ const sidebars = {
         },
         {
           type: "doc",
+          label: "Vector Search",
+          id: "quickstarts/quickstart-vector-search",
+        },
+        {
+          type: "doc",
           label: "Next.js & Vercel",
           id: "quickstarts/quickstart-nextjs-vercel",
         },
@@ -293,6 +298,7 @@ const sidebars = {
                 "sdkstools/typescript/search/types",
                 "sdkstools/typescript/search/index-documents",
                 "sdkstools/typescript/search/search-documents",
+                "sdkstools/typescript/search/vector-search",
                 "sdkstools/typescript/search/get",
                 "sdkstools/typescript/search/delete",
                 "sdkstools/typescript/search/pagination",

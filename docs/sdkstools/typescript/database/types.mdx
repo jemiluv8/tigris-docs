@@ -130,3 +130,13 @@ export class Post {
   comments: Comment[];
 }
 ```
+
+## Vectors
+
+Tigris supports storing vector embeddings and vector search. Vectors are represented as arrays of numbers.
+
+```ts
+// 1536 floats total for ada-002
+@SearchField({ dimensions: 1536 })
+vector: number[];
+```

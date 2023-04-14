@@ -57,6 +57,20 @@ and then embed it inside the `Order` type.
 
 <CodeBlock language="go">{embeddedSchema}</CodeBlock>
 
+## Vector Field
+
+Tigris supports vector fields. Vector fields are used to store the vector
+embeddings of the documents. These embeddings are used to perform vector search.
+
+```go
+type CatalogDetail struct {
+	Id    int `tigris:"primaryKey,autoGenerate"`
+	Spec  string
+	Description string
+	VecField [1536]float64 `json:"vec_field" tigris:"vector"`
+}
+```
+
 ## Arrays in documents
 
 Arrays are defined as usual no additional annotations required.

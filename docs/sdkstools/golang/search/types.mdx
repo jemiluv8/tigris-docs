@@ -37,6 +37,16 @@ type Post struct {
 }
 ```
 
+## Vectors
+
+```go
+type Post struct {
+	Title  string
+	Author string `tigris:"facet,sort"`
+	VecField [1536]float64 `json:"vec_field" tigris:"vector"`
+}
+```
+
 ## Objects
 
 User-defined classes and objects are supported. Fields can be of any type,

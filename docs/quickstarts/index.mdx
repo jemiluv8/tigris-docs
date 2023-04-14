@@ -13,6 +13,7 @@ import {
   JavaIcon,
   TSIcon,
   NextJsIcon,
+  GreenStar,
 } from "@site/src/icons";
 
 import MongoDBQuickStartsCards from "@site/src/components/MongoDBCompatibilityQuickStartCards";
@@ -27,8 +28,14 @@ import MongoDBQuickStartsCards from "@site/src/components/MongoDBCompatibilityQu
     icon={<TSIcon />}
   />
   <Card
+    title="Vector Search"
+    description="Quickstart for building a vector search application using Tigris and OpenAI"
+    to="./quickstart-vector-search"
+    icon={<GreenStar />}
+  />
+  <Card
     title="Next.js & Vercel"
-    description="Deploy a Tigris and Next.js application to Vercel"
+    description="Build and deploy a Tigris and Next.js application to Vercel"
     to="./quickstart-nextjs-vercel"
     icon={<NextJsIcon />}
   />
