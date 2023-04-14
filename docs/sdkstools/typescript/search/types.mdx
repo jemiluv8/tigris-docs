@@ -121,3 +121,14 @@ providing support for custom types.
 In case of an object type field, `sort` and `facet` properties apply to its nested fields. The above rules also apply to user-defined class.
 
 :::
+
+## id Field
+
+Tigris allows you to tag a field to be used for the document id. This field is
+used to uniquely identify a document in the search index. The field must be of
+type `string`.
+
+```ts
+@SearchField({ id: true })
+catalogId: string;
+```

@@ -36,17 +36,21 @@ with the `@SearchField()` annotation. The data type is determined using
 "reflection" if the optional `type` parameter is not specified. A `@SearchField()`
 decorator accepts optional parameters to further refine how the document field is indexed.
 
-| Option      | Type            | Default                    | Usage                                                                                                   |
-| ----------- | --------------- | -------------------------- | ------------------------------------------------------------------------------------------------------- |
-| searchIndex | boolean         | True                       | To enable/disable indexing on a field. Any non-indexed field won't be searchable.                       |
-| sort        | boolean         | False                      | To enable/disable sorting on a field. Not supported for Arrays and Objects without a predefined schema. |
-| facet       | boolean         | False                      | To enable/disable faceting on a field. Not supported for Array of Objects.                              |
-| dimensions  | number          | Required for vector fields | The number of dimensions of the vector embeddings that will be stored.                                  |
-| elements    | TigrisDataTypes | Required for Array fields  | The type of the elements in the array.                                                                  |
+| Option      | Type            | Default                    | Usage                                                                                                                   |
+| ----------- | --------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| searchIndex | boolean         | True                       | To enable/disable indexing on a field. Any non-indexed field won't be searchable.                                       |
+| sort        | boolean         | False                      | To enable/disable sorting on a field. Not supported for Arrays and Objects without a predefined schema.                 |
+| facet       | boolean         | False                      | To enable/disable faceting on a field. Not supported for Array of Objects.                                              |
+| dimensions  | number          | Required for vector fields | The number of dimensions of the vector embeddings that will be stored.                                                  |
+| elements    | TigrisDataTypes | Required for Array fields  | The type of the elements in the array.                                                                                  |
+| id          | boolean         | False                      | To have this field's value used as the document ID for documents in the search index. The field must be of string type. |
 
 ```ts
 @TigrisSearchIndex("catalog")
 export class Catalog {
+  @SearchField({ id: true })
+  catalogId: string;
+
   @SearchField({ sort: true })
   name: string;
 
@@ -123,4 +127,10 @@ index. `id` is immutable.
 
 Tigris assigns an auto-generated `id` to each document. However, there might be
 cases where you want to supply your own ID, for example to avoid duplicate
-documents to be indexed. In such cases you can specify an `id` field in the schema.
+documents to be indexed. In such cases you can annotate a field that can uniquely
+identify a document with `@SearchField({ id: true })` as shown below.
+
+```ts
+@SearchField({ id: true })
+catalogId: string;
+```
