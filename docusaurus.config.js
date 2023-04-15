@@ -96,8 +96,9 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Generated with https://pika.style/
-      image: "/img/tigris-docs.png",
+      // Generated dynamically with https://vercel-og-tigris.vercel.app/api/param?title=
+      image:
+        "https://vercel-og-tigris.vercel.app/api/param?title=Serverless%20NoSQL%20Database%20and%20Search%20Platform",
       colorMode: {
         defaultMode: "dark",
       },
