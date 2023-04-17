@@ -133,9 +133,21 @@ const sidebars = {
       ],
     },
     {
+      type: "category",
+      label: "Vector Search",
+      link: {
+        type: "doc",
+        id: "concepts/vector-search/index",
+      },
+      items: [
+        "concepts/vector-search/getting-started",
+        "concepts/vector-search/hybrid-search",
+      ],
+    },
+    {
       type: "doc",
-      label: "Search",
-      id: "concepts/searching/search",
+      label: "Full-text Search",
+      id: "concepts/searching/full-text-search",
     },
     {
       type: "category",
@@ -297,7 +309,7 @@ const sidebars = {
                 "sdkstools/typescript/search/datamodel",
                 "sdkstools/typescript/search/types",
                 "sdkstools/typescript/search/index-documents",
-                "sdkstools/typescript/search/search-documents",
+                "sdkstools/typescript/search/fulltext-search",
                 "sdkstools/typescript/search/vector-search",
                 "sdkstools/typescript/search/get",
                 "sdkstools/typescript/search/delete",
@@ -473,7 +485,7 @@ const sidebars = {
             type: "doc",
             id: "sdkstools/mongodb-compatibility/index",
           },
-          collapsed: false,
+          collapsed: true,
           items: [
             "sdkstools/mongodb-compatibility/mongodb-drivers",
             "sdkstools/mongodb-compatibility/mongodb-features",

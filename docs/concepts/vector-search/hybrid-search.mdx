@@ -1,0 +1,132 @@
+# Conduct a Hybrid Search
+
+Hybrid search is a combination of vector search and attribute filtering.
+By specifying expressions that filter on scalar fields you can narrow
+down the results of a vector search making them more relevant.
+
+The following example demonstrates how to perform a hybrid search.
+Suppose you want to search for product reviews based on vector embeddings,
+but you only want those for a certain product category. You can do this
+by performing a vector search as usual, but this time also specifying a
+filter expression that filters on the product category.
+
+## Create an index
+
+Index is where you store your documents and vector embeddings. An index has a
+name and a schema.
+
+```ts
+// Define the index schema consisting of the document fields and vector field
+@TigrisSearchIndex("reviews")
+export class Review {
+  @SearchField()
+  Id: string;
+
+  @SearchField()
+  ProductCategory: string;
+
+  @SearchField()
+  Rating: number;
+
+  @SearchField()
+  Text: string;
+
+  // 1536 floats total for ada-002
+  @SearchField({ dimensions: 1536 })
+  vector: number[];
+}
+
+// Create the index
+const search = tigrisClient.getSearch();
+await search.createOrUpdateIndex(Review);
+```
+
+## Add some documents to the index
+
+Assuming you have already generated the vector embeddings, add the documents
+with the embeddings to the index.
+
+```ts
+await index.createOrReplaceMany([
+  {
+    Id: "1",
+    Text: "This is a great product. I would recommend it to anyone.",
+    ProductCategory: "Electronics",
+    Rating: 5,
+    vector: [1.2, 2.3, 4.5],
+  },
+  {
+    Id: "2",
+    Text: "This is a bad product. I would not recommend it to anyone.",
+    ProductCategory: "Books",
+    Rating: 1,
+    vector: [6.7, 8.2, 9.2],
+  },
+  {
+    Id: "3",
+    Text: "This is a good product. I would recommend it to anyone.",
+    ProductCategory: "Electronics",
+    Rating: 4,
+    vector: [1.0, 2.1, 3.2],
+  },
+]);
+```
+
+## Perform a hybrid search
+
+Now we can query the index for similar documents by providing the query
+vector. But we will limit the search results to documents that have a
+product category of "Electronics".
+
+```ts
+const request: SearchQuery<Review> = {
+  vectorQuery: {
+    vector: [1.1, 2.2, 3.3],
+  },
+  filter: {
+    ProductCategory: "Electronics",
+  },
+  hitsPerPage: 10,
+};
+
+index.search(request).then((results) => {
+  console.log(results);
+});
+```
+
+Here the `filter` option is used to specify the attribute filtering
+expression. The `filter` option is an object where the keys are the
+attributes in the documents and the values are the values to filter on.
+
+The `filter` option can also be used to filter on multiple attributes.
+For example, if you wanted to filter on both the product category and
+the rating, you could do the following:
+
+```ts
+const request: SearchQuery<Review> = {
+  vectorQuery: {
+    vector: [1.1, 2.2, 3.3],
+  },
+  filter: {
+    op: LogicalOperator.AND,
+    selectorFilters: [
+      {
+        fields: {
+          ProductCategory: "Electronics",
+        },
+      },
+      {
+        op: SelectorFilterOperator.GT,
+        fields: {
+          Rating: 4,
+        },
+      },
+    ],
+  },
+  hitsPerPage: 10,
+};
+
+index.search(request).then((results) => {
+  console.log(results);
+});
+```

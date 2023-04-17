@@ -200,5 +200,99 @@ Below is the output of the above code:
 That is it! You have now successfully created a search index, populated it with data, and performed vector
 search.
 
-Check out our blog post on [Vector Search with Tigris and OpenAI](https://www.tigrisdata.com/blog/vector-search-openai/)
-that demonstrates building a Vector Search application with Tigris and OpenAI.
+## Hyrbid Search
+
+Hybrid search is a combination of vector search and attribute filtering.
+By specifying expressions that filter on scalar fields you can narrow
+down the results of a vector search making them more relevant.
+
+Let's take the example of the vector search we performed above. We can
+narrow down the results by filtering on the `Score` attribute.
+
+```ts
+const request: SearchQuery<Review> = {
+  vectorQuery: {
+    vector: embeddings,
+  },
+  filter: {
+    op: SelectorFilterOperator.GT,
+    fields: {
+      Score: 4,
+    },
+  },
+  hitsPerPage: 5,
+};
+
+index.search(request).then((results) => {
+  const docs = [];
+  for (const hit of results.hits) {
+    docs.push({
+      Id: hit.document.Id,
+      ProductId: hit.document.ProductId,
+      UserId: hit.document.UserId,
+      ProfileName: hit.document.ProfileName,
+      Score: hit.document.Score,
+      Summary: hit.document.Summary,
+      Text: hit.document.Text,
+      VectorDistance: hit.meta.textMatch.vectorDistance,
+    });
+  }
+  console.log(docs);
+});
+```
+
+Here we have filtered on the attribute `Score` so that the results from
+the vector search query are only those reviews that have a score greater than 4.
+
+The `filter` option can also be used to filter on multiple attributes.
+For example if we want to filter on both `Score` and `ProductId` attributes,
+we can do so as following:
+
+```ts
+const request: SearchQuery<Review> = {
+  vectorQuery: {
+    vector: embeddings,
+  },
+  filter: {
+    op: LogicalOperator.AND,
+    selectorFilters: [
+      {
+        fields: {
+          ProductId: "B006F2NYI2",
+        },
+      },
+      {
+        op: SelectorFilterOperator.GT,
+        fields: {
+          Score: 4,
+        },
+      },
+    ],
+  },
+  hitsPerPage: 5,
+};
+
+index.search(request).then((results) => {
+  const docs = [];
+  for (const hit of results.hits) {
+    docs.push({
+      Id: hit.document.Id,
+      ProductId: hit.document.ProductId,
+      UserId: hit.document.UserId,
+      ProfileName: hit.document.ProfileName,
+      Score: hit.document.Score,
+      Summary: hit.document.Summary,
+      Text: hit.document.Text,
+      VectorDistance: hit.meta.textMatch.vectorDistance,
+    });
+  }
+  console.log(docs);
+});
+```
+
+## Next Steps
+
+- Check out the [Vector Search](../../../../concepts/vector-search)
+  concepts section to learn more about Vector Search in Tigris.
+- Check out our blog post on [Vector Search with Tigris and OpenAI](https://www.tigrisdata.com/blog/vector-search-openai/)
+  that demonstrates building a Vector Search application with Tigris and OpenAI.

@@ -21,16 +21,18 @@ export default function Homepage() {
           <div id="hero">
             <h2>Tigris Documentation</h2>
             <p>
-              Tigris is a Serverless NoSQL Database and Search Platform that
-              offers a modern open source alternative to MongoDB and DynamoDB.
+              Tigris is a Serverless NoSQL Database and Search Platform designed
+              to simplify building high-performance applications.
             </p>
             <p>
-              Tigris allows developers to rapidly build applications with a
-              NoSQL platform that combines database, full-text search, and sync
-              mechanism. Tigris simplifies operations by automatically scaling
-              throughput and storage as application traffic grows, at fraction
-              of the cost of MongoDB and DynamoDB, while providing high
-              availability and data security.
+              With Tigris, you can quickly and easily build a wide range of
+              applications, from{" "}
+              <strong>retail and e-commerce platforms</strong> to{" "}
+              <strong>financial applications and event stores</strong>, as well
+              as <strong>vector search and recommendation engines</strong>, and
+              much more. Tigris eliminates the infrastructure complexity of
+              managing, operating, and synchronizing multiple tools, allowing
+              you to focus on building great applications instead.
             </p>
           </div>
 
@@ -69,14 +71,20 @@ export default function Homepage() {
 
           <Section title="Core Features" id="core-features" HeadingTag="h3">
             <Card
-              title="Serverless NoSQL Database"
-              description="Build responsive apps with a serverless NoSQL database designed to perform consistently at any scale. Offers native support for ACID transactions, global secondary indexes, high availability, automatic database sharding, data security, and database branching."
+              title="NoSQL Database"
+              description="Build responsive apps with a serverless NoSQL database designed to perform consistently at any scale. Offers support for ACID transactions, high availability, automatic database sharding and data security."
               to="/concepts/database/"
               icon={<YellowStar />}
             />
             <Card
-              title="Integrated Full-text Search"
-              description="Deliver delightful search experiences through a unified, fully managed platform that combines database, full-text search, and sync mechanism, providing the fastest and easiest way to build search capabilities into applications."
+              title="Vector Search"
+              description="Use Tigris to store and index vector embeddings for fast and scalable vector search. Build semantic search applications, ranking and recommendation engines, perform similarity search and more. "
+              to="/concepts/vector-search/"
+              icon={<GreenStar />}
+            />
+            <Card
+              title="Full-text Search"
+              description="Deliver delightful search experiences through a unified platform that combines database, full-text search, and sync mechanism, providing the fastest and easiest way to build search capabilities into applications."
               to="/concepts/searching/"
               icon={<YellowStar />}
             />
@@ -100,8 +108,6 @@ export default function Homepage() {
               icon={<APIReferenceIcon />}
             />
           </Section>
-
-          <GuidesSection title="Advanced Guides" />
         </div>
       </div>
     </Layout>
