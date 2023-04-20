@@ -94,17 +94,32 @@ unwanted results.
 
 ## Refine the search results using filters
 
-Let's adjust the query to only return items in `price` range of **[40, 90)**. We can use
-[filters](../query/#filter) in search to further refine the results.
-
-<CodeBlock language={props.codeLang}>{props.searchFilters}</CodeBlock>
-
-### Exact text match
+### Applying filter on search results
 
 Filters can be used to match against one or more field values in a collection. For example, to
 fetch all items from `brand` "adidas".
 
 <CodeBlock language={props.codeLang}>{props.exactMatch}</CodeBlock>
+
+### Applying complex filter on search results
+
+Let's adjust the query to only return items in `price` range of **[40, 90)**. We can use
+[filters](../query/#filter) in search to further refine the results.
+
+<CodeBlock language={props.codeLang}>{props.searchFilters}</CodeBlock>
+
+### Supported filter operators
+
+The following filter operators are supported:
+
+- `SelectorFilterOperator.EQ` - Matches documents where the field value is equal to the provided value.
+- `SelectorFilterOperator.LT` - Matches documents where the field value is less than the provided value.
+- `SelectorFilterOperator.LTE` - Matches documents where the field value is less than or equal to the provided value.
+- `SelectorFilterOperator.GT` - Matches documents where the field value is greater than the provided value.
+- `SelectorFilterOperator.GTE` - Matches documents where the field value is greater than or equal to the provided value.
+
+- `LogicalOperator.AND` - Matches documents where all of the provided filters match.
+- `LogicalOperator.OR` - Matches documents where at least one of the provided filters match.
 
 ## Faceted search
 
