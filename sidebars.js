@@ -426,6 +426,7 @@ const sidebars = {
             "sdkstools/cli/installation",
             "sdkstools/cli/configuration",
             "sdkstools/cli/working-locally",
+            "sdkstools/cli/importing",
             {
               type: "category",
               label: "Commands",
