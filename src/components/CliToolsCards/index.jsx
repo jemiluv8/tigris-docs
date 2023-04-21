@@ -3,7 +3,7 @@ import {
   HomepageCard as Card,
   HomepageSection as Section,
 } from "../HomepageComponents";
-import { TerminalIcon } from "../../icons";
+import { AstroIcon, TerminalIcon } from "../../icons";
 
 export default function CliToolsCards() {
   return (
@@ -19,6 +19,12 @@ export default function CliToolsCards() {
         description="The easiest way to get started in TypeScript"
         to="/docs/sdkstools/create-tigris-app/"
         icon={<TerminalIcon />}
+      />
+      <Card
+        title="Tigris Astro Integration"
+        description="Add Tigris to your Astro site"
+        to="/docs/sdkstools/astro/"
+        icon={<AstroIcon />}
       />
     </Section>
   );

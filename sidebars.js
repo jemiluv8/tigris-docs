@@ -480,6 +480,11 @@ const sidebars = {
           id: "sdkstools/create-tigris-app/create-tigris-app",
         },
         {
+          type: "doc",
+          label: "Tigris Astro Integration",
+          id: "sdkstools/astro/index",
+        },
+        {
           type: "category",
           label: "MongoDB compatibility",
           link: {
