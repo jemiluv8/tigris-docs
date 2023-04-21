@@ -40,11 +40,16 @@ Login to your Tigris Cloud account
 tigris login
 ```
 
-The next step is to generate credentials to be used by the application we
-will be building in this quickstart
+The next step is to create the project for the application we will be building
 
 ```shell
-tigris create app_key quickstart "quickstart application"
+tigris create project "quickstart"
+```
+
+Now we can generate credentials to be used in this quickstart
+
+```shell
+tigris create app_key quickstart_key "quickstart application" -p "quickstart"
 ```
 
 Once the command is executed, it would create the application credentials
