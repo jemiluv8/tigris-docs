@@ -10,7 +10,10 @@ it, err := catalogs.Read(ctx, filter.And(
 if err != nil {
     panic(err)
 }
-var product Catalog
-for it.Next(&product) {
+
+err := it.Iterate(func(p *Catalog) error {
     fmt.Printf("%+v\n", product)
+})
+if err != nil {
+    panic(err)
 }

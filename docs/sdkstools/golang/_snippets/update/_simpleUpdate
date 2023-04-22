@@ -1,4 +1,4 @@
-_, err := catalogs.Update(ctx, filter.Eq("Id", 1), fields.Set("Price", 65))
+_, err := catalogs.UpdateOne(ctx, filter.Gt("Id", 1), fields.Set("Price", 65))
 if err != nil {
     // handle error
 }

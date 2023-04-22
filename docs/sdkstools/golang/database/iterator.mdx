@@ -1,0 +1,99 @@
+---
+title: Data access using iterator
+---
+
+Query operations that fetch multiple documents from server do not immediately return all values.
+The query can potentially match large sets of documents, and may need to be fetched in batches to
+optimize network and memory usage. These queries return an object `Iterator` that facilitates data
+consumption.
+
+Iterator instance returned by the query APIs, should not be used concurrently.
+
+Following are a few ways to access data from an iterator:
+
+## Streaming
+
+Streaming methods can be used to retrieve large results, so as they are not loading entire dataset in memory.
+
+### Using Next method
+
+Next iteration pattern is the most flexible one.
+It allows to:
+
+- Partially consume the stream
+- Pause iteration while keeping the iterator open \* Reschedule on other goroutine and resume iteration
+
+```go
+it, err := catalogs.Read(ctx,
+    filter.And(
+        filter.Lt("Price", 50),
+        filter.Gte("Popularity", 8),
+    ),
+)
+if err != nil {
+    panic(err)
+}
+defer it.Close()
+
+var product Catalog
+for it.Next(&product) {
+    fmt.Printf("%+v\n", product)
+}
+
+if it.Err() != nil {
+	panic(err)
+}
+```
+
+### Using closure
+
+Closure has an advantage over the Next method, so as iterator is closed automatically.
+But entire stream should be consumed at once. Returning an error from the closure stops the iteration
+prematurely.
+
+```go
+it, err := catalogs.Read(ctx,
+    filter.And(
+        filter.Lt("Price", 50),
+        filter.Gte("Popularity", 8),
+    ),
+)
+if err != nil {
+    panic(err)
+}
+
+err = it.Iterate(func(p *Catalog) error {
+    fmt.Printf("%+v\n", p)
+	return nil
+})
+if err != nil {
+	panic(err)
+}
+```
+
+## Array of documents
+
+An array of documents can be requested from Iterator using `Array()` method, this
+would entail reading all documents from database matching the query and returning it as an Array.
+
+```go
+it, err := catalogs.Read(ctx, filter.Eq("brand", "Adidas"))
+if err != nil {
+	panic(err)
+}
+
+arr, err := it.Array()
+if err != nil {
+	panic(err)
+}
+
+for k, v := range arr {
+	fmt.Printf("%v=%+v\n", k, v)
+}
+```
+
+:::caution
+If a query matches large number of documents, the internal memory may not be enough to store the
+Array. In such cases, `Array()` can cause performance issues or failures if dataset exceeds memory
+constraints. It is recommended to use one of the iteration or streaming methods to read documents.
+:::

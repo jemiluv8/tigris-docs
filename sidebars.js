@@ -347,6 +347,7 @@ const sidebars = {
                 "sdkstools/golang/database/query",
                 "sdkstools/golang/database/search",
                 "sdkstools/golang/database/transactions",
+                "sdkstools/golang/database/iterator",
               ],
             },
             {
