@@ -1,1 +1,50 @@
-// TODO
+// Example descending
+it, err = catalog.ReadWithOptions(ctx, filter.All, fields.All,
+	&tigris.ReadOptions{
+		Sort: sort.Descending("popularity"),
+	},
+)
+if err != nil {
+	panic(err)
+}
+
+res, err := it.Array()
+if err != nil {
+	panic(err)
+}
+
+fmt.Printf("%+v\n", res)
+
+// Example ascending
+it, err = catalog.ReadWithOptions(ctx, filter.All, fields.All,
+	&tigris.ReadOptions{
+		Sort: sort.Ascending("price"),
+	},
+)
+if err != nil {
+	panic(err)
+}
+
+res, err = it.Array()
+if err != nil {
+	panic(err)
+}
+
+fmt.Printf("%+v\n", res)
+
+// Example multiple fields
+it, err = catalog.ReadWithOptions(ctx, filter.All, fields.All,
+	&tigris.ReadOptions{
+		Sort: sort.Ascending("price").Descending("popularity"),
+	},
+)
+if err != nil {
+	panic(err)
+}
+
+res, err = it.Array()
+if err != nil {
+	panic(err)
+}
+
+fmt.Printf("%+v\n", res)
