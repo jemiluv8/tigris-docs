@@ -36,7 +36,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/tigrisdata/tigris-client-go/config"
 	"github.com/tigrisdata/tigris-client-go/fields"
 	"github.com/tigrisdata/tigris-client-go/filter"
 	"github.com/tigrisdata/tigris-client-go/search"
@@ -56,14 +55,12 @@ func main() {
 
 	// Connect to the Tigris backend, create the database and collection if they don't exist,
 	// otherwise update the schema of the collection if it already exists
-	cfg := &config.Database{
-		Driver: config.Driver{
-          URL: "api.preview.tigrisdata.cloud"
-          ClientID: "your_client_id_here"
-          ClientSecret: "your_client_secret_here"
-		}
+	cfg := &tigris.Config{
+		URL:          "api.preview.tigrisdata.cloud",
+		ClientID:     "your_client_id_here",
+		ClientSecret: "your_client_secret_here",
 	}
-	db, err := tigris.OpenDatabase(ctx, cfg}, "hello_db", &User{})
+	db, err := tigris.OpenDatabase(ctx, cfg, "hello_db", &User{})
 	if err != nil {
 		panic(err)
 	}
