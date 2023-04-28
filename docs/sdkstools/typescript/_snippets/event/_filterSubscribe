@@ -1,8 +1,5 @@
 const cancelledOrdersFilter = {
-  op: SelectorFilterOperator.EQ,
-  fields: {
     orderStatus: "cancelled"
-  }
 };
 
 // Use one of the two ways to consume events from a topic:

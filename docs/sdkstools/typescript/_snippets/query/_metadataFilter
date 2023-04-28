@@ -1,19 +1,16 @@
 const productsCursor = catalog.findMany({
   filter: {
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    "$and": [
       {
-        op: SelectorFilterOperator.GTE,
-        fields: {
-          created_at: "2022-01-01T17:29:28.000Z",
+        created_at: {
+          "$gte": "2022-01-01T17:29:28.000Z",
         },
       },
       {
-        op: SelectorFilterOperator.LT,
-        fields: {
-          created_at: "2022-01-02T17:29:28.000Z",
+        created_at: {
+          "$lt": "2022-01-01T17:29:28.000Z",
         },
-      },
+      }
     ],
   },
 });

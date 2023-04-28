@@ -1,13 +1,12 @@
 const eventsCursor = topic.findMany({
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    "$and": [
         {
             brand: "adidas"
         },
         {
             status: "sold"
         },
-    ]
+    ],
 }, {
     include: ["name", "brand", "status"],
 });

@@ -84,15 +84,16 @@ const deleteCount = await catalog.deleteByQuery({ brand: "coach" });
 
 ```ts
 const deleteCount = await catalog.deleteByQuery({
-  op: LogicalOperator.AND,
-  selectorFilters: [
+  $and: [
     {
-      op: SelectorFilterOperator.GTE,
-      fields: { price: 35 },
+      price: {
+        $gte: 35,
+      },
     },
     {
-      op: SelectorFilterOperator.LT,
-      fields: { price: 90 },
+      price: {
+        $lt: 90,
+      },
     },
   ],
 });

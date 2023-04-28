@@ -215,9 +215,8 @@ const request: SearchQuery<Review> = {
     vector: embeddings,
   },
   filter: {
-    op: SelectorFilterOperator.GT,
-    fields: {
-      Score: 4,
+    score: {
+      $gt: 4,
     },
   },
   hitsPerPage: 5,
@@ -254,17 +253,13 @@ const request: SearchQuery<Review> = {
     vector: embeddings,
   },
   filter: {
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    $and: [
       {
-        fields: {
-          ProductId: "B006F2NYI2",
-        },
+        ProductId: "B006F2NYI2",
       },
       {
-        op: SelectorFilterOperator.GT,
-        fields: {
-          Score: 4,
+        Score: {
+          $gt: 4,
         },
       },
     ],

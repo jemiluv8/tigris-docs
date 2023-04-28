@@ -1,15 +1,13 @@
 const updateResponse = await catalog.updateMany({
   filter: {
-    op: LogicalOperator.AND,
-      selectorFilters: [
-        {
-          name: "sneakers shoes"
-        },
-        {
-           brand: "adidas"
-        }
-      ]
-    },
+    "$and": [
+      {
+        name: "sneakers shoes"
+      },
+      {
+         brand: "adidas"
+      }
+    ],
   fields: {
     price: 85,
   }

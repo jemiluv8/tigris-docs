@@ -1,36 +1,30 @@
-const logicalFilter: LogicalFilter <ProductCatalog> = {
-    op: LogicalOperator.OR,
-    selectorFilters: [
+const logicalFilter: Filter<ProductCatalog> = {
+    "$or": [
         {
-            op: SelectorFilterOperator.LT,
-            fields: {
-                price: 50
-            }
+            price: {
+                "$lt": 50,
+            },
         },
         {
-            op: SelectorFilterOperator.GTE,
-            fields: {
-                popularity: 8
-            }
+            popularity: {
+                "$gte": 8,
+            },
+        },
+        {
+            "$and": [
+                {
+                    price: {
+                        "$lt": 50,
+                    },
+                },
+                {
+                    popularity: {
+                        "$gte": 8,
+                    },
+                }
+            ]
         }
     ],
-    logicalFilters: [{
-        op: LogicalOperator.AND,
-        selectorFilters: [
-            {
-                op: SelectorFilterOperator.LT,
-                fields: {
-                    price: 50
-                }
-            },
-            {
-                op: SelectorFilterOperator.GTE,
-                fields: {
-                    popularity: 8
-                }
-            }
-        ]
-    }],
 };
 
 catalog.findMany(logicalFilter).then(value => {

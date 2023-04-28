@@ -2,20 +2,17 @@ const query: SearchQuery<Catalog> = {
   q: "running",
   searchFields: ["name", "labels"],
   filter: {
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    "$and": [
       {
-        op: SelectorFilterOperator.GTE,
-        fields: {
-          price: 40
-        }
+        price: {
+          "$gte": 40,
+        },
       },
       {
-        op: SelectorFilterOperator.LT,
-        fields: {
-          price: 90
-        }
+        price: {
+          "$lt": 90,
+        },
       }
-    ]
+    ],
   }
 };

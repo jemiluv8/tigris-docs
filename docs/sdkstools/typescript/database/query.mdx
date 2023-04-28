@@ -20,13 +20,13 @@ import sortResultsSource from "!!raw-loader!../_snippets/query/_sortResults";
 import paginationSource from "!!raw-loader!../_snippets/query/_pagination";
 
 export const filterSyntax = {
-  eq: "SelectorFilterOperator.EQ",
-  lt: "SelectorFilterOperator.LT",
-  lte: "SelectorFilterOperator.LTE",
-  gt: "SelectorFilterOperator.GT",
-  gte: "SelectorFilterOperator.GTE",
-  or: "LogicalOperator.OR",
-  and: "LogicalOperator.AND",
+  eq: "$eq",
+  lt: "$lt",
+  lte: "$lte",
+  gt: "$gt",
+  gte: "$gte",
+  or: "$or",
+  and: "$and",
 };
 
 export const sortDirectionSyntax = {

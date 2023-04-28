@@ -1,15 +1,16 @@
 const deleteResponse = await catalog.deleteMany({
   filter: {
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    "$and": [
       {
-        op: SelectorFilterOperator.LT,
-        fields: { id: 5 }
+        id: {
+          "$lt": 5,
+        }
       },
       {
-        op: SelectorFilterOperator.GTE,
-        fields: { id: 3 }
+        id: {
+          "$gte": 3,
+        }
       }
-    ]
+    ],
   }
 });

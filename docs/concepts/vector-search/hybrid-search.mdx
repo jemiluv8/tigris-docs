@@ -108,17 +108,13 @@ const request: SearchQuery<Review> = {
     vector: [1.1, 2.2, 3.3],
   },
   filter: {
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    $and: [
       {
-        fields: {
-          ProductCategory: "Electronics",
-        },
+        ProductCategory: "Electronics",
       },
       {
-        op: SelectorFilterOperator.GT,
-        fields: {
-          Rating: 4,
+        Rating: {
+          $gt: 4,
         },
       },
     ],

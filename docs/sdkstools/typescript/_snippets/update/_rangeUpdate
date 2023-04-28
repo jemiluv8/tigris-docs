@@ -1,16 +1,17 @@
 const updateResponse = await catalog.updateMany({
   filter: {
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    "$and": [
       {
-        op: SelectorFilterOperator.LT,
-        fields: { id: 4 }
+        id: {
+          "$lt": 4,
+        }
       },
       {
-        op: SelectorFilterOperator.GTE,
-        fields: { id: 2 }
+        id: {
+          "$gte": 2,
+        },
       }
-    ]
+    ],
   },
   fields: {
     popularity: 9

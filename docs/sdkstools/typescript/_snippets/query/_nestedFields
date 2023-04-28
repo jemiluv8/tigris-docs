@@ -1,16 +1,12 @@
 const productsCursor = catalog.findMany({
   filter: {
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    "$and": [
       {
         labels: "shoes",
       },
       {
-        op: SelectorFilterOperator.GT,
-        fields: {
-          reviews: {
-            rating: 7,
-          },
+        "reviews.ratings": {
+          "$gt": 7,
         },
       },
     ],

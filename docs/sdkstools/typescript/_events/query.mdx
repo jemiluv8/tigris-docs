@@ -17,13 +17,13 @@ import readAllSource from "!!raw-loader!../_snippets/query_topic/_readAll";
 import readUsingCollationSource from "!!raw-loader!../_snippets/query_topic/_readUsingCollation";
 
 export const filterSyntax = {
-  eq: "SelectorFilterOperator.EQ",
-  lt: "SelectorFilterOperator.LT",
-  lte: "SelectorFilterOperator.LTE",
-  gt: "SelectorFilterOperator.GT",
-  gte: "SelectorFilterOperator.GTE",
-  or: "LogicalOperator.OR",
-  and: "LogicalOperator.AND",
+  eq: "$eq",
+  lt: "$lt",
+  lte: "$lte",
+  gt: "$gt",
+  gte: "$gte",
+  or: "$or",
+  and: "$and",
 };
 
 <QueryTemplate

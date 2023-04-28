@@ -1,17 +1,15 @@
 const productsCursor = catalog.findMany({
   filter: {
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    "$and": [
       {
         brand: "adidas",
       },
       {
-        op: SelectorFilterOperator.LT,
-        fields: {
-          price: 50,
+        price: {
+          "$lt": 50,
         },
       },
-    ],
+    ]
   },
 });
 

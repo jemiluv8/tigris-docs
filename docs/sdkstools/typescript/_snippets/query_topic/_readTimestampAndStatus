@@ -1,16 +1,14 @@
 const eventsCursor = topic.findMany({
-    op: LogicalOperator.AND,
-    selectorFilters: [
+    "$and": [
         {
-            op: SelectorFilterOperator.GTE,
-            fields: {
-                created_at: "2022-01-01T17:29:28.000Z"
+            created_at: {
+                "$gte": "2022-01-01T17:29:28.000Z"
             }
         },
         {
-            status: "sold"
+            status: "sold",
         },
-    ]
+    ],
 });
 
 for await (const event of eventsCursor) {
