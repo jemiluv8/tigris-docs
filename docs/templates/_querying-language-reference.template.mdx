@@ -39,6 +39,12 @@ Filter provides the following comparison operators with the same semantics as in
 - <b>{props.filters["gte"]}</b>: greater than or equal to is similar to <b>
     {props.filters["gt"]}
   </b> but also matches for equality.
+- <b>{props.filters["not"]}</b>: not is used for matching documents using not
+  equal criteria.
+- <b>{props.filters["regex"]}</b>: regex is used for matching documents using a
+  regular expression.
+- <b>{props.filters["contains"]}</b>: contains is used for matching documents
+  with fields containing the given substring.
 
 For multiple conditions, there are two logical operators supported.
 
