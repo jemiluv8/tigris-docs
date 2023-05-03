@@ -257,6 +257,10 @@ nav.menu {
   text-decoration: none;
 }
 
+.footer__logo {
+  height: 26px !important;
+}
+
 .navbar-sidebar__item {
   padding-right: 0;
 }
@@ -627,4 +631,8 @@ table td {
 
 .disable-external-icon svg {
   display: none;
+}
+
+.docsly-toolbox {
+  bottom: 3.5em !important;
 }

@@ -28,6 +28,10 @@ const config = {
 
   clientModules: [require.resolve("./src/util/augmentConsoleLinks.js")],
 
+  customFields: {
+    docslyPublicId: process.env.NEXT_DOCSLY_PUBLIC_ID,
+  },
+
   presets: [
     [
       "classic",
