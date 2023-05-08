@@ -204,6 +204,197 @@
           ]
         },
         {
+          "name": "BranchInfo",
+          "longName": "BranchInfo",
+          "fullName": "tigrisdata.v1.BranchInfo",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "branch",
+              "description": "Branch name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "metadata",
+              "description": "Metadata about the branch",
+              "label": "",
+              "type": "BranchMetadata",
+              "longType": "BranchMetadata",
+              "fullType": "tigrisdata.v1.BranchMetadata",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "BranchMetadata",
+          "longName": "BranchMetadata",
+          "fullName": "tigrisdata.v1.BranchMetadata",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
+        },
+        {
+          "name": "BuildCollectionIndexRequest",
+          "longName": "BuildCollectionIndexRequest",
+          "fullName": "tigrisdata.v1.BuildCollectionIndexRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "project",
+              "description": "Project name whose db is under target to index documents.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "collection",
+              "description": "Name of the collection.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "branch",
+              "description": "Optionally specify a database branch name to perform operation on.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "BuildCollectionIndexResponse",
+          "longName": "BuildCollectionIndexResponse",
+          "fullName": "tigrisdata.v1.BuildCollectionIndexResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "indexes",
+              "description": "",
+              "label": "repeated",
+              "type": "CollectionIndex",
+              "longType": "CollectionIndex",
+              "fullType": "tigrisdata.v1.CollectionIndex",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "BuildCollectionSearchIndexRequest",
+          "longName": "BuildCollectionSearchIndexRequest",
+          "fullName": "tigrisdata.v1.BuildCollectionSearchIndexRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "project",
+              "description": "Project name whose db is under target to index documents.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "collection",
+              "description": "Name of the collection.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "branch",
+              "description": "Optionally specify a database branch name to perform operation on.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "BuildCollectionSearchIndexResponse",
+          "longName": "BuildCollectionSearchIndexResponse",
+          "fullName": "tigrisdata.v1.BuildCollectionSearchIndexResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "status",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "Collation",
           "longName": "Collation",
           "fullName": "tigrisdata.v1.Collation",
@@ -263,7 +454,7 @@
             },
             {
               "name": "schema",
-              "description": "Collections schema",
+              "description": "Collections schema.",
               "label": "",
               "type": "bytes",
               "longType": "bytes",
@@ -275,11 +466,71 @@
             },
             {
               "name": "size",
-              "description": "Collection size in bytes",
+              "description": "Collection size in bytes.",
               "label": "",
               "type": "int64",
               "longType": "int64",
               "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "indexes",
+              "description": "The index information.",
+              "label": "repeated",
+              "type": "CollectionIndex",
+              "longType": "CollectionIndex",
+              "fullType": "tigrisdata.v1.CollectionIndex",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CollectionIndex",
+          "longName": "CollectionIndex",
+          "fullName": "tigrisdata.v1.CollectionIndex",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "state",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "fields",
+              "description": "",
+              "label": "repeated",
+              "type": "Field",
+              "longType": "Field",
+              "fullType": "tigrisdata.v1.Field",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -398,6 +649,90 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CountRequest",
+          "longName": "CountRequest",
+          "fullName": "tigrisdata.v1.CountRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "project",
+              "description": "Project name whose db is under target to count documents from.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "collection",
+              "description": "Collection name to count documents from.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "filter",
+              "description": "Count documents matching this filter. An empty filter means count all documents. A filter can simply\nbe a key, value pair where a key is the field name and the value would be the value for this field.\nTigris also allows complex filtering by passing logical expressions. Logical filters are applied on\ntwo or more fields using `$or` and `$and`. The detailed documentation of the filter\nis \u003ca href=\"https://docs.tigrisdata.com/overview/query#specification-1\" title=\"here\"\u003ehere\u003c/a\u003e.",
+              "label": "",
+              "type": "bytes",
+              "longType": "bytes",
+              "fullType": "bytes",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "branch",
+              "description": "Optionally specify a database branch name to perform operation on",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CountResponse",
+          "longName": "CountResponse",
+          "fullName": "tigrisdata.v1.CountResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "count",
+              "description": "Count of documents.",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -550,6 +885,90 @@
           ]
         },
         {
+          "name": "CreateCollectionStatus",
+          "longName": "CreateCollectionStatus",
+          "fullName": "tigrisdata.v1.CreateCollectionStatus",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "status",
+              "description": "An enum with value set as \"created\" or \"updated\"",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CreateGlobalAppKeyRequest",
+          "longName": "CreateGlobalAppKeyRequest",
+          "fullName": "tigrisdata.v1.CreateGlobalAppKeyRequest",
+          "description": "Request creation of global app key",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "A human readable app name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "description",
+              "description": "A human readable app description",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CreateGlobalAppKeyResponse",
+          "longName": "CreateGlobalAppKeyResponse",
+          "fullName": "tigrisdata.v1.CreateGlobalAppKeyResponse",
+          "description": "CreateGlobalAppKeyResponse returns created global app key",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "created_app_key",
+              "description": "created app object",
+              "label": "",
+              "type": "GlobalAppKey",
+              "longType": "GlobalAppKey",
+              "fullType": "tigrisdata.v1.GlobalAppKey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "CreateOrUpdateCollectionRequest",
           "longName": "CreateOrUpdateCollectionRequest",
           "fullName": "tigrisdata.v1.CreateOrUpdateCollectionRequest",
@@ -662,6 +1081,126 @@
               "type": "string",
               "longType": "string",
               "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CreateOrUpdateCollectionsRequest",
+          "longName": "CreateOrUpdateCollectionsRequest",
+          "fullName": "tigrisdata.v1.CreateOrUpdateCollectionsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "project",
+              "description": "Project name whose db is under target to create or update collection.",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "branch",
+              "description": "Optionally specify a database branch name to perform operation on",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "schemas",
+              "description": "collections to create.",
+              "label": "repeated",
+              "type": "bytes",
+              "longType": "bytes",
+              "fullType": "bytes",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "only_create",
+              "description": "",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "options",
+              "description": "",
+              "label": "",
+              "type": "CollectionOptions",
+              "longType": "CollectionOptions",
+              "fullType": "tigrisdata.v1.CollectionOptions",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CreateOrUpdateCollectionsResponse",
+          "longName": "CreateOrUpdateCollectionsResponse",
+          "fullName": "tigrisdata.v1.CreateOrUpdateCollectionsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "resp",
+              "description": "A detailed response message.",
+              "label": "repeated",
+              "type": "CreateCollectionStatus",
+              "longType": "CreateCollectionStatus",
+              "fullType": "tigrisdata.v1.CreateCollectionStatus",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "failedAtIndex",
+              "description": "In the case, when API returns an error this is an index\nin the \"schemas\" field which failed.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "error",
+              "description": "",
+              "label": "",
+              "type": "Error",
+              "longType": "tigrisdata.observability.v1.Error",
+              "fullType": "tigrisdata.observability.v1.Error",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -884,6 +1423,54 @@
           ]
         },
         {
+          "name": "DeleteGlobalAppKeyRequest",
+          "longName": "DeleteGlobalAppKeyRequest",
+          "fullName": "tigrisdata.v1.DeleteGlobalAppKeyRequest",
+          "description": "Request deletion of an global app key",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "app_key id",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteGlobalAppKeyResponse",
+          "longName": "DeleteGlobalAppKeyResponse",
+          "fullName": "tigrisdata.v1.DeleteGlobalAppKeyResponse",
+          "description": "AppKeys returns the flag to convey if global app key was deleted",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "deleted",
+              "description": "status flag for delete operation",
+              "label": "",
+              "type": "bool",
+              "longType": "bool",
+              "fullType": "bool",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "DeleteProjectRequest",
           "longName": "DeleteProjectRequest",
           "fullName": "tigrisdata.v1.DeleteProjectRequest",
@@ -1096,6 +1683,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "deleted_count",
+              "description": "Returns the number of documents deleted.",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -1228,6 +1827,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "indexes",
+              "description": "The index information.",
+              "label": "repeated",
+              "type": "CollectionIndex",
+              "longType": "CollectionIndex",
+              "fullType": "tigrisdata.v1.CollectionIndex",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -1315,7 +1926,7 @@
             },
             {
               "name": "size",
-              "description": "Sum of all the collections sizes present in this database",
+              "description": "Sum of all the collections sizes present in this database.",
               "label": "",
               "type": "int64",
               "longType": "int64",
@@ -1327,7 +1938,7 @@
             },
             {
               "name": "branches",
-              "description": "List of all the branches in this database",
+              "description": "List of all the branches in this database.",
               "label": "repeated",
               "type": "string",
               "longType": "string",
@@ -1424,6 +2035,90 @@
             {
               "name": "status",
               "description": "An enum with value set as \"dropped\".",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ExplainResponse",
+          "longName": "ExplainResponse",
+          "fullName": "tigrisdata.v1.ExplainResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "collection",
+              "description": "The collection that the explain response is run against",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "read_type",
+              "description": "The Type of read can be either Scan or Secondary Index",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "filter",
+              "description": "The filter used in the query",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "sorting",
+              "description": "The type of sort used",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "key_range",
+              "description": "the key range",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "field",
+              "description": "the name of the field",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -1536,6 +2231,174 @@
               "type": "int64",
               "longType": "int64",
               "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Field",
+          "longName": "Field",
+          "fullName": "tigrisdata.v1.Field",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GlobalAppKey",
+          "longName": "GlobalAppKey",
+          "fullName": "tigrisdata.v1.GlobalAppKey",
+          "description": "The global AppKey",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "Generated client id",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "A human readable app name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "description",
+              "description": "A human readable app description",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "secret",
+              "description": "Generated app secret",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "created_at",
+              "description": "Created at",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "created_by",
+              "description": "Created by",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "updated_at",
+              "description": "Updated at",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "updated_by",
+              "description": "Updated by",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "GroupedSearchHits",
+          "longName": "GroupedSearchHits",
+          "fullName": "tigrisdata.v1.GroupedSearchHits",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "group_keys",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "hits",
+              "description": "",
+              "label": "repeated",
+              "type": "SearchHit",
+              "longType": "SearchHit",
+              "fullType": "tigrisdata.v1.SearchHit",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -1916,6 +2779,54 @@
           ]
         },
         {
+          "name": "ListBranchesRequest",
+          "longName": "ListBranchesRequest",
+          "fullName": "tigrisdata.v1.ListBranchesRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "project",
+              "description": "List database branches in this project",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ListBranchesResponse",
+          "longName": "ListBranchesResponse",
+          "fullName": "tigrisdata.v1.ListBranchesResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "branches",
+              "description": "List of all the branches in this database",
+              "label": "repeated",
+              "type": "BranchInfo",
+              "longType": "BranchInfo",
+              "fullType": "tigrisdata.v1.BranchInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "ListCollectionsRequest",
           "longName": "ListCollectionsRequest",
           "fullName": "tigrisdata.v1.ListCollectionsRequest",
@@ -1988,6 +2899,41 @@
           ]
         },
         {
+          "name": "ListGlobalAppKeysRequest",
+          "longName": "ListGlobalAppKeysRequest",
+          "fullName": "tigrisdata.v1.ListGlobalAppKeysRequest",
+          "description": "Request listing of all the global app keys those are visible to requesting actor",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
+        },
+        {
+          "name": "ListGlobalAppKeysResponse",
+          "longName": "ListGlobalAppKeysResponse",
+          "fullName": "tigrisdata.v1.ListGlobalAppKeysResponse",
+          "description": "ListGlobalAppKeysResponse returns one or more visible global app keys to user",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "app_keys",
+              "description": "",
+              "label": "repeated",
+              "type": "GlobalAppKey",
+              "longType": "GlobalAppKey",
+              "fullType": "tigrisdata.v1.GlobalAppKey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "ListProjectsRequest",
           "longName": "ListProjectsRequest",
           "fullName": "tigrisdata.v1.ListProjectsRequest",
@@ -2015,6 +2961,78 @@
               "type": "ProjectInfo",
               "longType": "ProjectInfo",
               "fullType": "tigrisdata.v1.ProjectInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "Match",
+          "longName": "Match",
+          "fullName": "tigrisdata.v1.Match",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "fields",
+              "description": "",
+              "label": "repeated",
+              "type": "MatchField",
+              "longType": "MatchField",
+              "fullType": "tigrisdata.v1.MatchField",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "score",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "vector_distance",
+              "description": "",
+              "label": "optional",
+              "type": "double",
+              "longType": "double",
+              "fullType": "double",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "_vector_distance",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "MatchField",
+          "longName": "MatchField",
+          "fullName": "tigrisdata.v1.MatchField",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -2633,6 +3651,54 @@
           ]
         },
         {
+          "name": "RotateGlobalAppKeySecretRequest",
+          "longName": "RotateGlobalAppKeySecretRequest",
+          "fullName": "tigrisdata.v1.RotateGlobalAppKeySecretRequest",
+          "description": "Request rotation of an app key secret",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "global app key id",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "RotateGlobalAppKeySecretResponse",
+          "longName": "RotateGlobalAppKeySecretResponse",
+          "fullName": "tigrisdata.v1.RotateGlobalAppKeySecretResponse",
+          "description": "RotateGlobalAppKeySecretResponse returns the new app key with rotated secret",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "app_key",
+              "description": "A new global app key with rotated secret.",
+              "label": "",
+              "type": "GlobalAppKey",
+              "longType": "GlobalAppKey",
+              "fullType": "tigrisdata.v1.GlobalAppKey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "SearchFacet",
           "longName": "SearchFacet",
           "fullName": "tigrisdata.v1.SearchFacet",
@@ -2737,6 +3803,18 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "match",
+              "description": "Match has the information about the matching document like the matched field, etc",
+              "label": "",
+              "type": "Match",
+              "longType": "Match",
+              "fullType": "tigrisdata.v1.Match",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -2781,6 +3859,18 @@
               "type": "Page",
               "longType": "Page",
               "fullType": "tigrisdata.v1.Page",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "matched_fields",
+              "description": "",
+              "label": "repeated",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -2953,6 +4043,30 @@
               "isoneof": false,
               "oneofdecl": "",
               "defaultValue": ""
+            },
+            {
+              "name": "group_by",
+              "description": "Group by can be used to group search results. For example, to group by city field the\nsyntax would be: `{ \"fields\": [\"city\"]}`. Optionally a grouping limit can be set. By default it is 3 per group.",
+              "label": "",
+              "type": "bytes",
+              "longType": "bytes",
+              "fullType": "bytes",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "vector",
+              "description": "Vector is an object that is used for vector search. For example, to vector search on a \"vec\" field the\nsyntax would be: `{ \"vec\": [0.34, 0.12, 0.95], \"top_k\": 10}`.",
+              "label": "",
+              "type": "bytes",
+              "longType": "bytes",
+              "fullType": "bytes",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
             }
           ]
         },
@@ -2997,6 +4111,18 @@
               "type": "SearchMetadata",
               "longType": "SearchMetadata",
               "fullType": "tigrisdata.v1.SearchMetadata",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "group",
+              "description": "Group is returned when group_by is used in the search request. In this case the above hits will be empty and\nhits are returned by the group keys.",
+              "label": "repeated",
+              "type": "GroupedSearchHits",
+              "longType": "GroupedSearchHits",
+              "fullType": "tigrisdata.v1.GroupedSearchHits",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -3164,6 +4290,78 @@
               "type": "AppKey",
               "longType": "AppKey",
               "fullType": "tigrisdata.v1.AppKey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "UpdateGlobalAppKeyRequest",
+          "longName": "UpdateGlobalAppKeyRequest",
+          "fullName": "tigrisdata.v1.UpdateGlobalAppKeyRequest",
+          "description": "To update the description of the global app key",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "id",
+              "description": "app key id - this is not allowed to update",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "A new human readable app name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "description",
+              "description": "A new human readable app description",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "UpdateGlobalAppKeyResponse",
+          "longName": "UpdateGlobalAppKeyResponse",
+          "fullName": "tigrisdata.v1.UpdateGlobalAppKeyResponse",
+          "description": "Returns response for updating the global app key description",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "updated_app_key",
+              "description": "updated global app key object",
+              "label": "",
+              "type": "GlobalAppKey",
+              "longType": "GlobalAppKey",
+              "fullType": "tigrisdata.v1.GlobalAppKey",
               "ismap": false,
               "isoneof": false,
               "oneofdecl": "",
@@ -3464,7 +4662,7 @@
             },
             {
               "name": "Replace",
-              "description": "Inserts the documents or replaces the existing documents in the collections.",
+              "description": "Inserts the documents or replaces the existing documents in the collections. All the operations\nare executed in the context of a transaction and provides all-or-nothing semantics.",
               "requestType": "ReplaceRequest",
               "requestLongType": "ReplaceRequest",
               "requestFullType": "tigrisdata.v1.ReplaceRequest",
@@ -3487,7 +4685,7 @@
             },
             {
               "name": "Delete",
-              "description": "Delete a range of documents in the collection using the condition provided in the filter.",
+              "description": "Delete a range of documents in the collection using the condition provided in the filter. No partial deletes\nare possible as the API provides ACID semantics.",
               "requestType": "DeleteRequest",
               "requestLongType": "DeleteRequest",
               "requestFullType": "tigrisdata.v1.DeleteRequest",
@@ -3510,7 +4708,7 @@
             },
             {
               "name": "Update",
-              "description": "Update a range of documents in the collection using the condition provided in the filter.",
+              "description": "Update a range of documents in the collection using the condition provided in the filter. No partial updates\nare possible as the API provides ACID semantics.",
               "requestType": "UpdateRequest",
               "requestLongType": "UpdateRequest",
               "requestFullType": "tigrisdata.v1.UpdateRequest",
@@ -3533,7 +4731,7 @@
             },
             {
               "name": "Read",
-              "description": "Reads a range of documents from the collection, or messages from a collection in case of event streaming. Tigris does not require you to\nindex any fields and automatically index all the fields which means you can filter by any field in the document.\nAn empty filter will trigger reading all the documents inside this collection. The API supports pagination that\ncan be used by passing `Limit/Skip` parameters. The `skip` parameter skips the number of documents from the start and\nthe `limit` parameter is used to specify the number of documents to read. You can find more detailed documentation\nof the Read API \u003ca href=\"https://docs.tigrisdata.com/overview/query\" title=\"here\"\u003ehere\u003c/a\u003e.",
+              "description": "Reads a range of documents from the collection. An empty filter will trigger reading all the documents\ninside this collection. The API supports pagination that can be used by passing `Limit/Skip` parameters.\nThe `skip` parameter skips the number of documents from the start and the `limit` parameter is used to\nspecify the number of documents to read. You can find more detailed documentations of the Read API\n\u003ca href=\"https://docs.tigrisdata.com/overview/query\" title=\"here\"\u003ehere\u003c/a\u003e. This API is streaming\nas it allows continuous transmission of documents between the server and the client, with no need for\nthe client to wait for a complete response before processing the data.",
               "requestType": "ReadRequest",
               "requestLongType": "ReadRequest",
               "requestFullType": "tigrisdata.v1.ReadRequest",
@@ -3555,8 +4753,100 @@
               }
             },
             {
+              "name": "Count",
+              "description": "Count returns the number of documents in the collection. The filter parameter\ncan be used to select which documents contribute to the count. An empty filter means\ncount all documents in the collection.",
+              "requestType": "CountRequest",
+              "requestLongType": "CountRequest",
+              "requestFullType": "tigrisdata.v1.CountRequest",
+              "requestStreaming": false,
+              "responseType": "CountResponse",
+              "responseLongType": "CountResponse",
+              "responseFullType": "tigrisdata.v1.CountResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/projects/{project}/database/collections/{collection}/documents/count",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "BuildCollectionIndex",
+              "description": "Reads all the documents in the collection and rebuild the secondary indexes for this collection.",
+              "requestType": "BuildCollectionIndexRequest",
+              "requestLongType": "BuildCollectionIndexRequest",
+              "requestFullType": "tigrisdata.v1.BuildCollectionIndexRequest",
+              "requestStreaming": false,
+              "responseType": "BuildCollectionIndexResponse",
+              "responseLongType": "BuildCollectionIndexResponse",
+              "responseFullType": "tigrisdata.v1.BuildCollectionIndexResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/projects/{project}/database/collections/{collection}/documents/index",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "BuildSearchIndex",
+              "description": "Reads all the documents in the collection and rebuild the search index for this collection.",
+              "requestType": "BuildCollectionSearchIndexRequest",
+              "requestLongType": "BuildCollectionSearchIndexRequest",
+              "requestFullType": "tigrisdata.v1.BuildCollectionSearchIndexRequest",
+              "requestStreaming": false,
+              "responseType": "BuildCollectionSearchIndexResponse",
+              "responseLongType": "BuildCollectionSearchIndexResponse",
+              "responseFullType": "tigrisdata.v1.BuildCollectionSearchIndexResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/projects/{project}/database/collections/{collection}/documents/search/index",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Explain",
+              "description": "Explain takes the same parameters as Read and returns how the Tigris Query Planner would process the\nresponse",
+              "requestType": "ReadRequest",
+              "requestLongType": "ReadRequest",
+              "requestFullType": "tigrisdata.v1.ReadRequest",
+              "requestStreaming": false,
+              "responseType": "ExplainResponse",
+              "responseLongType": "ExplainResponse",
+              "responseFullType": "tigrisdata.v1.ExplainResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/projects/{project}/database/collections/{collection}/documents/explain",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
               "name": "Search",
-              "description": "Searches a collection for the documents matching the query, or messages in case of event streaming. A search can be\na term search or a phrase search. Search API allows filtering the result set using filters as documented \u003ca href=\"https://docs.tigrisdata.com/overview/query#specification-1\" title=\"here\"\u003ehere\u003c/a\u003e.\nYou can also perform a faceted search by passing the fields in the facet parameter.\nYou can find more detailed documentation of the Search API with multiple examples \u003ca href=\"https://docs.tigrisdata.com/overview/search\" title=\"here\"\u003ehere\u003c/a\u003e.",
+              "description": "Searches a collection for the documents matching the query. A search can be a term search, phrase search\nor a vector search. Search API allows filtering the result set using filters as documented\n\u003ca href=\"https://docs.tigrisdata.com/overview/query#specification-1\" title=\"here\"\u003ehere\u003c/a\u003e. You can also\nperform a faceted search by passing the fields in the facet parameter. You can find more detailed documentation\nof the Search API with multiple examples \u003ca href=\"https://docs.tigrisdata.com/overview/search\" title=\"here\"\u003ehere\u003c/a\u003e.\nThis API is streaming which means a page as soon as it is processed is pushed to the client immediately.",
               "requestType": "SearchRequest",
               "requestLongType": "SearchRequest",
               "requestFullType": "tigrisdata.v1.SearchRequest",
@@ -3602,7 +4892,7 @@
             },
             {
               "name": "CreateOrUpdateCollection",
-              "description": "Creates a new collection or atomically upgrades the collection to the new schema provided in the request.\nSchema changes are applied atomically and immediately without any downtime.\nTigris Offers two types of collections: \u003cp\u003e\u003c/p\u003e\n   \u003cli\u003e `DOCUMENTS`: Offers rich CRUD APIs.\n   \u003cli\u003e `MESSAGES`: Offers event streaming APIs.",
+              "description": "Creates a new collection or atomically upgrades the collection to the new schema provided in the request.\nSchema changes are applied atomically and immediately without any downtime.",
               "requestType": "CreateOrUpdateCollectionRequest",
               "requestLongType": "CreateOrUpdateCollectionRequest",
               "requestFullType": "tigrisdata.v1.CreateOrUpdateCollectionRequest",
@@ -3617,6 +4907,29 @@
                     {
                       "method": "POST",
                       "pattern": "/v1/projects/{project}/database/collections/{collection}/createOrUpdate",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "CreateOrUpdateCollections",
+              "description": "Similar to creating a single collection, this API performs batch creation or upgrade of collections. An error is\nreturned as soon as first operation in the batch fails. This API is not atomic i.e. each operation is performed\nindividually and in the serial order.",
+              "requestType": "CreateOrUpdateCollectionsRequest",
+              "requestLongType": "CreateOrUpdateCollectionsRequest",
+              "requestFullType": "tigrisdata.v1.CreateOrUpdateCollectionsRequest",
+              "requestStreaming": false,
+              "responseType": "CreateOrUpdateCollectionsResponse",
+              "responseLongType": "CreateOrUpdateCollectionsResponse",
+              "responseFullType": "tigrisdata.v1.CreateOrUpdateCollectionsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/projects/{project}/database/collections/createOrUpdate",
                       "body": "*"
                     }
                   ]
@@ -3692,7 +5005,7 @@
             },
             {
               "name": "CreateProject",
-              "description": "Creates a new project. Returns an AlreadyExists error with a status code 409 if the project already exists.",
+              "description": "Creates a new project. An AlreadyExists error with a status code 409 is returned if the project already exists.",
               "requestType": "CreateProjectRequest",
               "requestLongType": "CreateProjectRequest",
               "requestFullType": "tigrisdata.v1.CreateProjectRequest",
@@ -3715,7 +5028,7 @@
             },
             {
               "name": "DeleteProject",
-              "description": "Delete Project deletes all the collections in this project along with all of the documents, and associated metadata for these collections.",
+              "description": "Delete Project deletes all the collections in this project along with all of the documents,\nand associated metadata for these collections.",
               "requestType": "DeleteProjectRequest",
               "requestLongType": "DeleteProjectRequest",
               "requestFullType": "tigrisdata.v1.DeleteProjectRequest",
@@ -3738,7 +5051,7 @@
             },
             {
               "name": "DescribeDatabase",
-              "description": "This API returns information related to the project along with all the collections inside the project.\nThis can be used to retrieve the size of the project or to retrieve schemas, branches and the size of all the collections present in this project.",
+              "description": "This API returns information related to the project along with all the collections inside the project.\nThis can be used to retrieve the schemas or the size of the project which means size of all the database\nbranches and the size of all the collections present in this project.",
               "requestType": "DescribeDatabaseRequest",
               "requestLongType": "DescribeDatabaseRequest",
               "requestFullType": "tigrisdata.v1.DescribeDatabaseRequest",
@@ -3806,6 +5119,28 @@
               }
             },
             {
+              "name": "ListBranches",
+              "description": "List database branches",
+              "requestType": "ListBranchesRequest",
+              "requestLongType": "ListBranchesRequest",
+              "requestFullType": "tigrisdata.v1.ListBranchesRequest",
+              "requestStreaming": false,
+              "responseType": "ListBranchesResponse",
+              "responseLongType": "ListBranchesResponse",
+              "responseFullType": "tigrisdata.v1.ListBranchesResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "GET",
+                      "pattern": "/v1/projects/{project}/database/branches"
+                    }
+                  ]
+                }
+              }
+            },
+            {
               "name": "DescribeCollection",
               "description": "Returns the information related to the collection. This can be used to retrieve the schema or size of the collection.",
               "requestType": "DescribeCollectionRequest",
@@ -3822,6 +5157,120 @@
                     {
                       "method": "POST",
                       "pattern": "/v1/projects/{project}/database/collections/{collection}/describe",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "CreateGlobalAppKey",
+              "description": "Create a global app key. These keys can be used to operate on any project inside your account.",
+              "requestType": "CreateGlobalAppKeyRequest",
+              "requestLongType": "CreateGlobalAppKeyRequest",
+              "requestFullType": "tigrisdata.v1.CreateGlobalAppKeyRequest",
+              "requestStreaming": false,
+              "responseType": "CreateGlobalAppKeyResponse",
+              "responseLongType": "CreateGlobalAppKeyResponse",
+              "responseFullType": "tigrisdata.v1.CreateGlobalAppKeyResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/apps/keys/create",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "UpdateGlobalAppKey",
+              "description": "Update the description of the global app key.",
+              "requestType": "UpdateGlobalAppKeyRequest",
+              "requestLongType": "UpdateGlobalAppKeyRequest",
+              "requestFullType": "tigrisdata.v1.UpdateGlobalAppKeyRequest",
+              "requestStreaming": false,
+              "responseType": "UpdateGlobalAppKeyResponse",
+              "responseLongType": "UpdateGlobalAppKeyResponse",
+              "responseFullType": "tigrisdata.v1.UpdateGlobalAppKeyResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "PUT",
+                      "pattern": "/v1/apps/keys/update",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteGlobalAppKey",
+              "description": "Delete the global app key.",
+              "requestType": "DeleteGlobalAppKeyRequest",
+              "requestLongType": "DeleteGlobalAppKeyRequest",
+              "requestFullType": "tigrisdata.v1.DeleteGlobalAppKeyRequest",
+              "requestStreaming": false,
+              "responseType": "DeleteGlobalAppKeyResponse",
+              "responseLongType": "DeleteGlobalAppKeyResponse",
+              "responseFullType": "tigrisdata.v1.DeleteGlobalAppKeyResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "DELETE",
+                      "pattern": "/v1/apps/keys/delete",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ListGlobalAppKeys",
+              "description": "Lists all the global app keys visible to requesting actor.",
+              "requestType": "ListGlobalAppKeysRequest",
+              "requestLongType": "ListGlobalAppKeysRequest",
+              "requestFullType": "tigrisdata.v1.ListGlobalAppKeysRequest",
+              "requestStreaming": false,
+              "responseType": "ListGlobalAppKeysResponse",
+              "responseLongType": "ListGlobalAppKeysResponse",
+              "responseFullType": "tigrisdata.v1.ListGlobalAppKeysResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "GET",
+                      "pattern": "/v1/apps/keys"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "RotateGlobalAppKeySecret",
+              "description": "Endpoint is used to rotate the secret for the app key.",
+              "requestType": "RotateGlobalAppKeySecretRequest",
+              "requestLongType": "RotateGlobalAppKeySecretRequest",
+              "requestFullType": "tigrisdata.v1.RotateGlobalAppKeySecretRequest",
+              "requestStreaming": false,
+              "responseType": "RotateGlobalAppKeySecretResponse",
+              "responseLongType": "RotateGlobalAppKeySecretResponse",
+              "responseFullType": "tigrisdata.v1.RotateGlobalAppKeySecretResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/apps/keys/rotate",
                       "body": "*"
                     }
                   ]
@@ -4078,10 +5527,154 @@
       "extensions": [],
       "messages": [
         {
+          "name": "CreateInvitationsRequest",
+          "longName": "CreateInvitationsRequest",
+          "fullName": "tigrisdata.auth.v1.CreateInvitationsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "invitations",
+              "description": "",
+              "label": "repeated",
+              "type": "InvitationInfo",
+              "longType": "InvitationInfo",
+              "fullType": "tigrisdata.auth.v1.InvitationInfo",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "CreateInvitationsResponse",
+          "longName": "CreateInvitationsResponse",
+          "fullName": "tigrisdata.auth.v1.CreateInvitationsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "status",
+              "description": "machine friendly status = created",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "message",
+              "description": "human friendly message",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "count",
+              "description": "number of invitations created",
+              "label": "",
+              "type": "int32",
+              "longType": "int32",
+              "fullType": "int32",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteInvitationsRequest",
+          "longName": "DeleteInvitationsRequest",
+          "fullName": "tigrisdata.auth.v1.DeleteInvitationsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "email",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "status",
+              "description": "",
+              "label": "optional",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "_status",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "DeleteInvitationsResponse",
+          "longName": "DeleteInvitationsResponse",
+          "fullName": "tigrisdata.auth.v1.DeleteInvitationsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "status",
+              "description": "machine friendly status = deleted",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "message",
+              "description": "human friendly message",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
           "name": "GetAccessTokenRequest",
           "longName": "GetAccessTokenRequest",
           "fullName": "tigrisdata.auth.v1.GetAccessTokenRequest",
-          "description": "The Request message for the GetAccessToken. The grant type is a required field and based on the grant type\nthe other fields are used as mentioned below.",
+          "description": "The Request message for the GetAccessToken. The grant type is a required\nfield and based on the grant type the other fields are used as mentioned\nbelow.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4125,7 +5718,7 @@
             },
             {
               "name": "client_secret",
-              "description": "Your Tigris API Key is required when grant type is set as `CLIENT_CREDENTIALS`.",
+              "description": "Your Tigris API Key is required when grant type is set as\n`CLIENT_CREDENTIALS`.",
               "label": "",
               "type": "string",
               "longType": "string",
@@ -4141,7 +5734,7 @@
           "name": "GetAccessTokenResponse",
           "longName": "GetAccessTokenResponse",
           "fullName": "tigrisdata.auth.v1.GetAccessTokenResponse",
-          "description": "The response of GetAccessToken which contains access_token and optionally refresh_token.",
+          "description": "The response of GetAccessToken which contains access_token and optionally\nrefresh_token.",
           "hasExtensions": false,
           "hasFields": true,
           "hasOneofs": false,
@@ -4184,6 +5777,401 @@
               "defaultValue": ""
             }
           ]
+        },
+        {
+          "name": "Invitation",
+          "longName": "Invitation",
+          "fullName": "tigrisdata.auth.v1.Invitation",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "email",
+              "description": "invited email address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "role",
+              "description": "invited user's role",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "status",
+              "description": "status of invitation",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "tigris_namespace",
+              "description": "invited namespace",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "tigris_namespace_name",
+              "description": "invited namespace (display friendly)",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "created_by",
+              "description": "created by sub",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "created_by_name",
+              "description": "created by name (display friendly)",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "expiration_time",
+              "description": "expiration time",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "InvitationInfo",
+          "longName": "InvitationInfo",
+          "fullName": "tigrisdata.auth.v1.InvitationInfo",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "email",
+              "description": "Required: Email address to invite",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "role",
+              "description": "Required: Role to associate this user to",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "invitation_sent_by_name",
+              "description": "Invitation sender name",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ListInvitationsRequest",
+          "longName": "ListInvitationsRequest",
+          "fullName": "tigrisdata.auth.v1.ListInvitationsRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": true,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "status",
+              "description": "optional status - an enum [PENDING, EXPIRED, ACCEPTED]",
+              "label": "optional",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": true,
+              "oneofdecl": "_status",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ListInvitationsResponse",
+          "longName": "ListInvitationsResponse",
+          "fullName": "tigrisdata.auth.v1.ListInvitationsResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "invitations",
+              "description": "",
+              "label": "repeated",
+              "type": "Invitation",
+              "longType": "Invitation",
+              "fullType": "tigrisdata.auth.v1.Invitation",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "ListUsersRequest",
+          "longName": "ListUsersRequest",
+          "fullName": "tigrisdata.auth.v1.ListUsersRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": false,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": []
+        },
+        {
+          "name": "ListUsersResponse",
+          "longName": "ListUsersResponse",
+          "fullName": "tigrisdata.auth.v1.ListUsersResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "users",
+              "description": "",
+              "label": "repeated",
+              "type": "User",
+              "longType": "User",
+              "fullType": "tigrisdata.auth.v1.User",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "User",
+          "longName": "User",
+          "fullName": "tigrisdata.auth.v1.User",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "email",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "name",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "created_at",
+              "description": "",
+              "label": "",
+              "type": "int64",
+              "longType": "int64",
+              "fullType": "int64",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "picture",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "role",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "VerifyInvitationRequest",
+          "longName": "VerifyInvitationRequest",
+          "fullName": "tigrisdata.auth.v1.VerifyInvitationRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "email",
+              "description": "invited email address",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "code",
+              "description": "code",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
+        },
+        {
+          "name": "VerifyInvitationResponse",
+          "longName": "VerifyInvitationResponse",
+          "fullName": "tigrisdata.auth.v1.VerifyInvitationResponse",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "tigris_namespace",
+              "description": "if successful - which namespace this user belongs to",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "tigris_namespace_name",
+              "description": "if successful - which namespace this user belongs to",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "role",
+              "description": "if successful - which role this user should be assigned to",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            }
+          ]
         }
       ],
       "services": [
@@ -4195,7 +6183,7 @@
           "methods": [
             {
               "name": "GetAccessToken",
-              "description": "Endpoint for receiving access token from Tigris Server. The endpoint requires Grant Type(`grant_type`) which has\ntwo possible values \u003ci\u003e\"REFRESH_TOKEN\"\u003c/i\u003e or \u003ci\u003e\"CLIENT_CREDENTIALS\"\u003c/i\u003e based on which either Refresh token(`refresh_token`)\nneeds to be set or client credentials(`client_id`, `client_secret`).",
+              "description": "Endpoint for receiving access token from Tigris Server. The endpoint\nrequires Grant Type(`grant_type`) which has two possible values\n\u003ci\u003e\"REFRESH_TOKEN\"\u003c/i\u003e or \u003ci\u003e\"CLIENT_CREDENTIALS\"\u003c/i\u003e based on which either\nRefresh token(`refresh_token`) needs to be set or client\ncredentials(`client_id`, `client_secret`).",
               "requestType": "GetAccessTokenRequest",
               "requestLongType": "GetAccessTokenRequest",
               "requestFullType": "tigrisdata.auth.v1.GetAccessTokenRequest",
@@ -4211,6 +6199,119 @@
                       "method": "POST",
                       "pattern": "/v1/auth/token",
                       "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "CreateInvitations",
+              "description": "Creates invitations to the namespace",
+              "requestType": "CreateInvitationsRequest",
+              "requestLongType": "CreateInvitationsRequest",
+              "requestFullType": "tigrisdata.auth.v1.CreateInvitationsRequest",
+              "requestStreaming": false,
+              "responseType": "CreateInvitationsResponse",
+              "responseLongType": "CreateInvitationsResponse",
+              "responseFullType": "tigrisdata.auth.v1.CreateInvitationsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/auth/namespace/invitations/create",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteInvitations",
+              "description": "Deletes invitations to the namespace",
+              "requestType": "DeleteInvitationsRequest",
+              "requestLongType": "DeleteInvitationsRequest",
+              "requestFullType": "tigrisdata.auth.v1.DeleteInvitationsRequest",
+              "requestStreaming": false,
+              "responseType": "DeleteInvitationsResponse",
+              "responseLongType": "DeleteInvitationsResponse",
+              "responseFullType": "tigrisdata.auth.v1.DeleteInvitationsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "DELETE",
+                      "pattern": "/v1/auth/namespace/invitations/delete",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ListInvitations",
+              "description": "Lists all the invitations to the namespace",
+              "requestType": "ListInvitationsRequest",
+              "requestLongType": "ListInvitationsRequest",
+              "requestFullType": "tigrisdata.auth.v1.ListInvitationsRequest",
+              "requestStreaming": false,
+              "responseType": "ListInvitationsResponse",
+              "responseLongType": "ListInvitationsResponse",
+              "responseFullType": "tigrisdata.auth.v1.ListInvitationsResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "GET",
+                      "pattern": "/v1/auth/namespace/invitations/list"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "VerifyInvitation",
+              "description": "Verify invitation",
+              "requestType": "VerifyInvitationRequest",
+              "requestLongType": "VerifyInvitationRequest",
+              "requestFullType": "tigrisdata.auth.v1.VerifyInvitationRequest",
+              "requestStreaming": false,
+              "responseType": "VerifyInvitationResponse",
+              "responseLongType": "VerifyInvitationResponse",
+              "responseFullType": "tigrisdata.auth.v1.VerifyInvitationResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "POST",
+                      "pattern": "/v1/auth/namespace/invitations/verify",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "ListUsers",
+              "description": "List users",
+              "requestType": "ListUsersRequest",
+              "requestLongType": "ListUsersRequest",
+              "requestFullType": "tigrisdata.auth.v1.ListUsersRequest",
+              "requestStreaming": false,
+              "responseType": "ListUsersResponse",
+              "responseLongType": "ListUsersResponse",
+              "responseFullType": "tigrisdata.auth.v1.ListUsersResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "GET",
+                      "pattern": "/v1/auth/namespace/users"
                     }
                   ]
                 }
@@ -4334,6 +6435,11 @@
               "name": "METHOD_NOT_ALLOWED",
               "number": "19",
               "description": "405"
+            },
+            {
+              "name": "CONTENT_TOO_LARGE",
+              "number": "20",
+              "description": "413"
             }
           ]
         },
@@ -4727,6 +6833,18 @@
           "fields": [
             {
               "name": "db",
+              "description": "",
+              "label": "",
+              "type": "string",
+              "longType": "string",
+              "fullType": "string",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": ""
+            },
+            {
+              "name": "branch",
               "description": "",
               "label": "",
               "type": "string",
