@@ -54,9 +54,6 @@ npx create-tigris-app@latest --project vectorsearchapp --example vector-search-o
 <summary>Command output</summary>
 
 ```bash
-Need to install the following packages:
-  create-tigris-app@1.0.0-beta.17
-Ok to proceed? (y) y
 ✔ What is the clientId? … client_id_here
 ✔ What is the clientSecret? … *******************************************************
 Creating a new app in /Users/ovaistariq/projects/vectorsearchapp.
@@ -69,7 +66,7 @@ Initializing project with template: vector-search-openai
 Using npm.
 
 Installing dependencies:
-- @tigrisdata/core: ^1.0.0-beta.43
+- @tigrisdata/vector: latest
 - csv-parse: ^5.3.6
 - dotenv: ^16.0.3
 - express: 4.18.2
@@ -164,23 +161,6 @@ npm run dev
 <summary>Command Output</summary>
 
 ```bash
-> vectorsearchapp@0.1.0 predev
-> npm run setup
-
-
-> vectorsearchapp@0.1.0 setup
-> npx ts-node scripts/setup.ts
-
-info - Using reflection to infer type of Review#ProductId
-info - Using reflection to infer type of Review#UserId
-info - Using reflection to infer type of Review#ProfileName
-info - Using reflection to infer type of Review#Summary
-info - Using reflection to infer type of Review#Text
-info - Using reflection to infer type of Review#vector
-info - Using Tigris at: api.preview.tigrisdata.cloud:443
-Created index:
-Setup complete ...
-
 > vectorsearchapp@0.1.0 dev
 > npx nodemon
 
@@ -189,12 +169,6 @@ Setup complete ...
 [nodemon] watching path(s): src/**/*
 [nodemon] watching extensions: ts
 [nodemon] starting `npx ts-node ./src/index.ts`
-info - Using reflection to infer type of Review#ProductId
-info - Using reflection to infer type of Review#UserId
-info - Using reflection to infer type of Review#ProfileName
-info - Using reflection to infer type of Review#Summary
-info - Using reflection to infer type of Review#Text
-info - Using reflection to infer type of Review#vector
 info - Using Tigris at: api.preview.tigrisdata.cloud:443
 
 🚀 Server ready at: http://localhost:3000 ⭐️
@@ -209,7 +183,7 @@ Let's perform some searches now.
 
 ```bash
 curl \
-  'http://localhost:3000/search?searchString=hot%20sauce&size=5' \
+  'http://localhost:3000/search?searchString=dog&k=10' \
   -H 'Content-Type: application/json'
 ```
 
@@ -217,60 +191,170 @@ This returns the following results:
 
 ```json
 [
-  {
-    "Id": 988,
-    "ProductId": "B006F2NYI2",
-    "UserId": "A36GDATSF85X7W",
-    "ProfileName": "Matt Waz",
-    "Score": 5,
-    "Summary": "Awesome Sauce",
-    "Text": "This hot sauce is one of my favorites. Its a perfect balance of tasty and spicy. You can smell the flavors immediately when you open the bottle. A mix of garlic, habanero, and other spices. I put this on everything and tend to go through one bottle a week. I highly recommend this to anyone who likes hot sauce.",
-    "VectorDistance": 0.14292240142822266
-  },
-  {
-    "Id": 995,
-    "ProductId": "B006F2NYI2",
-    "UserId": "A1T5CH6SHV989P",
-    "ProfileName": "a biemold",
-    "Score": 5,
-    "Summary": "best hot sauce around",
-    "Text": "absolutely love the habenaro sauce...use it on eggs, sandwiches most anything for a good kick! have watched the progessing popularity of theis homegrown product...have nothing but the highes accolades for the chef and the product..get out there and try it!",
-    "VectorDistance": 0.14448332786560059
-  },
-  {
-    "Id": 994,
-    "ProductId": "B006F2NYI2",
-    "UserId": "A1KFUVZ3BZ59R1",
-    "ProfileName": "merplinger",
-    "Score": 5,
-    "Summary": "Best all around hot sauce",
-    "Text": "So far I have had the habanero and the medium sauces and they were amazing. My fiance and I use them nearly daily and I just picked up 3 more. It goes really well on all sorts of dishes to add the extra kick.<br /><br />The sauce itself lasts a lot longer than it appears. It is thick and a bottle will last us a couple of weeks of heavy use. We love to use it for breakfast on eggs or in burritos and for dinners or soups for added spice.",
-    "VectorDistance": 0.1463753581047058
-  },
-  {
-    "Id": 998,
-    "ProductId": "B006F2NYI2",
-    "UserId": "A3G313KLWDG3PW",
-    "ProfileName": "kefka82",
-    "Score": 5,
-    "Summary": "this sauce is the shiznit",
-    "Text": "this sauce is so good with just about anything, i like adding it to asian food or anything with egg or noodles, it has a good burn with a strong flavor. im hoping to see some of the other flavors like the pineapple experiment on here soon. buy it you wont regret it",
-    "VectorDistance": 0.1499418020248413
-  },
-  {
-    "Id": 996,
-    "ProductId": "B006F2NYI2",
-    "UserId": "A1D3F6UI1RTXO0",
-    "ProfileName": "Swopes",
-    "Score": 5,
-    "Summary": "Hot & Flavorful",
-    "Text": "BLACK MARKET HOT SAUCE IS WONDERFUL.... My husband Loves this Habenero sauce, its very very flavorful with a nice kick to it. I in fact love the medium sauce- the taste is so yummy with a bit of zing behind it. We used it for everything and you can use it with any meal.<br /><br />I like the fact that there are so many different levels of spicyness. We love the medium & habenero. Kind of like a \"HIS & HERS package\". Thank you for your hard work guys! Keep up the hard work.",
-    "VectorDistance": 0.15223878622055054
-  }
+  [
+    {
+      "content": "Excellent, lo-fat, lo- calorie treat for dogs. I have a German Shorthair Pointer-and these treats are her favorite( the organic peanut butter cookies are for smaller dogs, but she loves them-and for weight-control I like them!)",
+      "metadata": {
+        "HelpfulnessDenominator": 0,
+        "HelpfulnessNumerator": 0,
+        "ProductId": "B002HQH04O",
+        "ProfileName": "Judith Mariani",
+        "Score": 5,
+        "Summary": "The best",
+        "Time": 1325462400,
+        "UserId": "ATGPKFUEPU3UU"
+      }
+    },
+    0.1918412446975708
+  ],
+  [
+    {
+      "content": "We have three dogs and all of them love this food!  We bought it specifically for one of our dogs who has food allergies and it works great for him, no more hot spots or tummy problems.<br />I LOVE that it ships right to our door with free shipping.",
+      "metadata": {
+        "HelpfulnessDenominator": 4,
+        "HelpfulnessNumerator": 4,
+        "ProductId": "B0019CW0HE",
+        "ProfileName": "Toby's mom",
+        "Score": 5,
+        "Summary": "Great food!",
+        "Time": 1292889600,
+        "UserId": "A25BGFRHYHEZKK"
+      }
+    },
+    0.19350367784500122
+  ],
+  [
+    {
+      "content": "My 7 year old Cocker Spaniel loves this food and it's good for him -- he needs to lose a few pounds and this is doing the trick.  Glad I found it on Amazon.  Hard to find elsewhere.",
+      "metadata": {
+        "HelpfulnessDenominator": 0,
+        "HelpfulnessNumerator": 0,
+        "ProductId": "B003AO5DLO",
+        "ProfileName": "SH",
+        "Score": 5,
+        "Summary": "Happy Dog",
+        "Time": 1350086400,
+        "UserId": "A3IQFDK2A3APGE"
+      }
+    },
+    0.1942516565322876
+  ],
+  [
+    {
+      "content": "This is great dog food, my dog has severs allergies and this brand is the only one that we can feed him.",
+      "metadata": {
+        "HelpfulnessDenominator": 0,
+        "HelpfulnessNumerator": 0,
+        "ProductId": "B0019CW0HE",
+        "ProfileName": "gare",
+        "Score": 5,
+        "Summary": "Great dog food",
+        "Time": 1334966400,
+        "UserId": "A7JWCYVPF7KCO"
+      }
+    },
+    0.1949772834777832
+  ],
+  [
+    {
+      "content": "I have a standard poodle and pomeranian who both do wonderful on this food. I have switched them to a different food (due to price) a couple of times and end up going right back to natural balance.",
+      "metadata": {
+        "HelpfulnessDenominator": 0,
+        "HelpfulnessNumerator": 0,
+        "ProductId": "B0019CW0HE",
+        "ProfileName": "Lisas201",
+        "Score": 5,
+        "Summary": "Great food for my my dog who has a sensitive stomach.",
+        "Time": 1335398400,
+        "UserId": "A1OGD72Y2Y26CF"
+      }
+    },
+    0.19964390993118286
+  ],
+  [
+    {
+      "content": "These are healthy and my mixed Llasa, Tibetan Terrier adores them. And they are healthy and his breath doesn't smell and his teeth are in good shape because of such products. A great healthy product.",
+      "metadata": {
+        "HelpfulnessDenominator": 1,
+        "HelpfulnessNumerator": 1,
+        "ProductId": "B002MV23XM",
+        "ProfileName": "Shirley Sacks",
+        "Score": 5,
+        "Summary": "my dog loves these",
+        "Time": 1337040000,
+        "UserId": "A2M6O8YORUA8PW"
+      }
+    },
+    0.20004874467849731
+  ],
+  [
+    {
+      "content": "Great food! I love the idea of one food for all ages & breeds. Ît's a real convenience as well as a really good product.  My 3 dogs eat less, have almost no gas, their poop is regular and a perfect consistency, what else can a mom ask for!!",
+      "metadata": {
+        "HelpfulnessDenominator": 0,
+        "HelpfulnessNumerator": 0,
+        "ProductId": "B0019CW0HE",
+        "ProfileName": "Lorraine \"Agelechio\"",
+        "Score": 5,
+        "Summary": "Great Food",
+        "Time": 1347408000,
+        "UserId": "A1EC57S6C2VLTL"
+      }
+    },
+    0.2010520100593567
+  ],
+  [
+    {
+      "content": "This food is great - all ages dogs.  I have a 3 year old and a puppy.  They are both so soft and hardly ever get sick.  The food is good especially when you have Amazon Prime shipping  :)",
+      "metadata": {
+        "HelpfulnessDenominator": 0,
+        "HelpfulnessNumerator": 0,
+        "ProductId": "B0019CW0HE",
+        "ProfileName": "J. Romagnoli \"*jroma\"",
+        "Score": 5,
+        "Summary": "Mmmmm  Mmmmm good.",
+        "Time": 1333929600,
+        "UserId": "ABG53EBZBKD23"
+      }
+    },
+    0.20133048295974731
+  ],
+  [
+    {
+      "content": "This is a very healthy dog food. Good for their digestion. Also good for small puppies. My dog eats her required amount at every feeding.",
+      "metadata": {
+        "HelpfulnessDenominator": 0,
+        "HelpfulnessNumerator": 0,
+        "ProductId": "B00171APVA",
+        "ProfileName": "Carol A. Reed",
+        "Score": 5,
+        "Summary": "Healthy Dog Food",
+        "Time": 1351209600,
+        "UserId": "A21BT40VZCCYT4"
+      }
+    },
+    0.20262646675109863
+  ],
+  [
+    {
+      "content": "Our pup has experienced allergies in forms of hotspots and itching from other dog foods. The cheap 'you can buy it anywhere' food not only have crazy preservatives in them but can cause health problems for your pets.  This food works wonders on reducing allergies and our dog loves the food.<br />This message is RAMSEY FrAnkenSteiN approved.",
+      "metadata": {
+        "HelpfulnessDenominator": 0,
+        "HelpfulnessNumerator": 0,
+        "ProductId": "B0019CW0HE",
+        "ProfileName": "FuNky Faja \"SiLkk\"",
+        "Score": 5,
+        "Summary": "Great allergy sensitive dog food, dogs love it",
+        "Time": 1297296000,
+        "UserId": "A3UII2114114PI"
+      }
+    },
+    0.2029741406440735
+  ]
 ]
 ```
 
-We have searched for "hot sauce" and the results are sorted by the vector distance. The
+We have searched for "dog" and the results are sorted by the vector distance. The
 vector distance is a measure of how similar the search string is to the review text. The
 closer the vector distance is to 0, the more similar the review text is to the search
 string.

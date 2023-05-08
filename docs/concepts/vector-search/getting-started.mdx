@@ -2,23 +2,16 @@ import tigrisConfig from "@site/tigris.config.js";
 
 # Getting Started
 
-Tigris provides a fast and scalable way to store, index and search
-documents and vector embeddings. It comes with intuitive APIs and
-provides a hassle-free infrastructure-less experience.
+Tigris makes it easy to build AI applications with vector embeddings. It is a fully
+managed cloud-native database that allows you store and index documents and vector
+embeddings for fast and scalable vector search.
 
 ## 1. Install the client
 
 Ensure that you are on Typescript version 4.5 or above.
 
 ```bash
-npm install @tigrisdata/core
-```
-
-Add the following settings in compilerOptions section of tsconfig.json:
-
-```json
-"emitDecoratorMetadata": true,
-"experimentalDecorators": true,
+npm install @tigrisdata/vector
 ```
 
 ## 2. Fetch Tigris API credentials
@@ -26,100 +19,79 @@ Add the following settings in compilerOptions section of tsconfig.json:
 You can sign up for a free Tigris account <a href={tigrisConfig.signupUrl}>here</a>.
 
 Once you have signed up for the Tigris account, create a new project
-called `vectorsearchapp`. Next, make a note of the `clientId` and `clientSecret`,
+called `vectordemo`. Next, make a note of the `clientId` and `clientSecret`,
 which you can get from the **Application Keys** section of the project.
 
-## 3. Initialize the client
+## 3. Create the Vector Database client
 
 We will use the project name, clientId and clientSecret from the previous step to
-initialize the client.
+create the vector database client.
 
 ```ts
-import {
-  Search,
-  SearchField,
-  SearchQuery,
-  Tigris,
-  TigrisSearchIndex,
-} from "@tigrisdata/core";
+import { VectorDocumentStore } from "@tigrisdata/vector";
 
-const tigrisClient = new Tigris({
-  serverUrl: "api.preview.tigrisdata.cloud",
-  projectName: "vectorsearchapp",
-  clientId: "YOUR_CLIENT_ID",
-  clientSecret: "YOUR_CLIENT_SECRET",
-  branch: "main",
+const vectorDocStore = new VectorDocumentStore({
+  connection: {
+    serverUrl: "api.preview.tigrisdata.cloud",
+    projectName: "vectordemo",
+    clientId: "clientId_here",
+    clientSecret: "clientSecret_here",
+  },
+  indexName: "my_index",
+  numDimensions: 3,
 });
 ```
 
-The Tigris client can also read the configuration from `.env` file if it exists.
+Here, we have created a new `VectorDocumentStore` instance that connects to the
+Tigris Vector Database. The `indexName` is the name of the index that will
+store your embeddings, documents, and any additional metadata. You can use any
+name you like for the index. The `numDimensions` is the number of dimensions of
+the vector embeddings.
 
-## 4. Create an index
-
-Index is where you store your documents and vector embeddings. An index has a
-name and a schema.
-
-```ts
-// Define the index schema consisting of the document fields and vector field
-@TigrisSearchIndex("reviews")
-export class Review {
-  @SearchField()
-  Id: string;
-
-  @SearchField()
-  Text: string;
-
-  // 1536 floats total for ada-002
-  @SearchField({ dimensions: 1536 })
-  vector: number[];
-}
-
-// Create the index
-const search = tigrisClient.getSearch();
-await search.createOrUpdateIndex(Review);
-```
-
-## 5. Add some documents to the index
-
-Assuming you have already generated the vector embeddings, add the documents
-with the embeddings to the index.
+## 4. Add documents to the index
 
 ```ts
-await index.createOrReplaceMany([
-  {
-    Id: "1",
-    Text: "This is a great product. I would recommend it to anyone.",
-    vector: [1.2, 2.3, 4.5],
-  },
-  {
-    Id: "2",
-    Text: "This is a bad product. I would not recommend it to anyone.",
-    vector: [6.7, 8.2, 9.2],
-  },
-]);
-```
-
-## 6. Query the index
-
-You can query the index for similar documents now by providing the query vector,
-and Tigris will return the `n` most similar documents.
-
-```ts
-const request: SearchQuery<Review> = {
-  vectorQuery: {
-    vector: [1.1, 2.2, 3.3],
-  },
-  hitsPerPage: 10,
-};
-
-index.search(request).then((results) => {
-  console.log(results);
+await vectorDocStore.addDocumentsWithVectors({
+  ids: ["id1", "id2"],
+  embeddings: [
+    [1.2, 2.3, 4.5],
+    [6.7, 8.2, 9.2],
+  ],
+  documents: [
+    {
+      content: "This is a document",
+      metadata: {
+        title: "Document 1",
+      },
+    },
+    {
+      content: "This is another document",
+      metadata: {
+        title: "Document 2",
+      },
+    },
+  ],
 });
 ```
 
-The results are sorted by the vector distance. The vector distance is a measure of
-how similar the query is to the documents in the `Review` index. The closer the
-vector distance is to 0, the more similar they are.
+Here, we have added two documents to the index. The `ids` are the unique identifiers
+for the documents. The `embeddings` are the vector embeddings for the documents. The
+`documents` are the actual documents that you want to store in the index. The `content`
+is the text content of the document. The `metadata` is any additional metadata that
+you want to store for the document.
+
+## 5. Query the index
+
+You can query the index for the top k most similar documents to a given vector. It's
+that simple!
+
+```ts
+const results = await vectorDocStore.similaritySearchVectorWithScore({
+  query: [1.0, 2.1, 3.2],
+  k: 10,
+});
+console.log(JSON.stringify(results, null, 2));
+```
 
 ## Next Steps
 
@@ -128,5 +100,3 @@ vector distance is to 0, the more similar they are.
   and then use Tigris to index these embeddings for fast and scalable vector search.
 - Explore the [Hybrid Search section](../hybrid-search) to learn how to combine
   vector search with attribute filtering for more relevant search results.
-- Explore the [TypeScript SDK search modeling section](../../../sdkstools/typescript/search/datamodel/)
-  to learn more about defining the index schema.
