@@ -184,7 +184,7 @@ If you're using TypeScript with your Astro site already, you should update you
 }
 ```
 
-You can run this the `script/setup.ts` file using the following command:
+You can run the `script/setup.ts` file using the following command:
 
 ```sh
 npx ts-node --esm --experimental-specifier-resolution=node scripts/setup.ts
