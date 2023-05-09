@@ -5,17 +5,17 @@ import React from "react";
 import clsx from "clsx";
 import Link from "@docusaurus/Link";
 
-// import Docsly from "@docsly/react";
-// import "@docsly/react/styles.css";
+import Docsly from "@docsly/react";
+import "@docsly/react/styles.css";
 
-// import { useLocation } from "@docusaurus/router";
-// import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import { useLocation } from "@docusaurus/router";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
 export default function FooterLayout({ style, links, logo, copyright }) {
-  // const { pathname } = useLocation();
-  // const {
-  //   siteConfig: { customFields },
-  // } = useDocusaurusContext();
+  const { pathname } = useLocation();
+  const {
+    siteConfig: { customFields },
+  } = useDocusaurusContext();
 
   return (
     <>
@@ -49,14 +49,14 @@ export default function FooterLayout({ style, links, logo, copyright }) {
           )}
         </div>
 
-        {/* <Docsly
+        <Docsly
           publicId={customFields.docslyPublicId}
           pathname={pathname}
           appearance={{
             docslyToolboxStyles:
               "dy-bg-black dy-text-neutral-100 docsly-toolbox",
           }}
-        /> */}
+        />
       </footer>
     </>
   );

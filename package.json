@@ -20,7 +20,7 @@
     "generate": "protoc --doc_out=./fixtures --doc_opt=json,proto_workspace.json --proto_path=external/tigris-api/ server/v1/api.proto server/v1/admin.proto server/v1/health.proto  server/v1/auth.proto server/v1/observability.proto; npx docusaurus generate-proto-docs; npx prettier -w .; sed -i'' 's/Files/RPC/g' generatedSidebarsProtodocs.js;"
   },
   "dependencies": {
-    "@docsly/react": "^1.4.5",
+    "@docsly/react": "^1.5.0",
     "@docusaurus/core": "^2.3.1",
     "@docusaurus/preset-classic": "^2.3.1",
     "@docusaurus/theme-mermaid": "^2.3.1",
