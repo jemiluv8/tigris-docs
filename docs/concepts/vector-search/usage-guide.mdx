@@ -1,0 +1,190 @@
+import tigrisConfig from "@site/tigris.config.js";
+
+# Usage Guide
+
+## Installing the client
+
+Ensure that you are on Typescript version 4.5 or above.
+
+```bash
+npm install @tigrisdata/vector
+```
+
+## Fetching Tigris API credentials
+
+You can sign up for a free Tigris account <a href={tigrisConfig.signupUrl}>here</a>.
+
+Once you have signed up for the Tigris account, create a new project to get started.
+Next, make a note of the `clientId` and `clientSecret`, which you can get from the
+**Application Keys** section of the project.
+
+## Initializing the client
+
+```ts
+import { VectorDocumentStore } from "@tigrisdata/vector";
+
+const vectorDocStore = new VectorDocumentStore({
+  connection: {
+    serverUrl: "api.preview.tigrisdata.cloud",
+    projectName: "vectordemo",
+    clientId: "clientId_here",
+    clientSecret: "clientSecret_here",
+  },
+  indexName: "products",
+  numDimensions: 3,
+});
+```
+
+## Creating the index
+
+Tigris uses the concept of an index to store and retrieve documents, metadata
+and embeddings. An index is a collection of documents that are related to each
+other. For example, you can create an index for products, where each document
+represents a product.
+
+:::tip
+
+The name of the index is specified in the `indexName` field of the
+`VectorDocumentStore` constructor, as shown above.
+
+:::
+
+```ts
+await vectorDocStore.enusreIndex();
+```
+
+## Deleting the index
+
+```ts
+await vectorDocStore.deleteIndex();
+```
+
+## Adding data to the index
+
+```ts
+await vectorDocStore.addDocumentsWithVectors({
+  ids: ["1", "2", "3"],
+  embeddings: [
+    [1.2, 2.3, 4.5],
+    [6.7, 8.2, 9.2],
+    [1.0, 2.1, 3.2],
+  ],
+  documents: [
+    {
+      content: "This is a great product. I would recommend it to anyone.",
+      metadata: {
+        ProductCategory: "Electronics",
+        Rating: 5,
+      },
+    },
+    {
+      content: "This is a bad product. I would not recommend it to anyone.",
+      metadata: {
+        ProductCategory: "Books",
+        Rating: 1,
+      },
+    },
+    {
+      content: "This is a good product. I would recommend it to anyone.",
+      metadata: {
+        ProductCategory: "Electronics",
+        Rating: 4,
+      },
+    },
+  ],
+});
+```
+
+Each document must have a unique `id` associated with it. The `embeddings` field
+is an array of arrays, where each inner array represents the vector
+representation of the corresponding document. The `documents` field is an array
+of objects, where each object represents the document to be added to the index.
+
+## Querying the index
+
+```ts
+const results = await vectorDocStore.similaritySearchVector({
+  query: [1.0, 2.1, 3.2],
+  k: 2,
+});
+```
+
+The `query` field is an array of numbers, which represents the vector
+representation of the query. The `k` field is the number of closest
+matches to retrieve in order.
+
+## Using attribute filtering
+
+Tigris supports filtering by `metadata` fields. For example, you can filter
+documents by the `ProductCategory` field.
+
+```ts
+const results = await vectorDocStore.similaritySearchVectorWithScore({
+  query: [1.0, 2.1, 3.2],
+  k: 2,
+  filter: {
+    "metadata.ProductCategory": "Electronics",
+  },
+});
+```
+
+Filtering supports the following operators:
+
+- `$eq` - Matches documents where the field value is equal to the provided value.
+- `$lt` - Matches documents where the field value is less than the provided value.
+- `$lte` - Matches documents where the field value is less than or equal to the provided value.
+- `$gt` - Matches documents where the field value is greater than the provided value.
+- `$gte` - Matches documents where the field value is greater than or equal to the provided value.
+- `$not` - Matches documents where the field value is not equal to the provided value.
+- `$contains` - Matches documents where the the provided value is a substring of the field value.
+- `$regexp` - Matches documents where the field value matches the given regex.
+
+- `$and` - Matches documents where all of the provided filters match.
+- `$or` - Matches documents where at least one of the provided filters match.
+
+```ts
+const results = await vectorDocStore.similaritySearchVectorWithScore({
+  query: [1.0, 2.1, 3.2],
+  k: 2,
+  filter: {
+    $and: [
+      {
+        "metadata.ProductCategory": "Electronics",
+      },
+      {
+        "metadata.Rating": {
+          $gt: 4,
+        },
+      },
+    ],
+  },
+});
+```
+
+## Fetching documents by id
+
+Tigris supports fetching documents in the index by id. The document, metadata
+and embeddings associated with the id will be returned.
+
+```ts
+const results = await vectorDocStore.getDocuments(["1", "2"]);
+```
+
+## Deleting documents by id
+
+Tigris supports deleting documents in the index by id. The document, metadata
+and embeddings associated with the id will be deleted.
+
+```ts
+const results = await vectorDocStore.deleteDocuments(["1", "2"]);
+```
+
+## Deleting documents by filter
+
+Tigris also supports deleting documents in the index by filter.
+
+```ts
+const results = await vectorDocStore.deleteDocumentsByFilter({
+  "metadata.ProductCategory": "Electronics",
+});
+```

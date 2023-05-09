@@ -142,6 +142,7 @@ const sidebars = {
       items: [
         "concepts/vector-search/getting-started",
         "concepts/vector-search/hybrid-search",
+        "concepts/vector-search/usage-guide",
       ],
     },
     {
