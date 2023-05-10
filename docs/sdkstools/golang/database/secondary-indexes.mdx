@@ -1,0 +1,88 @@
+# Secondary Indexes
+
+Tigris supports adding secondary indexes for collections. See [indexing concepts](docs/concepts/database/secondary-indexes.mdx) for the full details.
+
+## Creating an Index
+
+To add an index to a field in a collection, add `index: true` to the field. Below is an example of adding indexing to two fields for a `User` collection.
+
+```go
+type User struct {
+	Email      string `tigris:"primary_key,index"`
+	Name       string `tigris:"index"`
+}
+
+err = db.CreateCollections(ctx, User{})
+```
+
+If you are adding an index to an existing collection, you will need to log into the Tigris web console to initiate a build
+of the indexes for that collection. See this [concepts page](docs/concepts/database/secondary-indexes.mdx) for how to do this.
+
+## Getting the state of an index
+
+An index can be in `INDEX ACTIVE` state which means the index is being used for queries or in `INDEX WRITE MODE` where the index is
+still being built.
+
+The method `Describe()` will return back the status of each index in the collection.
+
+```go
+users := tigris.GetCollection[User](db)
+describe, _ := users.Describe()
+fmt.Println(describe.Indexes)
+
+//returns:
+[
+    {
+        name: '_tigris_created_at',
+        state: 'INDEX ACTIVE',
+        fieldsList: []
+    },
+    {
+        name: '_tigris_updated_at',
+        state: 'INDEX ACTIVE',
+        fieldsList: []
+    },
+    { name: 'email', state: 'INDEX WRITE MODE', fieldsList: ["email"] },
+    { name: 'name', state: 'INDEX ACTIVE', fieldsList: ["name"] },
+]
+```
+
+## Querying
+
+When running a `Read`, `ReadOne` and `ReadWithOptions`, Tigris will automatically look to see if a secondary index can be used
+to satisfy the query.
+
+```go
+iter, err := users.Read(ctx, filter.GtString("name", "bob"))
+```
+
+## Sorting
+
+An index can also be used to define the sort order of the documents returned. This can be done by using a single index
+in the sort.
+
+```go
+it, err = catalog.ReadWithOptions(ctx, filter.All, fields.All,
+	&tigris.ReadOptions{
+		Sort: sort.Descending("name"),
+	},
+)
+```
+
+## Explain
+
+Tigris has an `explain` method to show how the Tigris query planner would run for a query. For example:
+
+```go
+explain, err := users.Explain(ctx, filter.GtInt("Popularity", 2), nil, nil)
+fmt.Println(explain)
+// will return:
+{
+  collection: 'user',
+  readType: 'secondary index',
+  filter: '{"name":"bob"}',
+  keyRangeList: [ "bob" ],
+  field: 'name'
+}
+
+```
