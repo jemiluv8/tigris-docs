@@ -1,0 +1,241 @@
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Secondary Indexes
+
+Tigris supports adding secondary indexes to fields in a collection. Adding an index to a field will allow for
+fast efficient queries when using the indexed field with [Filters](filters.md).
+Secondary indexes are a way for a database to query and retrieve a document by a field that is not the primary key.
+If your application is querying Tigris with a filter that does not include a primary key field, then adding a secondary index
+on one of the fields in the filter will improve the performance of that query because Tigris can use that field to efficiently
+find the correct documents.
+
+## Creating Indexes
+
+An index can be created for a field by updating the schema and adding `index: true` for the field and then
+update or create the collection. If the collection is being created for the first time then the index is ready to go
+and will be used once there are documents in the collection. If this is an existing collection, then you need to log into
+the Web Console to build the indexes.
+
+<Tabs>
+<TabItem value="ts" label="TypeScript">
+
+```ts
+@TigrisCollection("catalog")
+export class Catalog {
+  @PrimaryKey({ order: 1, autogenerate: true })
+  id?: number;
+
+  @Field({ index: true })
+  name: string;
+
+  @Field({ index: true })
+  price: number;
+
+  @Field()
+  brand: string;
+}
+
+const tigrisClient = new Tigris();
+// ensure branch exists, create it if it needs to be created dynamically
+await tigrisClient.getDatabase().initializeBranch();
+// register schemas
+await tigrisClient.registerSchemas([Catalog]);
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```go
+Type Catalog struct {
+	Id         int `tigris:"primary_key,autoGenerate"`
+	Name       string `tigris:"index"`
+	Price      float64 `tigris:"index"`
+	Brand      string `tigris:"index"`
+}
+
+err := db.CreateCollections(ctx, &Catalog{})
+```
+
+</TabItem>
+</Tabs>
+
+## Building indexes in the Web Console
+
+For an existing collection that contains documents, updating the schema and adding the indexes via the
+Tigris Web Console will automatically build the indexes for that collection. To do this:
+
+1. Login into the [web console](https://console.preview.tigrisdata.cloud/)
+2. Click on the database to add secondary indexes to
+3. Select the collection to add secondary indexes to
+4. Click on the secondary index tick box to add a secondary index for a field
+5. Click on **Save Changes**
+6. The secondary indexes will be built in the background.
+
+## Query and Filters
+
+Secondary indexes support all the filters defined in the [filters](filters.md) section.
+The index planner will analyze the filter to try and find a field that matches a defined index.
+If it cannot find an appropriate index, it will do a full document scan for the collection.
+
+Tigris does not require all the fields in the filter to be a secondary index. Tigris will look at the filter
+used and will try and find a field in the filter that has a secondary index. Once it does that, it will read the documents
+from that secondary index that matches the field in filter. It will then process that document against the rest of the fields
+defined in the filter and make sure it matches all of that.
+
+Lets look at an example to explain this further. For this example we have the following schema:
+
+```ts
+@TigrisCollection("catalog")
+export class Catalog {
+  @PrimaryKey({ order: 1, autogenerate: true })
+  id?: number;
+
+  @Field({ index: true })
+  name: string;
+
+  @Field({ index: true })
+  age: number;
+
+  @Field()
+  country: string;
+}
+```
+
+With a secondary index on `age` and `name`. And if we have three documents that look like this:
+
+```ts
+await userColl.insertMany([
+  {
+    id: 1,
+    name: "bob",
+    age: 10,
+    country: "USA",
+  },
+  {
+    id: 2,
+    name: "sally",
+    age: 30,
+    country: "RSA",
+  },
+  {
+    id: 3,
+    name: "bob",
+    age: 25,
+    country: "USA",
+  },
+]);
+```
+
+Then for a query like this:
+
+```ts
+const cursor = await userColl.findMany({
+  filter: { name: "bob", country: "USA", age: { $gt: 20 } },
+});
+```
+
+Tigris will analyze that filter and see that there are two possible indexes to satisfy that query. It could use the `name` or the `age`
+secondary index. Tigris will choose the `name` secondary index because it is using an `equal` filter and Tigris prefers using an `equal` over a range query
+like `$gte` when reading from the secondary index. Using the `name` query, it will retrieve documents with id `1` and `3`. Document with id `2` does not have a
+name that matches "bob" so it will not be fetched from the index.
+Tigris will then process document `1` and document `3` against the full filter to see if the other fields in the document match
+the fields defined in the filter. Document `1` will not pass the filter because the `age` field is to low but document with id `3` will pass the filter
+and it will be returned back to the user.
+
+### Using `_tigris_created_at` and `_tigris_updated_at`
+
+Tigris has two default indexes created to query a collection by:
+
+1.  `_tigris_created_at`: When a document was created or when a document was added. `_tigris_created_at` will return documents in the order they were created, from earliest to last created.
+2.  `_tigris_updated_at`: When the document was last updated. `_tigris_created_at` will return documents in the order they were updated. If a document has not been updated, the updated field will be `null`. This index will first return all documents that have not been updated, followed by the earliest to latest updated documents
+
+These indexes can be queried:
+
+```typescript
+userCollection.find({ filter: { _tigris_created_at: { $gte: null } } });
+```
+
+### Missing fields
+
+Tigris indexes are a non-sparse index and will index a missing field as `null`.
+So if a query has a filter on a field:
+
+```js
+collection.findMany({ name: { $gte: null } });
+```
+
+The index will return all documents in the collection even if the field is missing
+in the document.
+
+## Explain endpoint
+
+To understand which index a query used, an `explain` query can be run
+that will give more information on the query. The explain query will return
+a JSON payload with the following properties:
+
+- `collection`: The collection that the explain response is run against
+- `read_type`: // The Type of read can be either Primary Index scan or Secondary Index. Valid values are `primary index` or `secondary index`
+- `filter`: The filter used in the query
+- `keyRangeList`: The ranges used to query the index
+- `field`: The field used for the query
+
+For example:
+
+```json
+{
+  "collection": "collection name",
+  "read_type": "primary index",
+  "filter": { "myField": { "$gte": 10 } },
+  "keyRangeList": ["10", "$TIGRIS_MAX"],
+  "field": "myField"
+}
+```
+
+See the [TypeScript SDK](../../sdkstools/typescript/database/secondary-indexes.mdx)
+or [Go SDK](../../sdkstools/golang/database/secondary-indexes.mdx) for how to use the explain endpoint.
+
+## Index Status
+
+An index can be in one of three states depending on whether the index can be used for
+querying or if the index is still being updated:
+
+- `INDEX WRITE MODE`: The index is being updated with the latest documents but still needs to be built in the background
+- `INDEX WRITE MODE BUILDING`: The index is still being updated in the background
+- `INDEX ACTIVE`: The index is ready and being used for querying
+
+If an index is added to an existing collection with documents, the index state will `INDEX WRITE MODE`
+while Tigris processes all the current documents and creates the indexes for the indexed fields.
+
+The index status for indexes can be fetched from the system using the `DescribeCollection`
+method.
+
+## Query Sorting
+
+An index can be used to return a collections document in the order of the fields in the index.
+Currently, only a single index is supported for sorting.
+
+```ts
+await userCollection.find({
+  filter: { age: { $gte: 35 } },
+  sort: { order: "$desc", field: "age" },
+});
+```
+
+## Index Limitations
+
+While secondary indexes are in Beta the following limitations apply:
+
+1. Only top-level fields can be indexed
+2. Indexes can only be built for existing collections via the Web Console
+
+## Language specific Sections
+
+See the language-specific sections for more examples of index and query operations:
+
+- [Secondary Indexes in TypeScript](../../sdkstools/typescript/database/secondary-indexes.mdx)
+- [Secondary Indexes in Go](../../sdkstools/golang/database/secondary-indexes.mdx)
+
+```
+
+```
