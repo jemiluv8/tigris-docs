@@ -73,7 +73,7 @@ export class Catalog {
   name: string;
 }
 
-// collection with multiple primary keys requires order to be specified for each of the fields
+// Model with multiple primary keys requires order to be specified for each of the fields
 @TigrisCollection("catalog")
 export class Catalog {
   @PrimaryKey({ order: 1, autogenerate: true })
